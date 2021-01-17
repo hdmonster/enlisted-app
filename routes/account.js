@@ -1,0 +1,13 @@
+var express = require('express');
+var router = express.Router();
+
+/* GET account profile. */
+router.get('/', (req, res, next) => {
+    res.send('respond with a resource');
+});
+
+// Edit account
+router.get('/edit', (req, res, next) => {
+    res.send('respond with a resource');
+});
+  
