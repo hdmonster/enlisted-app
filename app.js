@@ -36,15 +36,9 @@ app.use(session({
 
 app.use((req, res, next) => {
   res.io = socketio;
-  // if(!req.session.email){
-  //   res.redirect('/auth/signin')
-  // }else{
-  //   next();
-  // }
+
   next()
 });
-
-
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -52,13 +46,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/s/:server_code/list', listRouter);
-app.use('/s/:server_code/polls', pollRouter);
-app.use('/s/:server_code/announcement', announcementRouter);
-app.use('/account', accountRouter);
+app.all('/', isLoggedIn, indexRouter);
+app.use('/account', isLoggedIn, accountRouter);
 app.use('/playground', playgroundRouter);
 app.use('/auth', authRouter);
+app.use('/s/:server_code/list', isLoggedIn, listRouter);
+app.use('/s/:server_code/polls', isLoggedIn, pollRouter);
+app.use('/s/:server_code/announcement', isLoggedIn, announcementRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -75,6 +69,14 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.render('error');
 });
+
+function isLoggedIn(req, res, next) {
+  if (!req.session.email) {
+    res.redirect('/auth/signin');
+  } else {
+    next()
+  }
+}
 
 const PORT = 3000
 
