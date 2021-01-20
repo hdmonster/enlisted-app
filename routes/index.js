@@ -3,32 +3,19 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
-  res.render('index', { title: 'SI20 List' });
+  res.render('index', { title: 'Enlisted' });
 });
 
-/* GET komting page. */
-router.get('/komting', (req, res) => {
-  res.send('Komting page')
+/* GET account page. */
+router.get('/account', (req, res, next) => {
+  res.render('account/home-account', { title: 'Account - Enlisted' });
+});
+
+/* Join a server. */
+router.get('/join/:server_code', (req, res) => {
+  res.send('Join server')
+  // if success direct to server home page
 })
 
-/* GET bph page. */
-router.get('/bph', (req, res) => {
-  res.send('Bph page')
-})
-
-/* GET mahasiswa page. */
-router.get('/mahasiswa', (req, res) => {
-  res.send('Mahasiswa page')
-})
-
-/* GET mahasiswa search page. */
-router.get('/mahasiswa/results', (req, res) => {
-  res.send('Mahasiswa search page')
-})
-
-/* GET mahasiswa detail page. */
-router.get('/mahasiswa/id/:docs_uid', (req, res) => {
-  res.send('Mahasiswa profile page')
-})
 
 module.exports = router;

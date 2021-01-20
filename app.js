@@ -13,8 +13,10 @@ const socketio = require('socket.io')(server)
 
 var indexRouter = require('./routes/index');
 var listRouter = require('./routes/list');
+var pollRouter = require('./routes/poll');
 var announcementRouter = require('./routes/announcement');
 var accountRouter = require('./routes/account');
+var playgroundRouter = require('./routes/playground');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -31,9 +33,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/list', listRouter);
-app.use('/announcement', announcementRouter);
+app.use('/s/:server_code/list', listRouter);
+app.use('/s/:server_code/polls', pollRouter);
+app.use('/s/:server_code/announcement', announcementRouter);
 app.use('/account', accountRouter);
+app.use('/playground', playgroundRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

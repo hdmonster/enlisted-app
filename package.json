@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "watch": "sass --watch scss/style.scss public/css/style.css"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -16,8 +17,7 @@
     "firebase": "^8.2.3",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
-    "socket.io": "^3.1.0",
-    "tailwindcss": "^2.0.2"
+    "socket.io": "^3.1.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"

@@ -17,7 +17,7 @@ socket.on('lists', lists => {
             <div class="card">
                 <div class="header">
                     <span class="title">${list.title}</span>
-                    <span class="detail">${createdAt} - ${list.owner}</span>
+                    <span class="detail">${createdAt} - ${list.author}</span>
                 </div>
                 <div class="icon-container">
                     <i data-feather="chevron-right"></i>
@@ -26,7 +26,7 @@ socket.on('lists', lists => {
         `
     })
 
-    //container.innerHTML = content
+    container.innerHTML = content
     
     
 })

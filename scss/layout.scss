@@ -1,0 +1,14 @@
+@import "base.scss";
+
+body {
+    margin: 0;
+    font-family: $font-family;
+}
+
+.playground-container {
+    display: flex;
+    flex-direction: column;
+    background: $white;
+    margin: 12px;
+    align-items: center;
+}
