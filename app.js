@@ -4,6 +4,8 @@ const http = require('http')
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const session = require('express-session');
+const flash = require('express-flash');
 
 const firebase = require('./firebase/config')
 
@@ -17,15 +19,33 @@ var pollRouter = require('./routes/poll');
 var announcementRouter = require('./routes/announcement');
 var accountRouter = require('./routes/account');
 var playgroundRouter = require('./routes/playground');
+var authRouter = require('./routes/auth');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.set('trust proxy', 1)
+
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { maxAge:60000 }
+}))
+
 
 app.use((req, res, next) => {
   res.io = socketio;
-  next();
+  // if(!req.session.email){
+  //   res.redirect('/auth/signin')
+  // }else{
+  //   next();
+  // }
+  next()
 });
+
+
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -38,6 +58,7 @@ app.use('/s/:server_code/polls', pollRouter);
 app.use('/s/:server_code/announcement', announcementRouter);
 app.use('/account', accountRouter);
 app.use('/playground', playgroundRouter);
+app.use('/auth', authRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

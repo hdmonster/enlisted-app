@@ -2,8 +2,9 @@ var express = require('express');
 var router = express.Router();
 
 /* GET sign in page. */
-router.get('/singin', (req, res, next) => {
+router.get('/signin', (req, res, next) => {
   res.render('auth/signin', { title: 'Sign In - Enlisted' });
+  // res.send('test')
 });
 
 /* GET sign up page. */
