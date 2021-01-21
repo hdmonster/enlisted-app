@@ -7,6 +7,16 @@
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
-    
+    <% if(messages.success){ %>
+      <%= messages.success %>
+    <% } %>
+    <% if(messages.err){ %>
+      <%= messages.err %>
+    <% } %>
+    <form class="" action="/api/signin" method="post">
+      <input type="email" name="email">
+      <input type="password" name="password">
+      <input type="submit">
+    </form>
   </body>
 </html>

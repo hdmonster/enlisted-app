@@ -20,6 +20,7 @@ var announcementRouter = require('./routes/announcement');
 var accountRouter = require('./routes/account');
 var playgroundRouter = require('./routes/playground');
 var authRouter = require('./routes/auth');
+var apiRouter = require('./routes/api');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -30,7 +31,7 @@ app.use(session({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: true,
-  cookie: { maxAge:60000 }
+  cookie: { maxAge:null }
 }))
 
 
@@ -40,6 +41,7 @@ app.use((req, res, next) => {
   next()
 });
 
+app.use(flash())
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -50,6 +52,7 @@ app.all('/', isLoggedIn, indexRouter);
 app.use('/account', isLoggedIn, accountRouter);
 app.use('/playground', playgroundRouter);
 app.use('/auth', authRouter);
+app.use('/api',apiRouter);
 app.use('/s/:server_code/list', isLoggedIn, listRouter);
 app.use('/s/:server_code/polls', isLoggedIn, pollRouter);
 app.use('/s/:server_code/announcement', isLoggedIn, announcementRouter);
@@ -71,10 +74,10 @@ app.use((err, req, res, next) => {
 });
 
 function isLoggedIn(req, res, next) {
-  if (!req.session.email) {
+  if (!req.session.uid) {
     res.redirect('/auth/signin');
   } else {
-    next()
+    next();
   }
 }
 
