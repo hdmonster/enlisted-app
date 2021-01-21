@@ -8,11 +8,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;600&display=swap" rel="stylesheet">  
     <link rel="stylesheet" href="/css/style.css">
 
+    <script src="https://unpkg.com/feather-icons"></script>
+
     <title><%= title %></title>
 </head>
 <body>
     <div class="playground-container">
-        
+        <button class="btn-lg">sign up</button>
+        <button class="btn-lg">vote</button>
+        <button class="btn-add-option">Add another option</button>
+        <button class="btn-sm">add me</button>
+        <button class="btn-edit-profile">edit profile</button>
+        <button class="btn-join"><i data-feather="send" class="btn-icon"></i></button>
+        <!-- Rounded switch -->
+        <label class="switch">
+            <input type="checkbox">
+            <span class="slider round"></span>
+        </label>
     </div>
+
+
+    <script>
+        feather.replace()
+    </script>
 </body>
 </html>

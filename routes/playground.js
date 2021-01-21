@@ -9,4 +9,8 @@ router.get('/button', (req, res, next) => {
   res.render('playground/button', { 'title': 'Buttons - Enlisted Playground' });
 });
 
+router.get('/list', (req, res, next) => {
+  res.render('playground/list', { 'title': 'List - Enlisted Playground' });
+});
+
 module.exports = router;

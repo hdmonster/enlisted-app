@@ -8,7 +8,8 @@ router.get('/signin', (req, res, next) => {
 });
 
 /* GET sign up page. */
-router.get('/signup', (req, res, next) => {
+router.get('/signup', async (req, res, next) => {
+
   res.render('auth/signup', { title: 'Sign Up - Enlisted' });
 });
 

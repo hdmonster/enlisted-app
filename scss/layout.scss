@@ -12,3 +12,9 @@ body {
     margin: 12px;
     align-items: center;
 }
+
+.list-container {
+    display: flex;
+    flex-direction: column;
+    margin: 8px;
+}
