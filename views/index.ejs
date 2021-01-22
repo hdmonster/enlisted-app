@@ -7,7 +7,12 @@
   </head>
   <body>
     <h1><%= title %></h1>
-
-    <%- yield %>
+    <p>Welcome to <%= title %></p>
+    <a href="/api/auth/signout">Logout</a>
+    <p>
+      <% if(messages.success){ %>
+        <%= messages.success %>
+      <% } %>
+    </p>
   </body>
 </html>
