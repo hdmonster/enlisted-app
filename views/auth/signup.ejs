@@ -10,7 +10,7 @@
     <% if(messages.err){ %>
       <%= messages.err %>
     <% } %>
-    <form class="" action="/api/signup" method="post">
+    <form class="" action="/api/auth/signup" method="post">
       <input type="text" name="fullName" placeholder="fullName" value="<%if(messages.fullName){ %><%=messages.fullName%><%}%>">
       <input type="text" name="nickname" placeholder="nickname" value="<%if(messages.nickname){ %><%=messages.nickname%><%}%>">
       <input type="email" name="email" placeholder="email" value="<%if(messages.email){ %><%=messages.email%><%}%>">

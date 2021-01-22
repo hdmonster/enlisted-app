@@ -33,6 +33,8 @@ router.post('/signup', async(req, res, next) => {
     });
     req.session.uid = cred.uid;
     req.session.displayName = displayName;
+    req.session.fullName = fullName;
+    req.session.nickname = nickname;
     req.session.nim = nim;
     req.flash('success','Your account has been created successfully.');
     res.redirect('/');
@@ -57,8 +59,12 @@ router.post('/signin', async (req, res, next) => {
   try {
     const signIn = await auth.signInWithEmailAndPassword(email,password);
     const cred = signIn.user;
+    const fullName = cred.displayName.split("AKA")[0];
+    const nickname = cred.displayName.split("AKA ")[1];
     req.session.uid = cred.uid;
     req.session.displayName = cred.displayName;
+    req.session.fullName = fullName;
+    req.session.nickname = nickname;
     req.session.nim = nim;
     req.flash('success','Your are logged in.');
     res.redirect('/');
@@ -91,7 +97,7 @@ function errSignUp(req,res,msg,fullName,nickname,email){
 function errSignIn(req,res,msg,email){
   req.flash('err',msg);
   req.flash('email',email);
-  res.redirect('/auth/signin');
+  res.redirect('back');
 }
 
 module.exports = router;
