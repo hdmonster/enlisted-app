@@ -13,6 +13,7 @@
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
+    "ejs-yield": "^1.0.0",
     "express": "~4.16.1",
     "express-flash": "git://github.com/RGBboy/express-flash.git",
     "express-session": "^1.17.1",
@@ -26,7 +27,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "some"
+    "url": "https://github.com/hdmonster/enlisted-app"
   },
   "author": "hdmonster",
   "license": "ISC"

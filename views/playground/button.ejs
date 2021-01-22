@@ -25,8 +25,20 @@
             <input type="checkbox">
             <span class="slider round"></span>
         </label>
+
+        <div class="poll-wrapper">
+            <input type="radio" id="vote-btn-1" name="vote-option">
+            <label for="vote-btn-1" class="btn">Option 1</label>
+
+            <input type="radio" id="vote-btn-2" name="vote-option">
+            <label for="vote-btn-2" class="btn">Option 2</label>
+
+            <input type="radio" id="vote-btn-3" name="vote-option">
+            <label for="vote-btn-3" class="btn">Option 3</label>
+        </div>
     </div>
 
+    <%- include ../partials/bottomnav.ejs %>
 
     <script>
         feather.replace()

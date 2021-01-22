@@ -6,7 +6,10 @@ router.get('/input', (req, res, next) => {
 });
 
 router.get('/button', (req, res, next) => {
-  res.render('playground/button', { 'title': 'Buttons - Enlisted Playground' });
+  res.layout('playground/button', { 
+              'layout': 'index',
+              'title': 'Buttons - Enlisted Playground' 
+            });
 });
 
 router.get('/list', (req, res, next) => {

@@ -40,6 +40,7 @@ app.use((req, res, next) => {
   next()
 });
 
+app.use(require('ejs-yield'))
 app.use(flash());
 app.use(logger('dev'));
 app.use(express.json());
