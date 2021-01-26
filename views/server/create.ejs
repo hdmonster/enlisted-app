@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/css/style.css' />
+    <title><%= title %></title>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <p>
+      <% if(messages.success){ %>
+        <%= messages.success %>
+      <% } %>
+      <% if(messages.error){ %>
+        <%= messages.error %>
+      <% } %>
+    </p>
+    <form action="/api/server/create" method="post">
+        <input type="text" name="serverName" value="<%if(messages.serverName){ %><%=messages.serverName%><%}%>" placeholder="server name">
+        <select name="serverType" onchange="selectType()" id="serverType">
+            <option disabled selected>Choose Type</option>
+            <option value="prodi" <%if(messages.serverType == 'prodi'){ %>selected<%}%> >Program Studi</option>
+            <option value="ukm" <%if(messages.serverType == 'ukm'){ %>selected<%}%> >Unit Kegiatan Mahasiswa</option>
+        </select>
+        <br>
+        <p>Add Admin</p>
+        <select name="userId" id="userId" onchange="selectUser()">
+            <option disabled selected>Select Users</option>
+            <% users.forEach(function(user,index) { %>
+                <option value="<%= user.id %>" <%if(messages.userId == user.id) { %>selected<%}%> > <%= user.nim %> - <%= user.displayName %> </option >
+            <% }) %>
+        </select>
+        <input type="hidden" name="name" value="">
+        <select name="status">
+            <option disabled selected>Choose Status</option>
+            <option value="Komting" <%if(messages.status == 'Komting' || messages.status == 'Ketua'){ %>selected<%}%> >Komting</option>
+            <option value="Wakil Komting" <%if(messages.status == 'Wakil Komting' || messages.status == 'Wakil Ketua'){ %>selected<%}%> >Wakil Komting</option>
+            <option value="Bendahara" <%if(messages.status == 'Bendahara'){ %>selected<%}%> >Bendahara</option>
+            <option value="Sekretaris" <%if(messages.status == 'Sekretaris'){ %>selected<%}%> >Sekretaris</option>
+        </select>
+        <input type="submit">
+    </form>
+  </body>
+
+  <script>
+    <%if(messages.status == 'Komting' || messages.status == 'Wakil Komting'){ %>
+        selectProdi()
+    <%}%>
+    <%if(messages.status == 'Ketua' || messages.status == 'Wakil Ketua'){ %>
+        selectUKM()
+    <%}%>
+
+    function selectUser(){
+        let userId = document.getElementById('userId');
+        let selectedUser = userId.options.selectedIndex;
+        let userName = userId.options[selectedUser].innerHTML.split("- ")[1]
+        // console.log(userName);
+        document.getElementsByName('name')[0].value = userName
+    }
+
+    function selectType(){
+        let serverType = document.getElementById('serverType').value;
+        if(serverType == 'prodi'){
+            selectProdi()
+        }
+        if(serverType == 'ukm'){
+            selectUKM()
+        }
+    }
+
+    function selectProdi(){
+        // Komting
+        document.getElementsByName('status')[0].options[1].value = 'Komting';
+        document.getElementsByName('status')[0].options[1].innerHTML = 'Komting';
+        // Wakil Komting
+        document.getElementsByName('status')[0].options[2].value = 'Wakil Komting';
+        document.getElementsByName('status')[0].options[2].innerHTML = 'Wakil Komting';
+    }
+
+    function selectUKM(){
+        // Ketua
+        document.getElementsByName('status')[0].options[1].value = 'Ketua';
+        document.getElementsByName('status')[0].options[1].innerHTML = 'Ketua';
+        // Wakil Ketua
+        document.getElementsByName('status')[0].options[2].value = 'Wakil Ketua';
+        document.getElementsByName('status')[0].options[2].innerHTML = 'Wakil Ketua';
+    }
+  </script>
+</html>

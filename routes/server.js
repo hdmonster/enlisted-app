@@ -4,8 +4,8 @@ var firebase = require('firebase')
 var auth = firebase.auth();
 var db = firebase.firestore();
 
-/* GET list page for admin */
-router.get('/list', isAdmin ,async (req, res, next) => {
+/* GET server page for admin */
+router.get('/', isAdmin ,async (req, res, next) => {
     let allServers = [];
     let snapshotServers = await db.collection('servers').get();
     let getServers = snapshotServers.forEach(doc => {
@@ -13,7 +13,23 @@ router.get('/list', isAdmin ,async (req, res, next) => {
         getData.id = doc.id;
         allServers.push(getData);
     });
-    res.render('server/list', { title: 'Enlisted', servers: allServers });
+    res.render('server/index', { title: 'Enlisted', servers: allServers });
+});
+
+router.get('/create',async (req, res, next) => {
+    try {
+        let allUsers = [];
+        let snapshotUsers = await db.collection('users').get();
+        let getUsers = snapshotUsers.forEach(doc => {
+            const getData = doc.data();
+            getData.id = doc.id;
+            allUsers.push(getData);
+        });
+        res.render('server/create', { title: 'Enlisted', users: allUsers });
+    } catch (error) {
+        req.flash('error',error.message)
+        res.render('server/create', { title: 'Enlisted'});
+    }
 });
 
 
