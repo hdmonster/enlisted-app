@@ -1,11 +1,9 @@
 var express = require('express');
 var router = express.Router();
-var firebase = require('firebase')
-var db = firebase.firestore();
 
 /* GET sign in page. */
-router.get('/signin', isLoggedIn ,(req, res, next) => {
-   res.render('auth/signin', { title: 'Sign In - Enlisted' });
+router.get('/signin', isLoggedIn ,async (req, res, next) => {
+    res.render('auth/signin', { title: 'Sign In - Enlisted'});
 });
 
 /* GET sign up page. */

@@ -1,34 +1,30 @@
 var express = require('express');
 var router = express.Router();
+var firebase = require('firebase')
+var auth = firebase.auth();
+var db = firebase.firestore();
 
-/* GET home page. */
-router.get('/', (req, res, next) => {
-  res.render('index', { title: 'Enlisted' });
+/* GET list page for admin */
+router.get('/list', isAdmin ,async (req, res, next) => {
+    let allServers = [];
+    let snapshotServers = await db.collection('servers').get();
+    let getServers = snapshotServers.forEach(doc => {
+        const getData = doc.data();
+        getData.id = doc.id;
+        allServers.push(getData);
+    });
+    res.render('server/list', { title: 'Enlisted', servers: allServers });
 });
 
-/* GET komting page. */
-router.get('/komting', (req, res) => {
-  res.send('Komting page')
-})
 
-/* GET bph page. */
-router.get('/bph', (req, res) => {
-  res.send('Bph page')
-})
-
-/* GET mahasiswa page. */
-router.get('/mahasiswa', (req, res) => {
-  res.send('Mahasiswa page')
-})
-
-/* GET mahasiswa search page. */
-router.get('/mahasiswa/results', (req, res) => {
-  res.send('Mahasiswa search page')
-})
-
-/* GET mahasiswa detail page. */
-router.get('/mahasiswa/id/:docs_uid/view', (req, res) => {
-  res.send('Mahasiswa profile page')
-})
+async function isAdmin(req,res,next){
+  let userId = req.session.uid;
+  let admin = await db.doc(`admins/${userId}`).get();
+  if(admin.exists){
+    next();
+  }else{
+    res.redirect('back');
+  }
+}
 
 module.exports = router;

@@ -20,6 +20,7 @@ var announcementRouter = require('./routes/announcement');
 var accountRouter = require('./routes/account');
 var playgroundRouter = require('./routes/playground');
 var authRouter = require('./routes/auth');
+var serverRouter = require('./routes/server');
 var apiAnnouncementRouter = require('./routes/api/announcement.js');
 var apiAuthRouter = require('./routes/api/auth.js');
 var apiListRouter = require('./routes/api/list.js');
@@ -57,11 +58,12 @@ app.all('/', isLoggedIn, indexRouter);
 app.use('/account', isLoggedIn, accountRouter);
 app.use('/playground', playgroundRouter);
 app.use('/auth', authRouter);
-app.use('/api/announcement',announcementRouter);
+app.use('/server', isLoggedIn, serverRouter);
+app.use('/api/announcement', isLoggedIn,apiAnnouncementRouter);
 app.use('/api/auth',apiAuthRouter);
-app.use('/api/list',apiListRouter);
-app.use('/api/polls',apiPollRouter);
-app.use('/api/server',apiServerRouter);
+app.use('/api/list', isLoggedIn,apiListRouter);
+app.use('/api/polls', isLoggedIn,apiPollRouter);
+app.use('/api/server', isLoggedIn,apiServerRouter);
 app.use('/s/:server_code/list', isLoggedIn, listRouter);
 app.use('/s/:server_code/polls', isLoggedIn, pollRouter);
 app.use('/s/:server_code/announcement', isLoggedIn, announcementRouter);
@@ -87,10 +89,6 @@ function isLoggedIn(req, res, next) {
   if (!req.session.uid) {
     res.redirect('/auth/signin');
   } else {
-    console.log(req.session.displayName);
-    console.log(req.session.fullName);
-    console.log(req.session.nickname);
-    console.log(req.session.nim);
     next();
   }
 }
