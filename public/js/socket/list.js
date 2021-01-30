@@ -9,15 +9,15 @@ socket.on('protocol', msg => {
 socket.on('lists', lists => {
 
     var content = ''
-    
-    lists.forEach(list => {
-        createdAt = moment(list.createdAt, "DD/MM/YYYY HH:mm:ss").fromNow();
 
+    lists.forEach(list => {
+        var createdAt = moment(list.createdAt, "DD/MM/YYYY HH:mm:ss").fromNow();
+        console.log(createdAt);
         content += `
             <div class="card">
                 <div class="header">
                     <span class="title">${list.title}</span>
-                    <span class="detail">${createdAt} - ${list.author}</span>
+                    <span class="detail">${createdAt} - ${list.author.name}</span>
                 </div>
                 <div class="icon-container">
                     <i data-feather="chevron-right"></i>
@@ -27,6 +27,6 @@ socket.on('lists', lists => {
     })
 
     container.innerHTML = content
-    
-    
+
+
 })

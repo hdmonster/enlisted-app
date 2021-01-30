@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/css/style.css' />
+    <title><%= title %></title>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <a href="/api/auth/signout">Logout</a>
+    <p>
+      <% if(messages.success){ %>
+        <%= messages.success %>
+      <% } %>
+      <% if(messages.err){ %>
+        <%= messages.err %>
+      <% } %>
+    </p>
+    <form action="/api/<%= server_code %>/list/post" method="post">
+        <input type="text" name="title" value="<%if(messages.title){ %><%=messages.title%><%}%>" placeholder="Title"><br>
+
+        <textarea name="content" rows="8" cols="80" placeholder="Content"><%if(messages.content){ %><%=messages.content%><%}%></textarea><br>
+
+        <input type="radio" name="type" value="single" onclick="checkedType()" id="single" <%if(messages.type == 'single'){ %>checked<%}%>>
+        <label for="single">Single</label>
+        <input type="radio" name="type" value="double" onclick="checkedType()" id="double" <%if(messages.type == 'double'){ %>checked<%}%>>
+        <label for="double">Double</label>
+
+        <br>
+        <input type="text" name="name" placeholder="Name" readonly><br>
+
+        <input type="text" name="note" value="<%if(messages.note){ %><%=messages.note%><%}%>" placeholder="note (alasan,dll)" <%if(messages.type == 'single' || !messages.type){ %>readonly<%}%> ><br>
+        <input type="submit">
+    </form>
+
+    <script type="text/javascript">
+        function checkedType(){
+            let type = document.querySelector('input[name="type"]:checked').value;
+            let note = document.getElementsByName('note')[0];
+            if(type == 'single'){
+                note.readOnly = true;
+                note.value = "";
+            }else{
+                note.readOnly = false;
+            }
+        }
+    </script>
+  </body>
+</html>

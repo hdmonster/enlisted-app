@@ -19,27 +19,29 @@ router.post('/signup', async(req, res, next) => {
   };
 
   try {
-    const createUser = await auth.createUserWithEmailAndPassword(email,password);
-    const cred = createUser.user;
-    const updateUser = await auth.currentUser.updateProfile({
-      displayName: displayName,
-      photoURL : "https://i.stack.imgur.com/l60Hf.png"
-    });
-    const userCollection = await db.collection('users').doc(cred.uid).set({
-      isActive : true,
-      bio : "",
-      nim : nim,
-      servers : []
-    });
-    req.session.uid = cred.uid;
-    req.session.displayName = displayName;
-    req.session.fullName = fullName;
-    req.session.nickname = nickname;
-    req.session.nim = nim;
-    req.flash('success','Your account has been created successfully.');
-    res.redirect('/');
+      console.log('berhasil');
+    // const createUser = await auth.createUserWithEmailAndPassword(email,password);
+    // const cred = createUser.user;
+    // const updateUser = await auth.currentUser.updateProfile({
+    //   displayName: displayName,
+    //   photoURL : "https://i.stack.imgur.com/l60Hf.png"
+    // });
+    // const userCollection = await db.collection('users').doc(cred.uid).set({
+    //   isActive : true,
+    //   bio : "",
+    //   nim : nim,
+    //   servers : []
+    // });
+    // req.session.uid = cred.uid;
+    // req.session.displayName = displayName;
+    // req.session.fullName = fullName;
+    // req.session.nickname = nickname;
+    // req.session.nim = nim;
+    // req.flash('success','Your account has been created successfully.');
+    // res.redirect('/');
   } catch (error) {
-    errSignUp(req,res,error.message,fullName,nickname,email)
+      console.log('gagal');
+    // errSignUp(req,res,error.message,fullName,nickname,email)
   }
 });
 

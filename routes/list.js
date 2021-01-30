@@ -8,31 +8,31 @@ var router = express.Router({ mergeParams: true });
 /* GET list. */
 router.get('/', (req, res) => {
   const { server_code } = req.params
+  db.collection(`servers/${server_code}/lists`).get()
+  .then(doc => {
+      // Run when client connected
+      res.io.on('connection', socket => {
 
-  // Run when client connected
-  res.io.on('connection', socket => {
+          socket.emit('protocol', 'List socket connected!')
 
-    socket.emit('protocol', 'List socket connected!')
-
-    db.collection(`server/${server_code}/lists`)
-      .orderBy('createdAt', 'desc')
-      .onSnapshot(querySnapshot => {
-          var lists = [];
-          querySnapshot.forEach(doc => {
-              lists.push(doc.data());
+          db.collection(`servers/${server_code}/lists`)
+          .orderBy('createdAt', 'desc')
+          .onSnapshot(querySnapshot => {
+              var lists = [];
+              querySnapshot.forEach(doc => {
+                  lists.push(doc.data());
+              });
+              socket.emit('lists', lists);
           });
-          socket.emit('lists', lists);
-      });
-  })
-
+      })
+  });
   res.render('list', { 'title': 'List - Enlisted' });
 });
 
 /* Post list. */
 router.get('/post', (req, res, next) => {
   const { server_code } = req.params
-
-  res.send('post list page');
+  res.render('list/post',{title: 'Enlisted',server_code: server_code});
 });
 
 /* Edit list. */
