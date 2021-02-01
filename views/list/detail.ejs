@@ -9,7 +9,9 @@
     <h1>List | <%= list.title %></h1>
     <p>Welcome to <%= title %></p>
     <a href="/s/<%= serverCode %>/list/<%= listId %>/edit">Edit List</a>
+    <a href="javascript:void()" onclick="confirm('Are you sure want to delete this list?') ? document.getElementById('deleteList').submit() : ''">Delete List</a>
     <a href="/api/auth/signout">Logout</a>
+    <form action="/api/<%= serverCode %>/list/<%= listId %>/delete" method="post" id="deleteList"></form>
     <p>
       <% if(messages.success){ %>
         <%= messages.success %>

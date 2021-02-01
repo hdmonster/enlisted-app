@@ -60,7 +60,18 @@ router.post('/:list_id/edit', async (req, res, next) => {
     } catch (error) {
         errEditList(req,res,error.message,title,content);
     }
+});
 
+router.post('/:list_id/delete', async (req, res, next) => {
+    const { server_code, list_id } = req.params;
+
+    try {
+        const postList = await db.doc(`servers/${server_code}/lists/${list_id}`).delete();
+        req.flash('msg','List has been created successfully');
+        res.redirect(`/s/${server_code}/list`);
+    } catch (error) {
+        errEditList(req,res,error.message,title,content);
+    }
 });
 
 function errPostList(req,res,msg,title,content,type,note){
