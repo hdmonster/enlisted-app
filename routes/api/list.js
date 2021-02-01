@@ -5,11 +5,10 @@ var db = firebase.firestore();
 var router = express.Router({ mergeParams: true });
 
 router.post('/post', async(req, res, next) => {
-    const {title,content,type,note} = req.body;
+    const { server_code } = req.params;
+    const { title,content,type,note } = req.body;
     const currentDate = new Date().toLocaleDateString('en-GB');
     const currentTime = new Date().toLocaleTimeString('en-US',{ hour12:false });
-    const { server_code } = req.params;
-    console.log(server_code);
 
     if(title == "" || content == "" || type == ""){
         errPostList(req,res,'Please fill in the required form',title,content,type,note);
@@ -42,7 +41,27 @@ router.post('/post', async(req, res, next) => {
     }
 });
 
+router.post('/:list_id/edit', async (req, res, next) => {
+    const { server_code, list_id } = req.params;
+    const { title,content } = req.body;
 
+    if(title == "" || content == ""){
+        errEditList(req,res,'Please fill in the required form',title,content);
+        return false;
+    };
+
+    try {
+        const postList = await db.doc(`servers/${server_code}/lists/${list_id}`).update({
+            title : title,
+            content : content,
+        });
+        req.flash('msg','List has been created successfully');
+        res.redirect(`/s/${server_code}/list/${list_id}/view`);
+    } catch (error) {
+        errEditList(req,res,error.message,title,content);
+    }
+
+});
 
 function errPostList(req,res,msg,title,content,type,note){
     req.flash('err',msg);
@@ -51,6 +70,14 @@ function errPostList(req,res,msg,title,content,type,note){
     req.flash('type',type);
     req.flash('note',note);
     res.redirect('back');
+}
+
+function errEditList(req,res,msg,title,content){
+    req.flash('err',msg);
+    req.flash('title',title);
+    req.flash('content',content);
+    res.redirect('back');
+    console.log(content);
 }
 
 module.exports = router;

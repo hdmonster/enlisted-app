@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/css/style.css' />
+    <title><%= title %></title>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <a href="/api/auth/signout">Logout</a>
+    <p>
+      <% if(messages.success){ %>
+        <%= messages.success %>
+      <% } %>
+      <% if(messages.err){ %>
+        <%= messages.err %>
+      <% } %>
+    </p>
+    <form action="/api/<%= serverCode %>/list/<%= listId %>/edit" method="post">
+        <input type="text" name="title" value="<%- messages.title ? messages.title : list.title && !messages.title ? list.title : '' %>" placeholder="Title"><br>
+
+        <textarea name="content" rows="8" cols="80" placeholder="Content"><%- messages.content ? messages.content : list.content && !messages.content ? list.content : '' %></textarea><br>
+
+        <input type="submit">
+
+    </form>
+  </body>
+</html>

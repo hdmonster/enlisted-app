@@ -12,11 +12,10 @@ socket.on('lists', lists => {
 
     lists.forEach(list => {
         var createdAt = moment(list.createdAt, "DD/MM/YYYY HH:mm:ss").fromNow();
-        console.log(createdAt);
         content += `
             <div class="card">
                 <div class="header">
-                    <span class="title">${list.title}</span>
+                    <a href="list/${list.id}/view"><span class="title">${list.title}</span></a>
                     <span class="detail">${createdAt} - ${list.author.name}</span>
                 </div>
                 <div class="icon-container">
