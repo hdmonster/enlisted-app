@@ -16,26 +16,8 @@ router.get('/', isAdmin ,async (req, res, next) => {
     res.render('server/index', { title: 'Enlisted', servers: allServers });
 });
 
-/* GET server page for user */
-router.get('/my',async (req, res, next) => {
-    let allMyServers = []
-    let snapshotMyServers = await db.doc('users/' + req.session.uid).get();
-    let myServers = snapshotMyServers.data()['servers'];
-    let snapshotServers = await db.collection('servers').get();
-    let getServers = snapshotServers.forEach(doc => {
-        const getData = doc.data();
-        getData.id = doc.id;
-        myServers.forEach((server, index) => {
-            if(server == getData.id){
-                allMyServers.push(getData);
-            }
-        });
-    });
-    res.render('server/myservers', { title: 'Enlisted', myServers: allMyServers });
-});
-
 /* GET create server page for admin */
-router.get('/create',isAdmin,async (req, res, next) => {
+router.get('/create', isAdmin ,async (req, res, next) => {
     try {
         let allUsers = [];
         let snapshotUsers = await db.collection('users').get();

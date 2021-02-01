@@ -61,7 +61,7 @@ app.use('/auth', authRouter);
 app.use('/server', isLoggedIn, serverRouter);
 app.use('/api/announcement', isLoggedIn,apiAnnouncementRouter);
 app.use('/api/auth',apiAuthRouter);
-app.use('/api/server',apiServerRouter);
+app.use('/api/server', isLoggedIn, apiServerRouter);
 app.use('/api/:server_code/list', isLoggedIn,apiListRouter);
 app.use('/api/:server_code/polls', isLoggedIn,apiPollRouter);
 app.use('/s/:server_code/list', isLoggedIn, listRouter);

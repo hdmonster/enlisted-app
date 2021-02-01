@@ -1,8 +1,14 @@
 var express = require('express');
 var router = express.Router();
-var firebase = require('firebase')
+var firebase = require('firebase');
 var auth = firebase.auth();
 var db = firebase.firestore();
+var admin = require('firebase-admin');
+var serviceAccount = require("./../../serviceAccountKey.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
 
 /* POST sign up. */
 router.post('/signup', async(req, res, next) => {
@@ -13,35 +19,38 @@ router.post('/signup', async(req, res, next) => {
 
   if(fullName == "" || nickname == "" || email == "" || password == ""){
     errSignUp(req,res,'Please fill in the required form!',fullName,nickname,email);
+    return false;
   };
-  if(splitEmail != "student.itk.ac.id"){
-    errSignUp(req,res,'Please use your business email! (@student.itk.ac.id)',fullName,nickname,email);
+  
+  if(typeof parseInt(nim) !== 'number' || nim.length != 8 || splitEmail != "student.itk.ac.id"){
+    errSignUp(req,res,'Please use your business email! (Your NIM Here@student.itk.ac.id)',fullName,nickname,email);
+    return false;
   };
 
   try {
-      console.log('berhasil');
-    // const createUser = await auth.createUserWithEmailAndPassword(email,password);
-    // const cred = createUser.user;
-    // const updateUser = await auth.currentUser.updateProfile({
-    //   displayName: displayName,
-    //   photoURL : "https://i.stack.imgur.com/l60Hf.png"
-    // });
-    // const userCollection = await db.collection('users').doc(cred.uid).set({
-    //   isActive : true,
-    //   bio : "",
-    //   nim : nim,
-    //   servers : []
-    // });
-    // req.session.uid = cred.uid;
-    // req.session.displayName = displayName;
-    // req.session.fullName = fullName;
-    // req.session.nickname = nickname;
-    // req.session.nim = nim;
-    // req.flash('success','Your account has been created successfully.');
-    // res.redirect('/');
+    const createUser = await auth.createUserWithEmailAndPassword(email,password);
+    const cred = createUser.user;
+    const updateUser = await auth.currentUser.updateProfile({
+      displayName: displayName,
+      photoURL : "https://i.stack.imgur.com/l60Hf.png",
+    });
+    const userCollection = await db.collection('users').doc(cred.uid).set({
+      bio : "",
+      nim : nim,
+      displayName: displayName,
+      fullName : fullName,
+      nickname : nickname,
+      servers : []
+    });
+    req.session.uid = cred.uid;
+    req.session.displayName = displayName;
+    req.session.fullName = fullName;
+    req.session.nickname = nickname;
+    req.session.nim = nim;
+    req.flash('success','Your account has been created successfully.');
+    res.redirect('/');
   } catch (error) {
-      console.log('gagal');
-    // errSignUp(req,res,error.message,fullName,nickname,email)
+    errSignUp(req,res,error.message,fullName,nickname,email)
   }
 });
 
