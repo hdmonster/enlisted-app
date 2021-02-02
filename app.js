@@ -41,8 +41,10 @@ app.use(session({
 
 
 app.use((req, res, next) => {
-  res.io = socketio;
-  next()
+    res.locals.userId = req.session.uid;
+    res.locals.displayName = req.session.displayName;
+    res.io = socketio;
+    next()
 });
 
 app.use(require('ejs-yield'))

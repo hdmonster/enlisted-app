@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/css/style.css' />
+    <title><%= title %></title>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <a href="/api/auth/signout">Logout</a>
+    <p>
+      <% if(messages.success){ %>
+        <%= messages.success %>
+      <% } %>
+      <% if(messages.err){ %>
+        <%= messages.err %>
+      <% } %>
+    </p>
+    <h4>List | <%= list.title %></h4>
+    <p><%= list.content %></p>
+
+    <p>0 entries</p>
+    <p><%= list.createdAt %> - <%= list.author.name.split('AKA ')[1] %></p>
+    <form action="/api/<%= serverCode %>/list/<%= listId %>/add-me" method="post">
+        <input type="text" name="name" value="<%= displayName %>" readonly>
+        <% if(list.settings.type == 'double'){ %>
+            <input type="text" name="note" placeholder="<%= list.settings.note %>">
+        <% } %>
+        <input type="submit" value="Add Me">
+    </form>
+  </body>
+</html>

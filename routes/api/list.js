@@ -52,7 +52,7 @@ router.post('/:list_id/edit', async (req, res, next) => {
         res.redirect('back');
         return false;
     }
-    
+
     if(title == "" || content == ""){
         errEditList(req,res,'Please fill in the required form',title,content);
         return false;
@@ -90,6 +90,49 @@ router.post('/:list_id/delete', async (req, res, next) => {
         errEditList(req,res,error.message,title,content);
     }
 });
+
+router.post('/:list_id/add-me', async (req, res, next) => {
+    let entryList = [];
+    const { server_code, list_id } = req.params;
+    const { name,note } = req.body;
+    const list = await db.doc(`servers/${server_code}/lists/${list_id}`).get();
+    const typeList = list.data()['settings']['type'];
+    const snapshotEntryList = await db.collection(`servers/${server_code}/lists/${list_id}/entry`).get();
+    const getEntryList = snapshotEntryList.forEach(entry => {
+        entryList.push(entry.data()['userId']);
+    });
+
+    for(entry of entryList){
+        if(entry == req.session.uid){
+            req.flash('err','You have added your name in this list');
+            res.redirect('back');
+            return false;
+        }
+    }
+    
+    if(typeList == 'double' && note == ""){
+        errAddMe(req, res, 'Please fill in the required field');
+        return false;
+    }
+
+    try {
+        const addEntry = await db.collection(`servers/${server_code}/lists/${list_id}/entry`).add({
+            displayName: req.session.displayName,
+            userId: req.session.uid,
+            nim: req.session.nim,
+            note: note ? note : ''
+        });
+        req.flash('success','Your name has been added');
+        res.redirect(`/s/${server_code}/list/${list_id}/view`);
+    } catch (error) {
+        errAddMe(req, res, error.message);
+    }
+});
+
+function errAddMe(req, res, msg){
+    req.flash('err',msg);
+    res.redirect('back');
+}
 
 function errPostList(req,res,msg,title,content,type,note){
     req.flash('err',msg);

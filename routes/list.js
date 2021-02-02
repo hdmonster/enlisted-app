@@ -7,26 +7,23 @@ var router = express.Router({ mergeParams: true });
 
 /* GET list. */
 router.get('/', isMember, (req, res) => {
-  const { server_code } = req.params
-  db.collection(`servers/${server_code}/lists`).get()
-  .then(doc => {
-      // Run when client connected
-      res.io.on('connection', socket => {
+  const { server_code } = req.params;
+  // Run when client connected
+  res.io.on('connection', socket => {
 
-          socket.emit('protocol', 'List socket connected!')
+      socket.emit('protocol', 'List socket connected!')
 
-          db.collection(`servers/${server_code}/lists`)
-          .orderBy('createdAt', 'desc')
-          .onSnapshot(querySnapshot => {
-              var lists = [];
-              querySnapshot.forEach(doc => {
-                  const getData = doc.data();
-                  getData.id = doc.id;
-                  lists.push(getData);
-              });
-              socket.emit('lists', lists);
+      db.collection(`servers/${server_code}/lists`)
+      .orderBy('createdAt', 'desc')
+      .onSnapshot(querySnapshot => {
+          var lists = [];
+          querySnapshot.forEach(doc => {
+              const getData = doc.data();
+              getData.id = doc.id;
+              lists.push(getData);
           });
-      })
+          socket.emit('lists', lists);
+      });
   });
   res.render('list', { 'title': 'List - Enlisted' });
 });
@@ -40,6 +37,7 @@ router.get('/post', isMember, (req, res, next) => {
 /* Edit list. */
 router.get('/:list_id/edit', isMember , async (req, res, next) => {
     const { server_code, list_id } = req.params;
+
     try {
       let snapshotLists = await db.doc(`servers/${server_code}/lists/${list_id}`).get();
       let getList = snapshotLists.data();
@@ -57,6 +55,25 @@ router.get('/:list_id/edit', isMember , async (req, res, next) => {
 /* View list. */
 router.get('/:list_id/view', isMember , async (req, res, next) => {
   const { server_code, list_id } = req.params;
+
+  res.io.on('connection', socket => {
+
+      socket.emit('protocol', 'List socket connected!')
+
+      db.collection(`servers/${server_code}/lists/${list_id}/entry`)
+      .onSnapshot(querySnapshot => {
+          var entries = [];
+          var count = 0;
+          querySnapshot.forEach(doc => {
+              const getData = doc.data();
+              entries.push(getData);
+              count += 1;
+          });
+          socket.emit('entries', entries);
+          socket.emit('count', count);
+      });
+  });
+
   try {
       let snapshotLists = await db.doc(`servers/${server_code}/lists/${list_id}`).get();
       let getList = snapshotLists.data();
@@ -65,6 +82,33 @@ router.get('/:list_id/view', isMember , async (req, res, next) => {
       req.flash('err',error.message);
       res.redirect('back');
   }
+});
+
+/* Add Me. */
+router.get('/:list_id/add-me', isMember, async (req, res, next) => {
+    let entryList = [];
+    const { server_code, list_id } = req.params;
+    const snapshotEntryList = await db.collection(`servers/${server_code}/lists/${list_id}/entry`).get();
+    const getEntryList = snapshotEntryList.forEach(entry => {
+        entryList.push(entry.data()['userId']);
+    });
+
+    for(entry of entryList){
+        if(entry == req.session.uid){
+            req.flash('err','You have added your name in this list');
+            res.redirect('back');
+            return false;
+        }
+    }
+
+    try {
+        let snapshotLists = await db.doc(`servers/${server_code}/lists/${list_id}`).get();
+        let getList = snapshotLists.data();
+        res.render('list/add-me',{title: 'Enlisted', list: getList, serverCode: server_code, listId: list_id});
+    } catch (error) {
+        req.flash('err',error.message);
+        res.redirect('back');
+    }
 });
 
 async function isMember(req, res, next){

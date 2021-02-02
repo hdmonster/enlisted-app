@@ -6,9 +6,9 @@
     <title><%= title %></title>
   </head>
   <body>
-    <h1>List | <%= list.title %></h1>
-    <p>Welcome to <%= title %></p>
+    <h1><%= title %></h1>
     <a href="/s/<%= serverCode %>/list/<%= listId %>/edit">Edit List</a>
+    <a href="/s/<%= serverCode %>/list/<%= listId %>/add-me">Add Me</a>
     <a href="javascript:void()" onclick="confirm('Are you sure want to delete this list?') ? document.getElementById('deleteList').submit() : ''">Delete List</a>
     <a href="/api/auth/signout">Logout</a>
     <form action="/api/<%= serverCode %>/list/<%= listId %>/delete" method="post" id="deleteList"></form>
@@ -20,18 +20,16 @@
         <%= messages.err %>
       <% } %>
     </p>
+    <h4><%= list.title %></h4>
     <p><%= list.content %></p>
 
-    <p>0 entries</p>
     <p><%= list.createdAt %> - <%= list.author.name.split('AKA ')[1] %></p>
+    <div class="entry-count"></div>
+    <div class="entry-list"></div>
 
-    <p>
-        <b>Jake Sullivan</b><br>
-        Sakit
-    </p>
-    <p>
-        <b>Jake Sullivan</b><br>
-        Sakit
-    </p>
+
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/socket/detail-list.js"></script>
   </body>
 </html>
