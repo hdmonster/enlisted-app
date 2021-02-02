@@ -13,6 +13,14 @@
     <link rel="stylesheet" href="/css/list.css">
 </head>
 <body>
+    <p>
+      <% if(messages.success){ %>
+        <%= messages.success %>
+      <% } %>
+      <% if(messages.err){ %>
+        <%= messages.err %>
+      <% } %>
+    </p>
     <a href="list/post">Post List</a>
     <a href="/api/auth/signout">Logout</a>
     <div class="container">

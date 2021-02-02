@@ -10,7 +10,7 @@ router.post('/post', async(req, res, next) => {
     const currentDate = new Date().toLocaleDateString('en-GB');
     const currentTime = new Date().toLocaleTimeString('en-US',{ hour12:false });
 
-    if(title == "" || content == "" || type == ""){
+    if(title == "" || content == "" || !type){
         errPostList(req,res,'Please fill in the required form',title,content,type,note);
         return false;
     };
@@ -44,18 +44,27 @@ router.post('/post', async(req, res, next) => {
 router.post('/:list_id/edit', async (req, res, next) => {
     const { server_code, list_id } = req.params;
     const { title,content } = req.body;
+    const list = await db.doc(`servers/${server_code}/lists/${list_id}`).get();
+    const authorId = list.data()['author']['userId'];
 
+    if(req.session.uid != authorId){
+        req.flash('err','You are not the owner of this list');
+        res.redirect('back');
+        return false;
+    }
+    
     if(title == "" || content == ""){
         errEditList(req,res,'Please fill in the required form',title,content);
         return false;
     };
 
     try {
+
         const postList = await db.doc(`servers/${server_code}/lists/${list_id}`).update({
             title : title,
             content : content,
         });
-        req.flash('msg','List has been created successfully');
+        req.flash('msg','List has been edited successfully');
         res.redirect(`/s/${server_code}/list/${list_id}/view`);
     } catch (error) {
         errEditList(req,res,error.message,title,content);
@@ -64,10 +73,18 @@ router.post('/:list_id/edit', async (req, res, next) => {
 
 router.post('/:list_id/delete', async (req, res, next) => {
     const { server_code, list_id } = req.params;
+    const list = await db.doc(`servers/${server_code}/lists/${list_id}`).get();
+    const authorId = list.data()['author']['userId'];
+
+    if(req.session.uid != authorId){
+        req.flash('err','You are not the owner of this list');
+        res.redirect('back');
+        return false;
+    }
 
     try {
         const postList = await db.doc(`servers/${server_code}/lists/${list_id}`).delete();
-        req.flash('msg','List has been created successfully');
+        req.flash('msg','List has been deleted successfully');
         res.redirect(`/s/${server_code}/list`);
     } catch (error) {
         errEditList(req,res,error.message,title,content);
@@ -88,7 +105,6 @@ function errEditList(req,res,msg,title,content){
     req.flash('title',title);
     req.flash('content',content);
     res.redirect('back');
-    console.log(content);
 }
 
 module.exports = router;
