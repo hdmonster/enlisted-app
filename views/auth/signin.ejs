@@ -1,22 +1,24 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/css/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    <% if(messages.success){ %>
-      <%= messages.success %>
-    <% } %>
-    <% if(messages.err){ %>
-      <%= messages.err %>
-    <% } %>
-    <form class="" action="/api/auth/signin" method="post">
-      <input type="email" name="email">
-      <input type="password" name="password">
-      <input type="submit">
-    </form>
-  </body>
-</html>
+<div class="logo-wrapper">
+  <img src="/images/enlisted-logo.svg" alt="enlisted logo">
+</div>
+
+<form class="" action="/api/auth/signin" method="post">
+  <div class="input-wrappper">
+    <input class="txt-field-fill_grey" autocomplete="off" type="email" name="email" placeholder="Email">
+  </div>
+  <div class="input-wrapper">
+    <input class="txt-field-fill_grey" autocomplete="off" type="password" name="password" placeholder="Password">
+  </div>
+
+  <% if(messages.err){ %>
+    <span class="error-msg"><%= messages.err %></span>
+  <% } %>
+  
+  <button class="btn-lg btn-signin" type="submit">Sign In</button>
+</form>
+<a href="#" class="forgot-password">Forgot Password?</a>
+
+<span class="signup-option">Don't have an account yet? 
+  <a href="/auth/signup">Sign Up</a>
+  here
+</span>

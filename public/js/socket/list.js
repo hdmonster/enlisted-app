@@ -26,7 +26,7 @@ socket.on('lists', lists => {
         `
     })
 
-    container.innerHTML = content
+    //container.innerHTML = content
     
     
 })

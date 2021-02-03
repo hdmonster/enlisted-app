@@ -14,6 +14,7 @@ const server = http.createServer(app)
 const socketio = require('socket.io')(server)
 
 var indexRouter = require('./routes/index');
+var serverRouter = require('./routes/server');
 var listRouter = require('./routes/list');
 var pollRouter = require('./routes/poll');
 var announcementRouter = require('./routes/announcement');
@@ -41,7 +42,6 @@ app.use(session({
 
 app.use((req, res, next) => {
   res.io = socketio;
-
   next()
 });
 
@@ -54,17 +54,18 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.all('/', isLoggedIn, indexRouter);
-app.use('/account', isLoggedIn, accountRouter);
+app.use('/account', accountRouter);
 app.use('/playground', playgroundRouter);
 app.use('/auth', authRouter);
 app.use('/api/announcement',announcementRouter);
 app.use('/api/auth',apiAuthRouter);
 app.use('/api/list',apiListRouter);
-app.use('/api/polls',apiPollRouter);
+app.use('/api/poll',apiPollRouter);
 app.use('/api/server',apiServerRouter);
-app.use('/s/:server_code/list', isLoggedIn, listRouter);
-app.use('/s/:server_code/polls', isLoggedIn, pollRouter);
-app.use('/s/:server_code/announcement', isLoggedIn, announcementRouter);
+app.use('/s/:server_code', serverRouter);
+app.use('/s/:server_code/list', listRouter);
+app.use('/s/:server_code/poll', pollRouter);
+app.use('/s/:server_code/announcement', announcementRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
