@@ -1,32 +1,26 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/css/style.css' />
-    <title><%= title %></title>
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <a href="/api/auth/signout">Logout</a>
-    <p>
-      <% if(messages.success){ %>
-        <%= messages.success %>
-      <% } %>
-      <% if(messages.err){ %>
-        <%= messages.err %>
-      <% } %>
-    </p>
-    <h4>List | <%= list.title %></h4>
-    <p><%= list.content %></p>
 
-    <p>0 entries</p>
-    <p><%= list.createdAt %> - <%= list.author.name.split('AKA ')[1] %></p>
+<div class="list-post-container">
+    <div class="input_wrapper">
+        <span class="title">
+            <%= list.title %>
+        </span>
+    </div>
+    <div class="content_wrapper">
+        <p><%= list.content %></p>
+    </div>
+    <div class="info_wrapper">
+        <span id="entries-count"></span>
+        <span id="entries-detail"><%= list.createdAt %> - Posted by <%= list.author.name.split('AKA ')[1] %></span>
+    </div>
+</div>
+
+<div class="add-me-form-container">
     <form action="/api/<%= serverCode %>/list/<%= listId %>/add-me" method="post">
-        <input type="text" name="name" value="<%= displayName %>" readonly>
+        <input class="txt-field_white" autocomplete="off" type="text" name="name" placeholder="<%= displayName %>">
         <% if(list.settings.type == 'double'){ %>
-            <input type="text" name="note" placeholder="<%= list.settings.note %>">
-        <% } %>
-        <input type="submit" value="Add Me">
+            <input class="txt-field_white" autocomplete="off" type="text" name="note" placeholder="<%= list.settings.note %>" required>
+        <% }); %>
+        <button class="btn-rounded" type="submit">submit</button>
     </form>
-  </body>
-</html>
+
+</div>

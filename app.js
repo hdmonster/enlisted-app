@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const session = require('express-session');
 const flash = require('express-flash');
-
+const moment = require('moment');
 const firebase = require('./firebase/config')
 
 var app = express();
@@ -14,6 +14,7 @@ const server = http.createServer(app)
 const socketio = require('socket.io')(server)
 
 var indexRouter = require('./routes/index');
+var serverRouter = require('./routes/server');
 var listRouter = require('./routes/list');
 var pollRouter = require('./routes/poll');
 var announcementRouter = require('./routes/announcement');
@@ -43,6 +44,7 @@ app.use(session({
 app.use((req, res, next) => {
     res.locals.userId = req.session.uid;
     res.locals.displayName = req.session.displayName;
+    res.locals.moment = moment;
     res.io = socketio;
     next()
 });
@@ -56,12 +58,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.all('/', isLoggedIn, indexRouter);
-app.use('/account', isLoggedIn, accountRouter);
+app.use('/account', accountRouter);
 app.use('/playground', playgroundRouter);
 app.use('/auth', authRouter);
 app.use('/server', isLoggedIn, serverRouter);
 app.use('/api/announcement', isLoggedIn,apiAnnouncementRouter);
 app.use('/api/auth',apiAuthRouter);
+app.use('/api/list',apiListRouter);
+app.use('/api/poll',apiPollRouter);
 app.use('/api/server', isLoggedIn, apiServerRouter);
 app.use('/api/:server_code/list', isLoggedIn,apiListRouter);
 app.use('/api/:server_code/polls', isLoggedIn,apiPollRouter);

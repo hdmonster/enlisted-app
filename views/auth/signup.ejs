@@ -1,21 +1,58 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/css/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    <% if(messages.err){ %>
-      <%= messages.err %>
-    <% } %>
-    <form class="" action="/api/auth/signup" method="post">
-      <input type="text" name="fullName" placeholder="fullName" value="<%if(messages.fullName){ %><%=messages.fullName%><%}%>">
-      <input type="text" name="nickname" placeholder="nickname" value="<%if(messages.nickname){ %><%=messages.nickname%><%}%>">
-      <input type="email" name="email" placeholder="email" value="<%if(messages.email){ %><%=messages.email%><%}%>">
-      <input type="password" name="password" placeholder="Password">
-      <input type="submit">
-    </form>
-  </body>
-</html>
+<span class="header">Join Enlisted</span>
+<span class="subheader">Create list, poll, and announcement in real-time</span>
+
+<form action="/api/auth/signup" method="post">
+  <div class="input-wrappper">
+    <input
+      class="txt-field-fill_grey"
+      autocomplete="off"
+      type="text"
+      name="fullName"
+      placeholder="Full Name"
+      value="<%- messages.fullName ? messages.fullName : ''%>"
+      required>
+  </div>
+
+  <div class="input-wrappper">
+    <input
+      class="txt-field-fill_grey"
+      autocomplete="off"
+      type="text"
+      name="nickname"
+      placeholder="Nickname"
+      value="<%- messages.nickname ? messages.nickname : ''%>"
+      required>
+  </div>
+
+  <div class="input-wrappper">
+    <input
+      class="txt-field-fill_grey"
+      autocomplete="off"
+      type="email"
+      name="email"
+      placeholder="Email"
+      value="<%- messages.email ? messages.email : ''%>"
+      required>
+  </div>
+
+  <div class="input-wrapper">
+    <input
+      class="txt-field-fill_grey"
+      autocomplete="off"
+      type="password"
+      name="password"
+      placeholder="Password"
+      required>
+  </div>
+
+  <% if(messages.err){ %>
+    <span class="error-msg"><%= messages.err %></span>
+  <% } %>
+
+  <button class="btn-lg btn-signin" type="submit">Sign Up</button>
+</form>
+
+<span class="signup-option">Already have an account?
+  <a href="/auth/signin">Sign In</a>
+  here
+</span>

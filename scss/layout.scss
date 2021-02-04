@@ -1,8 +1,20 @@
 @import "base.scss";
 
+html {
+    box-sizing: border-box;
+  }
+  *, *:before, *:after {
+    box-sizing: inherit;
+}
+
 body {
     margin: 0;
     font-family: $font-family;
+}
+
+.main {
+    transition: margin-left .5s;
+    margin-top: 72px;
 }
 
 .playground-container {
@@ -11,10 +23,91 @@ body {
     background: $white;
     margin: 12px;
     align-items: center;
+
+    input {
+        margin: 12px 0;
+    }
 }
 
 .list-container {
     display: flex;
     flex-direction: column;
     margin: 8px;
+}
+
+// Auth
+
+.auth-container {
+    display: flex;
+    flex-direction: column;
+    margin: 16px;
+
+    .header {
+        color: $black;
+        font-size: 26px;
+        font-weight: bold;
+        margin: 18px 0 10px;
+    }
+
+    .subheader {
+        color: #252525;
+        font-size: 15px;
+        margin-bottom: 64px;
+    }
+
+    .logo-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 60px;
+    
+        img {
+            width: 45%;
+        }
+    }
+
+    form {
+        width: 100%;
+
+        input {
+            margin-bottom: 12px;
+        }
+
+        .btn-signin {
+            margin: 32px 0;
+        }
+
+        .error-msg {
+            color: crimson;
+        }
+    }
+
+    .forgot-password{
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        color: $black;
+    }
+
+    .signup-option, .signin-option {
+        margin-top: 60px;
+        margin-bottom: 81px;
+        font-size: 12px;
+        align-self: center;
+
+        a {
+            font-weight: 700;
+        }
+    }
+
+    .copyright {
+        font-size: 12px;
+        align-self: center;
+    }
+}
+
+// List View
+
+.entry-container {
+    margin: 48px 16px 0;
 }

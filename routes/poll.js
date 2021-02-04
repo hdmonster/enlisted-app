@@ -5,26 +5,38 @@ var router = express.Router({ mergeParams: true });
 router.get('/', (req, res, next) => {
   const { server_code } = req.params
 
-  res.render('poll', { title: 'Polls - Enlisted' });
+  res.layout('poll', 
+      { 'title': 'Poll - Enlisted', 
+        'layout': 'layout/index-layout',
+        'nav_title' : 'Polls'});
 });
 
 /* GET komting page. */
-router.get('/create', (req, res) => {
+router.get('/post', (req, res) => {
   const { server_code } = req.params
 
-  res.send('create poll page')
+  res.layout('poll/post', 
+      { 'title': 'Post a poll - Enlisted', 
+        'layout': 'layout/post-layout',
+        'nav_title' : 'Post a poll'});
 })
 
 router.get('/:poll_id/edit', (req, res, next) => {
   const { server_code, poll_id } = req.params
 
-    res.send('Edit poll page')
+  res.layout('poll/edit', 
+  { 'title': 'Edit Poll - Enlisted', 
+    'layout': 'layout/edit-layout',
+    'nav_title' : 'Edit Poll'});
 });
 
 router.get('/:poll_id/view', (req, res, next) => {
   const { server_code, poll_id } = req.params
 
-  res.send('Poll detail page')
+  res.layout('poll/view', 
+  { 'title': 'View Poll - Enlisted', 
+    'layout': 'layout/view-layout',
+    'nav_title' : 'Poll Detail'});
 });
 
 module.exports = router;

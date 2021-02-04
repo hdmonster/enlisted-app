@@ -2,9 +2,22 @@
 
 // remove outline
 
-button, input {
+button, input, textarea {
   outline: none;
   -webkit-tap-highlight-color: transparent;
+}
+
+// spans
+
+.recent_wrapper {
+  padding-bottom: 16px;
+
+  span {
+    font-weight: 600;
+    font-size: 13px;
+    color: #6E6E6E;
+    text-transform: uppercase;
+  }
 }
 
 // Text Fields
@@ -14,8 +27,7 @@ button, input {
   border: none;
   border-radius: 8px;
   padding: 16px 10px;
-  margin: 8px 0;
-  width: 90%;
+  width: 100%;
   font-size: 14px;
 }
 
@@ -37,6 +49,8 @@ button, input {
 }
 
 .txt-field_line {
+  resize: none;
+  overflow: hidden;
   width: 100%;
   font-size: 15px;
   color: $black;
@@ -44,7 +58,12 @@ button, input {
   border-bottom: .5px solid #707070;
   padding: 12px 0;
   margin: 8px 0;
-  outline: none;
+  background: none;
+}
+
+.txt-field_transparent {
+  border: none;
+  width: 100%;
 }
 
 // Buttons
@@ -56,12 +75,38 @@ button, input {
   background: $grad-ocean;
   color: $white;
   margin: 12px 0;
-  box-shadow: $shadow
+  box-shadow: $shadow;
+  transition: opacity 0.1s;
+
+  &:active {
+    opacity: .8;
+  }
+}
+
+.btn-rounded {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  width: 40%;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: capitalize; 
+  border: none;
+  border-radius: 24px;
+  background: $white;
+  color: $blue;
+  margin: 12px 0;
+  box-shadow: $shadow;
+
+  &:active {
+    opacity: .8;
+  }
 }
 
 .btn-lg {
   @extend %btn;
-  width: 90%;
+  width: 100%;
   font-size: 15px;
   font-weight: 600;
   text-transform: capitalize;
@@ -239,10 +284,16 @@ input:checked + .slider:before {
       padding: 6px 14px 16px;
     }
   } 
+
+  &:hover {
+    opacity: .8;
+  }
+  
 }
 
 .card-entry {
   @extend %card;
+  margin: 12px 0;
 
   .header {
     @extend %card-header;
@@ -251,14 +302,14 @@ input:checked + .slider:before {
       font-size: 16px;
       font-weight: 600;
       color: $black;
-      padding: 16px 14px 6px;
+      padding: 14px 14px 4px;
     }
 
     .note {
       font-size: 14px;
       font-weight: 600;
       color: $dark-grey;
-      padding: 6px 14px 16px;
+      padding: 4px 14px 12px;
     }
   }
 }
@@ -287,11 +338,11 @@ input:checked + .slider:before {
         padding: 6px 6px;
         margin: 0 0 12px 8px;
         border: none;
-      }
-
-      .note:hover {
-        border: 1px solid $blue;
-        border-radius: 4px;
+      
+        &:hover {
+          border: 1px solid $blue;
+          border-radius: 4px;
+        }
       }
     }
   }
@@ -313,7 +364,85 @@ input:checked + .slider:before {
   }
 }
 
+.card-classic {
+  display: flex;
+  align-items: center;
+  border-bottom: .5px solid $black;
+  padding: 16px;
 
+  img {
+    width: 45px;
+    height: 45px;
+    border-radius: 24px;
+  }
+
+  .title {
+    padding: 0 18px;
+    font-weight: 600;
+  }
+}
+
+/* Navbar */
+
+.navbar {
+  display: flex;
+  overflow: hidden;
+  background-color: $white;
+  box-shadow: $shadow;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  transition: margin-left .5s;
+
+  .sec_wrapper {
+    display: flex;
+    align-items: center;
+    padding: 14px;
+
+    &:active {
+      background: $light-grey
+    }
+  }
+
+  .title_wrapper {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    padding: 14px 6px;
+    font-size: 20px;
+    font-weight: 600;
+    color: $dark-bg;
+  }
+
+  .primary_wrapper {
+    display: flex;
+    align-items: center;
+    padding: 14px;
+
+
+    &:active {
+      background: $light-grey
+    }
+
+    span {
+      color: $blue;
+      font-size: 18px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+  }
+
+  i {
+    display: block;
+    color: #121212;
+    text-decoration: none;
+
+    &:hover {
+      background: #ddd;
+      color: $light-grey;
+    }
+  }
+}
 /* Bottom Navigation */
 
 .bottom-nav {
@@ -325,6 +454,7 @@ input:checked + .slider:before {
   background-color: #ffffff;
   display: flex;
   overflow-x: auto;
+  transition: margin-left .5s;
 
   .nav__link {
     display: flex;
@@ -341,10 +471,10 @@ input:checked + .slider:before {
     text-decoration: none;
     -webkit-tap-highlight-color: transparent;
     transition: background-color 0.1s ease-in-out;
-  }
   
-  .nav__link:hover {
-    background-color: $white;
+    &:hover {
+      background-color: $white;
+    }
   }
   
   .nav__link--active {
@@ -353,5 +483,232 @@ input:checked + .slider:before {
   
   .nav__icon {
     font-size: 14px;
+  }
+}
+
+
+/*  Sidenav */
+
+.sidenav {
+  height: 100%; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  background-color: $white; /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 15px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+
+  a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+
+    &:hover {
+      color: #f1f1f1;
+    }
+  }
+}
+
+// List Post/Edit
+
+.list-post-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 32vh;
+  background: $white;
+
+  .input_wrapper {
+    padding: 12px 12px 0;
+
+    input {
+      font-size: 18px;
+      font-weight: 600;
+      color: #181818;
+      text-transform: capitalize;
+    }
+
+    span {
+      font-size: 18px;
+      font-weight: 600;
+      word-break: break-word;
+      color: #181818;
+    }
+  }
+
+  .content_wrapper {
+    flex: 1;
+    padding: 12px;
+
+    textarea {
+      font-size: 14px;
+    }
+
+    p {
+      font-size: 14px;
+      word-break: break-word;
+    }
+  }
+
+  .info_wrapper {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+
+    span {
+      font-size: 12px;
+      font-weight: 600;
+      color: #727272;
+    }
+  }
+}
+
+.list-settings-container {
+  display: flex;
+  flex-direction: column;
+  padding: 32px 14px;
+
+  span {
+    font-size: 13px;
+    font-weight: 600;
+    color: $grey;
+    text-transform: capitalize;
+  }
+
+  .button-group_wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 34px 0 32px;
+    clear: both;
+  }
+  
+  .stv-radio-button {
+    display: none;
+    
+    & + label {
+      float: left;
+      padding: 10px 22px;
+      cursor: pointer;
+      border: 1px solid #DDDDDD;
+      margin-right: -1px;
+      color: #545454;
+      background-color: $white;
+      font-size: 13px;
+      
+      &:first-of-type {
+        border-radius: 4px 0 0 4px;
+      }
+      
+      &:last-of-type {
+        border-radius: 0 4px 4px 0;
+      }
+    }
+    
+    &:checked + label {
+      color: #1492E6;
+    }
+  }
+}
+
+.list-preview_wrapper {
+  
+  .preview-single { display: block; }
+  .preview-double { display: none; }
+}
+
+// List View
+
+.add-me_wrapper {
+  position: fixed;
+  bottom: 4rem;
+  right: 3rem;
+
+  button {
+    position: absolute;
+    bottom: -1rem;
+    right: -1rem;
+    width: 150px;
+    height: 48px;
+  }
+}
+
+// List Add Me
+
+.add-me-form-container {
+  margin-top: 64px;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    margin: 0 16px;
+
+    input {
+      margin-bottom: 12px;
+    }
+
+    button {
+      align-self: flex-end;
+      margin-top: 48px
+    }
+  }
+}
+
+.announcement-post-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 32vh;
+
+  .input_wrapper {
+    padding: 12px 12px 0;
+
+    input {
+      font-size: 18px;
+      font-weight: 600;
+      color: #181818;
+      text-transform: capitalize;
+      background: none
+    }
+
+    span {
+      font-size: 18px;
+      font-weight: 600;
+      word-break: break-word;
+      color: #181818;
+    }
+  }
+
+  .content_wrapper {
+    flex: 1;
+    padding: 12px;
+    margin-top: 12px;
+
+    textarea {
+      font-size: 16px;
+    }
+
+    p {
+      font-size: 16px;
+      word-break: break-word;
+    }
+  }
+
+  .info_wrapper {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+    margin-top: 4px;
+
+    span {
+      font-size: 12px;
+      font-weight: 600;
+      color: #727272;
+    }
   }
 }

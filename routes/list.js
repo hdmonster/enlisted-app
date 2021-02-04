@@ -6,32 +6,40 @@ const db = firebase.firestore();
 var router = express.Router({ mergeParams: true });
 
 /* GET list. */
-router.get('/', isMember, (req, res) => {
+router.get('/', isMember, async (req, res) => {
   const { server_code } = req.params;
-  // Run when client connected
-  res.io.on('connection', socket => {
 
-      socket.emit('protocol', 'List socket connected!')
-
-      db.collection(`servers/${server_code}/lists`)
-      .orderBy('createdAt', 'desc')
-      .onSnapshot(querySnapshot => {
-          var lists = [];
-          querySnapshot.forEach(doc => {
-              const getData = doc.data();
-              getData.id = doc.id;
-              lists.push(getData);
-          });
-          socket.emit('lists', lists);
+  try {
+      let lists = [];
+      const snapshotLists = await db.collection(`servers/${server_code}/lists`)
+      .orderBy('createdAt', 'desc').get();
+      const getList = snapshotLists.forEach(list => {
+          const getData = list.data();
+          getData.id = list.id;
+          lists.push(getData);
       });
-  });
-  res.render('list', { 'title': 'List - Enlisted' });
+      res.layout('list',{
+          'title': 'List - Enlisted',
+          'layout': 'layout/index-layout',
+          'nav_title' : 'List',
+          'lists': lists
+      });
+  } catch (error) {
+      req.flash('err',error.message);
+      res.redirect('back');
+  }
+
 });
 
 /* Post list. */
 router.get('/post', isMember, (req, res, next) => {
-  const { server_code } = req.params
-  res.render('list/post',{title: 'Enlisted',server_code: server_code});
+  const { server_code } = req.params;
+
+  res.layout('list/post',
+      { 'title': 'Post List - Enlisted',
+        'layout': 'layout/post-layout',
+        'nav_title' : 'New List',
+        'server_code' : server_code });
 });
 
 /* Edit list. */
@@ -39,13 +47,19 @@ router.get('/:list_id/edit', isMember , async (req, res, next) => {
     const { server_code, list_id } = req.params;
 
     try {
-      let snapshotLists = await db.doc(`servers/${server_code}/lists/${list_id}`).get();
-      let getList = snapshotLists.data();
+      const snapshotLists = await db.doc(`servers/${server_code}/lists/${list_id}`).get();
+      const getList = snapshotLists.data();
       if(getList.author.userId != req.session.uid){
           res.redirect('back');
           return false;
       }
-      res.render('list/edit', { title: 'Enlisted', serverCode: server_code, listId: list_id, list: getList });
+      res.layout('list/edit',
+          { 'title': 'Edit List - Enlisted',
+            'layout': 'layout/edit-layout',
+            'nav_title' : 'Edit List',
+            'serverCode': server_code,
+            'listId': list_id,
+            'list': getList });
     } catch (error) {
       req.flash('err',error.message);
       res.redirect('back');
@@ -62,8 +76,8 @@ router.get('/:list_id/view', isMember , async (req, res, next) => {
 
       db.collection(`servers/${server_code}/lists/${list_id}/entry`)
       .onSnapshot(querySnapshot => {
-          var entries = [];
-          var count = 0;
+          let entries = [];
+          let count = 0;
           querySnapshot.forEach(doc => {
               const getData = doc.data();
               entries.push(getData);
@@ -75,9 +89,16 @@ router.get('/:list_id/view', isMember , async (req, res, next) => {
   });
 
   try {
-      let snapshotLists = await db.doc(`servers/${server_code}/lists/${list_id}`).get();
-      let getList = snapshotLists.data();
-      res.render('list/detail',{title: 'Enlisted', list: getList, serverCode: server_code, listId: list_id});
+      const snapshotLists = await db.doc(`servers/${server_code}/lists/${list_id}`).get();
+      const getList = snapshotLists.data();
+      res.layout('list/view', {
+          'title': 'View List - Enlisted',
+          'layout': 'layout/view-layout',
+          'nav_title' : 'List Detail',
+          'list': getList,
+          'serverCode': server_code,
+          'listId': list_id
+      });
   } catch (error) {
       req.flash('err',error.message);
       res.redirect('back');
@@ -102,9 +123,23 @@ router.get('/:list_id/add-me', isMember, async (req, res, next) => {
     }
 
     try {
-        let snapshotLists = await db.doc(`servers/${server_code}/lists/${list_id}`).get();
-        let getList = snapshotLists.data();
-        res.render('list/add-me',{title: 'Enlisted', list: getList, serverCode: server_code, listId: list_id});
+        const snapshotLists = await db.doc(`servers/${server_code}/lists/${list_id}`).get();
+        const getList = snapshotLists.data();
+        res.layout('list/add-me', {
+            'title': 'Add Me - Enlisted',
+            'layout': 'layout/simple-layout',
+            'nav_title' : 'Add me',
+            'list': getList,
+            'serverCode': server_code,
+            'listId': list_id
+        });
+        res.render('list/add-me',{
+            title: 'Enlisted',
+            list: getList,
+            serverCode: server_code,
+            listId: list_id,
+            entryList: entryList
+        });
     } catch (error) {
         req.flash('err',error.message);
         res.redirect('back');

@@ -1,50 +1,47 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/css/style.css' />
-    <title><%= title %></title>
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    <a href="/api/auth/signout">Logout</a>
-    <p>
-      <% if(messages.success){ %>
-        <%= messages.success %>
-      <% } %>
-      <% if(messages.err){ %>
-        <%= messages.err %>
-      <% } %>
-    </p>
-    <form action="/api/<%= server_code %>/list/post" method="post">
-        <input type="text" name="title" value="<%if(messages.title){ %><%=messages.title%><%}%>" placeholder="Title"><br>
+<form action="/api/<%= server_code %>/list/post" method="post" id="post">
+    <div class="list-post-container">
+        <div class="input_wrapper">
+            <input type="text" class="txt-field_transparent" name="title" autocomplete="off" onfocus="this.select()" placeholder="Title" value="<%- messages.title ? messages.title : 'Untitled' %>" required>
+        </div>
+        <div class="content_wrapper">
+            <textarea rows="1" class="txt-field_line" name="content" autocomplete="off" oninput="auto_grow(this)" placeholder="Write caption..." required><%- messages.content ? messages.content : '' %></textarea>
+        </div>
+        <div class="info_wrapper">
+            <span id="entries-count">0 Entries</span>
+            <span id="entries-detail">2 Feb 2021 - Posted by <%= displayName.split('AKA ')[1] %></span>
+        </div>
+    </div>
 
-        <textarea name="content" rows="8" cols="80" placeholder="Content"><%if(messages.content){ %><%=messages.content%><%}%></textarea><br>
+    <div class="list-settings-container">
+        <span>
+            list settings
+        </span>
 
-        <input type="radio" name="type" value="single" onclick="checkedType()" id="single" <%if(messages.type == 'single'){ %>checked<%}%>>
-        <label for="single">Single</label>
-        <input type="radio" name="type" value="double" onclick="checkedType()" id="double" <%if(messages.type == 'double'){ %>checked<%}%>>
-        <label for="double">Double</label>
+        <div class="button-group_wrapper">
+            <input type="radio" class="stv-radio-button" name="type" value="single" id="btn-single" onclick="showPreview()" checked />
+            <label for="btn-single">Single</label>
+            <input type="radio" class="stv-radio-button" name="type" value="double" id="btn-double" onclick="showPreview()" />
+            <label for="btn-double">Double</label>
+        </div>
 
-        <br>
-        <input type="text" name="name" placeholder="Name" readonly><br>
-
-        <input type="text" name="note" value="<%if(messages.note){ %><%=messages.note%><%}%>" placeholder="note (alasan,dll)" <%if(messages.type == 'single' || !messages.type){ %>readonly<%}%> ><br>
-        <input type="submit">
-    </form>
-
-    <script type="text/javascript">
-        function checkedType(){
-            let type = document.querySelector('input[name="type"]:checked').value;
-            let note = document.getElementsByName('note')[0];
-            if(type == 'single'){
-                note.readOnly = true;
-                note.value = "";
-            }else{
-                note.readOnly = false;
-            }
-        }
-    </script>
-  </body>
-</html>
+        <div class="list-preview_wrapper">
+            <div class="preview-single">
+                <div class="card-post-single">
+                    <div class="header">
+                        <span class="title">Nama</span>
+                    </div>
+                </div>
+            </div>
+            <div class="preview-double">
+                <div class="card-post-double">
+                    <div class="header">
+                        <span class="title">Nama</span>
+                        <div class="note-container">
+                            <input type="text" class="note" name="note" onfocus="this.select()" placeholder="Note (eg. alasan/nim etc.)" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

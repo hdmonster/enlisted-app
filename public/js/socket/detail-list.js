@@ -1,5 +1,5 @@
-const entryList = document.querySelector('.entry-list')
-const entryCount = document.querySelector('.entry-count')
+const entryList = document.querySelector('.entry-container')
+const entryCount = document.querySelector('#entries-count')
 
 const socket = io()
 
@@ -19,10 +19,12 @@ socket.on('entries', entries => {
 
     entries.forEach(entry => {
         content += `
-            <p>
-                <b>${entry.displayName}</b><br>
-                ${entry.note}
-            </p>
+            <div class="card-entry">
+                <div class="header">
+                    <span class="title">${entry.displayName}</span>
+                    <span class="note">${entry.note}</span>
+                </div>
+            </div>
         `
     })
 

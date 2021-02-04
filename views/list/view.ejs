@@ -1,0 +1,29 @@
+<div class="list-post-container">
+    <div class="input_wrapper">
+        <span class="title">
+            <%= list.title %>
+        </span>
+    </div>
+    <div class="content_wrapper">
+        <p><%= list.content %></p>
+    </div>
+    <div class="info_wrapper">
+        <span id="entries-count"></span>
+        <span id="entries-detail"><%= moment(list.createdAt, ).format("DD MMM YYYY") %> - Posted by <%= list.author.name.split('AKA ')[1] %></span>
+    </div>
+</div>
+
+<div class="entry-container">
+
+</div>
+
+<div class="add-me_wrapper" onclick="navigateReplace('add-me')">
+        <button class="btn-rounded">
+            <i data-feather="plus"></i>
+            add me
+        </button>
+</div>
+
+<script src="/js/component.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/socket/detail-list.js"></script>
