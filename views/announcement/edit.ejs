@@ -1,11 +1,13 @@
-<div class="announcement-post-container">
-    <div class="input_wrapper">
-        <input type="text" class="txt-field_transparent" name="title" autocomplete="off" onfocus="this.select()" placeholder="Title" value="Untitled">
+<form action="/api/<%= server_code %>/announcement/<%= announcement_id %>/edit" method="post" id="post">
+    <div class="announcement-post-container">
+        <div class="input_wrapper">
+            <input type="text" class="txt-field_transparent" name="title" autocomplete="off" onfocus="this.select()" placeholder="Title" value="<%- messages.title ? messages.title : announcement.title %>" required>
+        </div>
+        <div class="info_wrapper">
+            <span id="entries-detail"><%= moment(announcement.createdAt, ).format("DD MMM YYYY") %> - Posted by <%= announcement.author.name.split('AKA ')[1] %></span>
+        </div>
+        <div class="content_wrapper">
+            <textarea rows="1" class="txt-field_line" name="content" autocomplete="off" oninput="auto_grow(this)" placeholder="Write content..." required><%- messages.content ? messages.content : announcement.content %></textarea>
+        </div>
     </div>
-    <div class="info_wrapper">
-        <span id="entries-detail">2 Feb 2021 - Posted by Russel</span>
-    </div>
-    <div class="content_wrapper">
-        <textarea rows="1" class="txt-field_line" name="content" autocomplete="off" oninput="auto_grow(this)" placeholder="Write content..."></textarea>
-    </div>
-</div>
+</form>

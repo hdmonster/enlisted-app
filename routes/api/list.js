@@ -4,6 +4,7 @@ var firebase = require('firebase')
 var db = firebase.firestore();
 var router = express.Router({ mergeParams: true });
 
+/* Post list. */
 router.post('/post', async(req, res, next) => {
     const { server_code } = req.params;
     const { title,content,type,note } = req.body;
@@ -34,13 +35,14 @@ router.post('/post', async(req, res, next) => {
             title : title,
             content : content,
         });
-        req.flash('msg','List has been created successfully');
+        req.flash('success','List has been created successfully');
         res.redirect(`/s/${server_code}/list`);
     } catch (error) {
         errPostList(req,res,error.message,title,content,type,note);
     }
 });
 
+/* Edit list. */
 router.post('/:list_id/edit', async (req, res, next) => {
     const { server_code, list_id } = req.params;
     const { title,content } = req.body;
@@ -64,13 +66,14 @@ router.post('/:list_id/edit', async (req, res, next) => {
             title : title,
             content : content,
         });
-        req.flash('msg','List has been edited successfully');
+        req.flash('success','List has been edited successfully');
         res.redirect(`/s/${server_code}/list/${list_id}/view`);
     } catch (error) {
         errEditList(req,res,error.message,title,content);
     }
 });
 
+/* Delete list. */
 router.post('/:list_id/delete', async (req, res, next) => {
     const { server_code, list_id } = req.params;
     const list = await db.doc(`servers/${server_code}/lists/${list_id}`).get();
@@ -84,13 +87,15 @@ router.post('/:list_id/delete', async (req, res, next) => {
 
     try {
         const postList = await db.doc(`servers/${server_code}/lists/${list_id}`).delete();
-        req.flash('msg','List has been deleted successfully');
+        req.flash('success','List has been deleted successfully');
         res.redirect(`/s/${server_code}/list`);
     } catch (error) {
-        errEditList(req,res,error.message,title,content);
+        req.flash('err',error.message);
+        res.redirect('back');
     }
 });
 
+/* Add Me in list. */
 router.post('/:list_id/add-me', async (req, res, next) => {
     let entryList = [];
     const { server_code, list_id } = req.params;
@@ -109,7 +114,7 @@ router.post('/:list_id/add-me', async (req, res, next) => {
             return false;
         }
     }
-    
+
     if(typeList == 'double' && note == ""){
         errAddMe(req, res, 'Please fill in the required field');
         return false;

@@ -21,7 +21,7 @@ router.post('/signup', async(req, res, next) => {
     errSignUp(req,res,'Please fill in the required form!',fullName,nickname,email);
     return false;
   };
-  
+
   if(typeof parseInt(nim) !== 'number' || nim.length != 8 || splitEmail != "student.itk.ac.id"){
     errSignUp(req,res,'Please use your business email! (Your NIM Here@student.itk.ac.id)',fullName,nickname,email);
     return false;
@@ -64,7 +64,7 @@ router.post('/signin', async (req, res, next) => {
     errSignIn(req,res,'Please fill in the required form!',email);
   };
   if(splitEmail != "student.itk.ac.id"){
-    errSignIn(req,res,'Please use your business email! (@student.itk.ac.id)',email);
+    errSignIn(req,res,'Please use your business email! (Your NIM Here@student.itk.ac.id)',email);
   };
 
   try {
