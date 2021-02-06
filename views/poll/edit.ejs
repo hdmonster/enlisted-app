@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="poll-card-container">
+        <div class="info_wrapper">
+            <span class="author">Admin</span>
+            <span class="end-time">
+                Ends in - hours
+            </span>
+        </div>
+        <div class="question_wrapper">
+            <textarea rows="1" class="txt-field_transparent" name="question" autocomplete="off" oninput="auto_grow(this)" placeholder="What do you want to ask?"></textarea>
+        </div>
+        <div class="option_ wrapper">
+            <div class="option-input_container">
+                <input class="txt-field-fill_grey" autocomplete="off" type="text" name="vote_option-1" placeholder="Option 1">
+                <input class="txt-field-fill_grey" autocomplete="off" type="text" name="vote_option-2" placeholder="Option 2">
+                <div class="additional-option-input_container">
+                </div>
+            </div>
+            <button class="btn-add-option" onclick="addOption()">Add another option</button>
+        </div>
+        <div class="settings-container">
+            <span class="title">Settings</span>
+            <div class="setting_wrapper">
+                <span>Show poll result after vote</span>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class="setting_wrapper">
+                <span>Always open poll</span>
+                <label class="switch">
+                    <input type="checkbox" id="openPoll" onclick="showDatepicker()" checked>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class="datetime_wrapper">
+                <input type="text" id="datepicker" name="datetime" class="txt-field-fill_grey" placeholder="Open poll date"/>
+            </div>
+        </div>
+    </div>
+</div>

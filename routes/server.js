@@ -2,8 +2,15 @@ var express = require('express');
 var router = express.Router();
 
 /* GET home page. */
-router.get('/', (req, res, next) => {
-  res.render('index', { title: 'Enlisted' });
+router.get('/home', (req, res, next) => {
+  const { server_code } = req.params
+
+  const server_name = 'Beta Server'
+
+  res.layout('home', 
+      { 'title': `${server_name} - Enlisted`, 
+        'layout': 'layout/home-layout',
+        'nav_title' : server_name});
 });
 
 /* GET komting page. */
