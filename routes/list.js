@@ -1,9 +1,8 @@
 const express = require('express');
-
-const firebase = require('firebase')
+const firebase = require('firebase');
 const db = firebase.firestore();
-
 var router = express.Router({ mergeParams: true });
+
 
 /* GET list. */
 router.get('/', isMember, async (req, res) => {
@@ -155,12 +154,10 @@ async function isMember(req, res, next){
         let getUserServers = snapshotUserServers.data()['servers'].forEach(userServer => {
             allUserServers.push(userServer);
         });
-        for(userServer of allUserServers){
-            if(userServer != server_code){
-                res.redirect('back')
-            }else{
-                next();
-            }
+        if(!allUserServers.includes(server_code)){
+            res.redirect('back')
+        }else{
+            next();
         }
     } catch (error) {
         req.flash('err',error.message);

@@ -5,7 +5,7 @@ var db = firebase.firestore();
 var router = express.Router({ mergeParams: true });
 
 /* Post list. */
-router.post('/post', async(req, res, next) => {
+router.post('/post', isMember, async(req, res, next) => {
     const { server_code } = req.params;
     const { title,content,type,note } = req.body;
     const currentDate = new Date().toLocaleDateString('en-GB');
@@ -43,7 +43,7 @@ router.post('/post', async(req, res, next) => {
 });
 
 /* Edit list. */
-router.post('/:list_id/edit', async (req, res, next) => {
+router.post('/:list_id/edit', isMember, async (req, res, next) => {
     const { server_code, list_id } = req.params;
     const { title,content } = req.body;
     const list = await db.doc(`servers/${server_code}/lists/${list_id}`).get();
@@ -74,7 +74,7 @@ router.post('/:list_id/edit', async (req, res, next) => {
 });
 
 /* Delete list. */
-router.post('/:list_id/delete', async (req, res, next) => {
+router.post('/:list_id/delete', isMember, async (req, res, next) => {
     const { server_code, list_id } = req.params;
     const list = await db.doc(`servers/${server_code}/lists/${list_id}`).get();
     const authorId = list.data()['author']['userId'];
@@ -96,7 +96,7 @@ router.post('/:list_id/delete', async (req, res, next) => {
 });
 
 /* Add Me in list. */
-router.post('/:list_id/add-me', async (req, res, next) => {
+router.post('/:list_id/add-me', isMember, async (req, res, next) => {
     let entryList = [];
     const { server_code, list_id } = req.params;
     const { name,note } = req.body;
@@ -133,6 +133,26 @@ router.post('/:list_id/add-me', async (req, res, next) => {
         errAddMe(req, res, error.message);
     }
 });
+
+async function isMember(req, res, next){
+    let { server_code } = req.params;
+    let userId = req.session.uid;
+    try {
+        let allUserServers = [];
+        let snapshotUserServers = await db.doc(`users/${userId}`).get();
+        let getUserServers = snapshotUserServers.data()['servers'].forEach(userServer => {
+            allUserServers.push(userServer);
+        });
+        if(!allUserServers.includes(server_code)){
+            res.redirect('back')
+        }else{
+            next();
+        }
+    } catch (error) {
+        req.flash('err',error.message);
+        res.redirect('back');
+    }
+}
 
 function errAddMe(req, res, msg){
     req.flash('err',msg);

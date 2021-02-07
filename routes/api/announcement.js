@@ -5,7 +5,7 @@ var db = firebase.firestore();
 var router = express.Router({ mergeParams: true });
 
 /* Post announcement. */
-router.post('/post', async(req, res, next) => {
+router.post('/post', isMember, async(req, res, next) => {
     const { server_code } = req.params;
     const { title,content } = req.body;
     const currentDate = new Date().toLocaleDateString('en-GB');
@@ -44,7 +44,7 @@ router.post('/post', async(req, res, next) => {
 });
 
 /* Edit announcement. */
-router.post('/:announcement_id/edit', async(req, res, next) => {
+router.post('/:announcement_id/edit', isMember, async(req, res, next) => {
     const { server_code,announcement_id } = req.params;
     const { title,content } = req.body;
 
@@ -76,7 +76,7 @@ router.post('/:announcement_id/edit', async(req, res, next) => {
 });
 
 /* Delete announcement. */
-router.post('/:announcement_id/delete', async (req, res, next) => {
+router.post('/:announcement_id/delete', isMember, async (req, res, next) => {
     const { server_code,announcement_id } = req.params;
     const { title,content } = req.body;
 
@@ -98,6 +98,26 @@ router.post('/:announcement_id/delete', async (req, res, next) => {
         res.redirect('back');
     }
 });
+
+async function isMember(req, res, next){
+    let { server_code } = req.params;
+    let userId = req.session.uid;
+    try {
+        let allUserServers = [];
+        let snapshotUserServers = await db.doc(`users/${userId}`).get();
+        let getUserServers = snapshotUserServers.data()['servers'].forEach(userServer => {
+            allUserServers.push(userServer);
+        });
+        if(!allUserServers.includes(server_code)){
+            res.redirect('back')
+        }else{
+            next();
+        }
+    } catch (error) {
+        req.flash('err',error.message);
+        res.redirect('back');
+    }
+}
 
 function errPostAnn(req,res,msg,title,content){
     req.flash('err',msg);

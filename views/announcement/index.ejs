@@ -5,5 +5,15 @@
     <div class="content"></div>
 
 </div>
+
+<!-- Toast -->
+<script type="text/javascript">
+    if('<%= messages.success %>'){
+        showToast('success','<%= messages.success %>')
+    }
+    if('<%= messages.err %>'){
+        showToast('failed','<%= messages.err %>')
+    }
+</script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/socket/announcement.js"></script>

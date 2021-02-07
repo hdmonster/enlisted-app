@@ -7,7 +7,8 @@ const logger = require('morgan');
 const session = require('express-session');
 const flash = require('express-flash');
 const moment = require('moment');
-const firebase = require('./firebase/config')
+const firebase = require('./firebase/config');
+
 
 var app = express();
 const server = http.createServer(app)
@@ -21,12 +22,14 @@ var announcementRouter = require('./routes/announcement');
 var accountRouter = require('./routes/account');
 var playgroundRouter = require('./routes/playground');
 var authRouter = require('./routes/auth');
+var adminServerRouter = require('./routes/admin-server');
 var serverRouter = require('./routes/server');
 var apiAnnouncementRouter = require('./routes/api/announcement.js');
 var apiAuthRouter = require('./routes/api/auth.js');
 var apiListRouter = require('./routes/api/list.js');
 var apiPollRouter = require('./routes/api/poll.js');
 var apiServerRouter = require('./routes/api/server.js');
+var apiAdminServerRouter = require('./routes/api/admin-server.js');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -42,6 +45,7 @@ app.use(session({
 
 
 app.use((req, res, next) => {
+
     res.locals.userId = req.session.uid;
     res.locals.displayName = req.session.displayName;
     res.locals.moment = moment;
@@ -58,15 +62,17 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.all('/', isLoggedIn, indexRouter);
-app.use('/account', accountRouter);
 app.use('/playground', playgroundRouter);
 app.use('/auth', authRouter);
-app.use('/server', isLoggedIn, serverRouter);
 app.use('/api/auth',apiAuthRouter);
-app.use('/api/server', isLoggedIn, apiServerRouter);
+app.use('/server', isLoggedIn, adminServerRouter);
+app.use('/account/:user_id', isLoggedIn ,accountRouter);
+app.use('/api/server', isLoggedIn, apiAdminServerRouter);
+app.use('/api/:server_code', isLoggedIn, apiServerRouter);
 app.use('/api/:server_code/list', isLoggedIn,apiListRouter);
-app.use('/api/:server_code/polls', isLoggedIn,apiPollRouter);
+app.use('/api/:server_code/poll', isLoggedIn,apiPollRouter);
 app.use('/api/:server_code/announcement', isLoggedIn,apiAnnouncementRouter);
+app.use('/s/:server_code', isLoggedIn, serverRouter);
 app.use('/s/:server_code/list', isLoggedIn, listRouter);
 app.use('/s/:server_code/polls', isLoggedIn, pollRouter);
 app.use('/s/:server_code/announcement', isLoggedIn, announcementRouter);

@@ -1,0 +1,75 @@
+<div class="container">
+    <div class="recent_wrapper">
+        <span>recent</span>
+    </div>
+
+    <div class="poll-card-container">
+        <div class="info_wrapper">
+            <span class="author">Flip Monke</span>
+            <span class="end-time">
+                Polls ended
+            </span>
+        </div>
+        <div class="question_wrapper">
+            <span>
+                Godzilla or Kong?
+            </span>
+        </div>
+
+        <div class="poll-wrapper">
+            <input type="hidden" name="poll_id" value="someid">
+            
+            <div class="progress-bar_wrapper">
+                <div class="progress-bar" value="40">
+                    <div>
+                        <span>Godzilla</span>
+                        <span class="percentage">40%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="progress-bar_wrapper">
+                <div class="progress-bar" value="60">
+                    <div>
+                        <span>Kong</span>
+                        <span class="percentage">60%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="vote-btn_wrapper">
+            <span>Thanks for the response!</span>
+        </div>
+    </div>
+
+    <div class="poll-card-container">
+        <div class="info_wrapper">
+            <span class="author">Admin</span>
+            <span class="end-time">
+                Ends in 8 hours
+            </span>
+        </div>
+        <div class="question_wrapper">
+            <span>
+                Pilih destinasi buat fieldtrip kita akhir tahun ini
+            </span>
+        </div>
+
+        <form action="" method="post">
+            <div class="poll-wrapper">
+                <input type="hidden" name="poll_id" value="someid">
+    
+                <input type="radio" id="vote-btn-1" name="vote_option" value="Shenzen">
+                <label for="vote-btn-1" class="btn">Shenzen</label>
+    
+                <input type="radio" id="vote-btn-2" name="vote_option" value="Tokyo">
+                <label for="vote-btn-2" class="btn">Tokyo</label>
+    
+                <input type="radio" id="vote-btn-3" name="vote_option" value="Manhattan">
+                <label for="vote-btn-3" class="btn">Manhattan</label>
+            </div>
+            <div class="vote-btn_wrapper">
+                <button type="submit" class="btn-lg">vote</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -63,6 +63,7 @@ button, input, textarea {
 
 .txt-field_transparent {
   border: none;
+  background: none;
   width: 100%;
 }
 
@@ -132,7 +133,7 @@ button, input, textarea {
 
 .btn-add-option {
   @extend %btn;
-  width: 90%;
+  width: 100%;
   font-size: 15px;
   font-weight: 600;
   background: #44A7AA;
@@ -147,6 +148,41 @@ button, input, textarea {
   font-weight: 600;
   text-transform: capitalize;
   background: $light-grey;
+}
+
+// Progress Bar
+
+.progress-bar_wrapper {
+  margin-bottom: 12px;
+  
+  &:last-child(1){
+    margin-bottom: 0;
+  }
+}
+
+.progress-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: none;
+  border-radius: 8px;
+  width: 100%;
+  background: #EFF3F6;
+  
+  div {
+    display: flex;
+    align-items: center;
+    height: 48px;
+    width: 0%;
+    background: #44A7AA;
+    border-radius: 8px;
+    transition: all 1s ease-in-out;
+
+    span {
+      font-size: 15px;
+      padding-left: 15px;
+    }
+  }
 }
 
 // Toggle switch
@@ -222,7 +258,7 @@ input:checked + .slider:before {
 
   input[type=radio] + label.btn{
     padding: 16px 15px;
-    margin: 6px 0;
+    margin-bottom: 12px;
     display: inline-block;
     text-transform: capitalize;
     position: relative;
@@ -382,6 +418,143 @@ input:checked + .slider:before {
   }
 }
 
+.msg-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0 12px;
+  min-height: 16vh;
+  border-radius: 8px;
+  background: $grad-ocean;
+
+  h5{
+    color: $light-grey
+  }
+
+  span {
+    font-size: 15px;
+    color: $white;
+  }
+}
+
+.card-item_container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 32px;
+}
+
+.card-square {
+  @extend %card;
+  @extend %center;
+
+  width: 18vh;
+  height: 18vh;
+  margin: 18px;
+  box-shadow: $shadow
+}
+
+// Poll
+
+.poll-card-container {
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  margin: 16px 2px;
+  padding: 32px 18px 0;
+  background: $white;
+  box-shadow: $shadow;
+
+  &:last-child {
+    margin-bottom: 72px
+  }
+
+  .info_wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    .author {
+      font-size: 15px;
+      font-weight: bold;
+      color: #252525;
+    }
+
+    .end-time {
+      font-size: 12px;
+      font-weight: bold;
+      color: $dark-grey;
+    }
+  }
+
+  .question_wrapper {
+    margin: 40px 0 48px;
+
+    textarea {
+      font-size: 18px;
+      font-weight: bold;
+      color: $black;
+    }
+
+    span {
+      font-size: 18px;
+      font-weight: bold;
+      color: $black;
+    }
+  }
+
+  .option-input_container {
+    input {
+      margin-bottom: 12px;
+    }
+  }
+
+  .settings-container {
+    display: flex;
+    flex-direction: column;
+    margin: 36px 0 48px;
+
+    .title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #252525;
+      margin-bottom: 36px
+    }
+
+    .setting_wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 18px;
+
+      span {
+        font-size: 15px;
+        color: $dark-grey;
+      }
+    }
+
+    .datetime_wrapper {
+      display: none;
+      margin: 24px 0 210px;
+    }
+  }
+
+  .vote-btn_wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 12px 0 36px;
+
+    span {
+      margin-top: 24px;
+      font-size: 18px;
+      font-weight: 600;
+      color: #BEBEBE
+    }
+  }
+}
+
 /* Navbar */
 
 .navbar {
@@ -392,6 +565,7 @@ input:checked + .slider:before {
   position: fixed;
   top: 0;
   width: 100%;
+  z-index: 2;
   transition: margin-left .5s;
 
   .sec_wrapper {
@@ -408,7 +582,7 @@ input:checked + .slider:before {
     display: flex;
     flex: 1;
     align-items: center;
-    padding: 14px 6px;
+    padding: 14px 6px 10px;
     font-size: 20px;
     font-weight: 600;
     color: $dark-bg;
@@ -493,7 +667,7 @@ input:checked + .slider:before {
   height: 100%; /* 100% Full-height */
   width: 0; /* 0 width - change this with JavaScript */
   position: fixed; /* Stay in place */
-  z-index: 1; /* Stay on top */
+  z-index: 3; /* Stay on top */
   top: 0; /* Stay at the top */
   left: 0;
   background-color: $white; /* Black*/
@@ -709,6 +883,53 @@ input:checked + .slider:before {
       font-size: 12px;
       font-weight: 600;
       color: #727272;
+    }
+  }
+}
+
+// Account
+
+.account-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .profile-pic_wrapper {
+    margin-top: 4vh;
+    img {
+      width: 130px;
+      height: 130px;
+      border-radius: 65px;
+      object-fit: cover;
+    }
+  }
+
+  .profile-info_wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 48px 0;
+
+    span {
+      font-size: 16px;
+      color: $black;
+      
+      &:nth-child(1){
+        margin-bottom: 18px
+      }
+    }
+  }
+
+  .edit-profile_wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 92%;
+    margin-top: 8vh;
+
+    input {
+      margin-bottom: 16px
     }
   }
 }

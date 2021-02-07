@@ -13,6 +13,10 @@ router.get('/list', (req, res, next) => {
   res.render('playground/list', { 'title': 'List - Enlisted Playground' });
 });
 
+router.get('/anim', (req, res, next) => {
+  res.render('playground/anim', { 'title': 'Animation - Enlisted Playground' });
+});
+
 router.get('/layout', (req, res, next) => {
   res.render('layout/master', { 'title': 'Layout - Enlisted Playground' });
 });

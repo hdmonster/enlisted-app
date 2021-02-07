@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;600&display=swap" rel="stylesheet">  
+    <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/list.css">
 
@@ -15,11 +15,11 @@
 </head>
     <body>
         <%- include('../partials/navbar/simple-nav.ejs') %>
-
+        <%- include('../partials/snackbar') %>
         <div class="main">
             <%- yield %>
         </div>
-        
+
         <!--JS-->
         <script src="/socket.io/socket.io.js"></script>
         <script src="/js/navigation.js"></script>

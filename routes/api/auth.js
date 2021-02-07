@@ -3,12 +3,6 @@ var router = express.Router();
 var firebase = require('firebase');
 var auth = firebase.auth();
 var db = firebase.firestore();
-var admin = require('firebase-admin');
-var serviceAccount = require("./../../serviceAccountKey.json");
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
 
 /* POST sign up. */
 router.post('/signup', async(req, res, next) => {

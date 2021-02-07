@@ -1,11 +1,10 @@
 var express = require('express');
-var router = express.Router({ mergeParams: true });
 var firebase = require('firebase')
 var db = firebase.firestore();
 var router = express.Router({ mergeParams: true });
 
 /* GET announcement. */
-router.get('/', (req, res, next) => {
+router.get('/', isMember, (req, res, next) => {
   const { server_code } = req.params
 
   res.io.on('connection', socket => {
@@ -33,7 +32,7 @@ router.get('/', (req, res, next) => {
 });
 
 /* Post announcement. */
-router.get('/post', async(req, res, next) => {
+router.get('/post', isMember, async(req, res, next) => {
   const { server_code } = req.params
 
   try {
@@ -59,7 +58,7 @@ router.get('/post', async(req, res, next) => {
 });
 
 /* Edit announcement. */
-router.get('/:announcement_id/edit', async(req, res, next) => {
+router.get('/:announcement_id/edit', isMember, async(req, res, next) => {
   const { server_code,announcement_id } = req.params;
 
   const snapshotAnn = await db.doc(`servers/${server_code}/announcements/${announcement_id}`).get();
@@ -89,7 +88,7 @@ router.get('/:announcement_id/edit', async(req, res, next) => {
 });
 
 /* View announcement. */
-router.get('/:announcement_id/view', async(req, res, next) => {
+router.get('/:announcement_id/view', isMember, async(req, res, next) => {
   const { server_code, announcement_id } = req.params
   try {
       const snapshotAnn = await db.doc(`servers/${server_code}/announcements/${announcement_id}`).get();
@@ -106,5 +105,25 @@ router.get('/:announcement_id/view', async(req, res, next) => {
   }
 
 });
+
+async function isMember(req, res, next){
+    let { server_code } = req.params;
+    let userId = req.session.uid;
+    try {
+        let allUserServers = [];
+        let snapshotUserServers = await db.doc(`users/${userId}`).get();
+        let getUserServers = snapshotUserServers.data()['servers'].forEach(userServer => {
+            allUserServers.push(userServer);
+        });
+        if(!allUserServers.includes(server_code)){
+            res.redirect('back')
+        }else{
+            next();
+        }
+    } catch (error) {
+        req.flash('err',error.message);
+        res.redirect('back');
+    }
+}
 
 module.exports = router;

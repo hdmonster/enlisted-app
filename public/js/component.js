@@ -1,11 +1,72 @@
 function showPreview(){
-    let checkBtnSingle = document.querySelector('#btn-single')
+    const checkBtnSingle = document.querySelector('#btn-single')
     
-    let previewSingle = document.querySelector('.preview-single')
-    let previewDouble = document.querySelector('.preview-double')
+    const previewSingle = document.querySelector('.preview-single')
+    const previewDouble = document.querySelector('.preview-double')
 
     previewSingle.style.display = checkBtnSingle.checked ? 'block' : 'none'
     previewDouble.style.display = checkBtnSingle.checked ? 'none' : 'block'
+}
+
+function showDatepicker(){
+    const openPoll = document.querySelector('#openPoll')
+
+    const datepicker = document.querySelector('.datetime_wrapper')
+
+    datepicker.style.display = openPoll.checked ? 'none' : 'block'
+}
+
+function addOption(){
+    const additional_option_container = document.createElement("div");
+     
+    const option_container = document.querySelector('.additional-option-input_container')
+
+    const option = index => {
+        return `
+            <input class="txt-field-fill_grey" autocomplete="off" type="text" name="vote_option-${index}" placeholder="Option ${index}">
+        `
+    }
+
+    count = option_container.childElementCount + 3
+ 
+    additional_option_container.innerHTML += option(count)
+
+    option_container.appendChild(additional_option_container);  
+}
+
+function setProgressBar(){
+    try {
+        const progressBar = document.querySelectorAll('.progress-bar')
+        const fill = document.querySelectorAll('.progress-bar div')
+
+        for(i = 0; i < progressBar.length; i++) {
+            let value = progressBar[i].getAttribute('value')
+
+            fill[i].style.width = value+'%'
+
+            if (value < 34) 
+                fill[i].style.color = '#3d3d3d'
+            else 
+                fill[i].style.color = 'white'
+        }
+
+    } catch(e){
+        console.warn('No polls found')
+    }
+}
+
+function showToast(type, msg) {
+    const toast = document.querySelector("#snackbar")
+
+    toast.className = "show"
+    toast.innerHTML = msg
+
+    if(type == 'success')
+        toast.style.background = 'green'
+    else
+        toast.style.background = 'crimson'
+
+    setTimeout(() => { toast.className = toast.className.replace("show", "") }, 3000);
 }
 
 function auto_grow(element) {
@@ -21,14 +82,27 @@ function assignActiveIcon(){
 
     pathUrl = window.location.pathname
 
-    if (pathUrl.includes('list')) 
-        listIcon.classList.add("nav__link--active");
-    else if (pathUrl.includes('poll')) 
-        pollIcon.classList.add("nav__link--active");
-    else if (pathUrl.includes('announcement')) 
-        announcementIcon.classList.add("nav__link--active");
-    else
-        homeIcon.classList.add("nav__link--active");
+    try{
+        if (pathUrl.includes('list')) 
+            listIcon.classList.add("nav__link--active");
+        else if (pathUrl.includes('poll')) 
+            pollIcon.classList.add("nav__link--active");
+        else if (pathUrl.includes('announcement')) 
+            announcementIcon.classList.add("nav__link--active");
+        else
+            homeIcon.classList.add("nav__link--active");
+    } catch(e) {
+        console.warn('No bottom nav detected')
+    }
 }
 
-window.onload = assignActiveIcon
+function loadFirst(){
+    assignActiveIcon()
+    setProgressBar()
+}
+
+
+
+
+
+window.onload = loadFirst

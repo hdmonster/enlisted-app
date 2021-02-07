@@ -14,7 +14,16 @@
                 <i data-feather="chevron-right"></i>
             </div>
         </div>
+
     <% }) %>
 </div>
 
-<script src="/js/socket/list.js"></script>
+<!-- Toast -->
+<script type="text/javascript">
+    if('<%= messages.success %>'){
+        showToast('success','<%= messages.success %>')
+    }
+    if('<%= messages.err %>'){
+        showToast('failed','<%= messages.err %>')
+    }
+</script>
