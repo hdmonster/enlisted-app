@@ -48,6 +48,7 @@ app.use((req, res, next) => {
 
     res.locals.userId = req.session.uid;
     res.locals.displayName = req.session.displayName;
+    res.locals.nim = req.session.nim;
     res.locals.moment = moment;
     res.io = socketio;
     next()

@@ -1,11 +1,23 @@
-<div class="account-container">
-    <div class="profile-pic_wrapper">
-        <img src="/images/aurora.jpg" alt="User Profile Picture">
+<form action="/account/edit" method="post" id="post">
+    <div class="account-container">
+        <div class="profile-pic_wrapper">
+            <img src="<%= user.photoURL %>" alt="User Profile Picture">
+        </div>
+        <div class="edit-profile_wrapper">
+            <input class="txt-field-fill_grey" autocomplete="off" type="text" name="name" value="<%= getUser.fullName %>" placeholder="Name">
+            <input class="txt-field-fill_grey" autocomplete="off" type="text" name="nickname" value="<%= getUser.nickname %>" placeholder="Nickname">
+            <input class="txt-field-fill_grey" autocomplete="off" type="text" name="nim" value="<%= getUser.nim %>" placeholder="NIM">
+            <input class="txt-field-fill_grey" autocomplete="off" type="text" name="bio" value="<%- messages.bio ? messages.bio : getUser.bio %>" placeholder="Bio">
+        </div>
     </div>
-    <div class="edit-profile_wrapper">
-        <input class="txt-field-fill_grey" autocomplete="off" type="text" name="name" value="Russel Van Dulken" placeholder="Name">
-        <input class="txt-field-fill_grey" autocomplete="off" type="text" name="nickname" value="Russel" placeholder="Nickname">
-        <input class="txt-field-fill_grey" autocomplete="off" type="text" name="nim" value="10201043" placeholder="NIM">
-        <input class="txt-field-fill_grey" autocomplete="off" type="text" name="bio" value="I'm a professional CSGO player currently playing in Team Liquid as rifler" placeholder="Bio">
-    </div>
-</div>
+</form>
+
+<!-- Toast -->
+<script type="text/javascript">
+    if('<%= messages.success %>'){
+        showToast('success','<%= messages.success %>')
+    }
+    if('<%= messages.err %>'){
+        showToast('failed','<%= messages.err %>')
+    }
+</script>
