@@ -18,13 +18,12 @@ router.get('/', async (req, res, next) => {
             }
         });
     });
-    res.render('index', { title: 'Enlisted', myServers: allMyServers });
+    res.layout('index',
+      { 'title': `Enlisted`,
+        'layout': 'layout/master',
+        'nav_title' : 'Enlisted'});
 });
 
-/* GET account page. */
-router.get('/account', (req, res, next) => {
-  res.render('account/home-account', { title: 'Account - Enlisted' });
-});
 
 
 

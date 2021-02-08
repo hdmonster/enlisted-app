@@ -1,49 +1,36 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/css/style.css' />
-    <title><%= title %></title>
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    <a href="/api/auth/signout">Logout</a>
-    <p>
-      <% if(messages.success){ %>
-        <%= messages.success %>
-      <% } %>
-      <% if(messages.err){ %>
-        <%= messages.err %>
-      <% } %>
-    </p>
-    <h4>Join a Server</h4>
-    <form action="/api/server/join" method="post">
-      <input type="text" name="server_code" placeholder="Server Code..." >
-      <input type="submit">
-    </form>
-    <h4>Your Server</h4>
-    <table border="1">
-      <thead>
-        <tr>
-          <td>No.</td>
-          <td>Name</td>
-          <td>Action</td>
-        </tr>
-      </thead>
-      <tbody>
-        <% myServers.forEach(function(server,index) { %>
-           <tr>
-             <td><%= index += 1 %></td>
-             <td><%= server.name %></td>
-             <td>
-                 <a href="/s/<%= server.id %>/announcement">Announcement</a>
-                 <a href="/s/<%= server.id %>/list">List</a>
-                 <a href="/s/<%= server.id %>/poll">Polls</a>
-             </td>
-           </tr>
-        <% }) %>
-      </tbody>
-    </table>
-  </body>
-</html>
+<div class="container">
+  <div class="msg-card">
+    <span class="greetings">Hello, welcome to Enlisted!</span>
+    <span class="message">You can join a server by simply fill the the server code below, or ask your friend for the invite link.</span>
+  </div>
+
+  <div class="join-server_wrapper">
+      <label for="server_code">Join a server</label>
+      <form action="/api/server/join" method="post">
+          <div class="form_wrapper">
+              <input class="txt-field-fill_grey" autocomplete="off" type="text" id="server_code" placeholder="Server Code" name="server_code">
+              <button class="btn-join" type="submit">
+                  <i data-feather="send" class="btn-icon"></i>
+              </button>
+          </div>
+      </form>
+  </div>
+
+  <a href="/api/auth/signout">Logout</a>
+  <p>
+    <% if(messages.success){ %>
+      <%= messages.success %>
+    <% } %>
+  </p>
+</div>
+
+
+<!-- Toast -->
+<script type="text/javascript">
+    if('<%= messages.success %>'){
+        showToast('success','<%= messages.success %>')
+    }
+    if('<%= messages.err %>'){
+        showToast('failed','<%= messages.err %>')
+    }
+</script>

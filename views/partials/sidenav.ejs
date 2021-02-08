@@ -1,7 +1,28 @@
 <div id="mySidenav" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="#">About</a>
-    <a href="#">Services</a>
-    <a href="#">Clients</a>
-    <a href="#">Contact</a>
+    <div class="logo-container">
+        <img src="/images/logo.png" alt="">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    </div>
+
+    <div class="home_wrapper" onclick="navigateReplaceAll('/')">
+        <div class="icon-container">
+            <i data-feather="home"></i>
+        </div>
+        <span>Home</span>
+    </div>
+    <div class="server-item" id="sc" onclick="navigateReplaceAll('/s/sc/home')">
+        <div class="border"></div>
+        <div class="server-info">
+            <img src="https://i.pinimg.com/originals/ae/ec/77/aeec77e51df667f92b899c2232b94bcb.jpg" alt="server logo">
+            <span class="title">SI 20</span>
+        </div>
+    </div>
+
+    <div class="server-item" id="gogl" onclick="navigateReplaceAll('/s/gogl/home')">
+        <div class="border"></div>
+        <div class="server-info">
+            <img src="http://expresswriters.com/wp-content/uploads/2015/09/google-new-logo-450x450.jpg" alt="server logo">
+            <span class="title">Google Developers</span>
+        </div>
+    </div>
 </div>

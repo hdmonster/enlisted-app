@@ -1,12 +1,23 @@
 function openNav() {
-    document.getElementById("mySidenav").style.width = "250px";
-    document.querySelector(".master-container").style.marginLeft = "250px";
-    document.querySelector(".master-container").style.backgroundColor = "rgba(0,0,0,0.4)";
+    document.querySelector("#mySidenav").style.width = "250px";
+    
+    const server_items = document.querySelectorAll('.server-item')
+
+    server_items.forEach(server_item => {
+        server_item.style.visibility = 'visible'
+        server_item.style.opacity = 1
+    })
+
+
 }
   
 /* Set the width of the side navigation to 0 and the left margin of the page content to 0, and the background color of body to white */
 function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-    document.querySelector(".master-container").style.marginLeft = "0";
-    document.body.style.backgroundColor = "white";
+    document.querySelector("#mySidenav").style.width = "0";
+    const server_items = document.querySelectorAll('.server-item')
+
+    server_items.forEach(server_item => {
+        server_item.style.visibility = 'hidden'
+        server_item.style.opacity = 0
+    })
 }

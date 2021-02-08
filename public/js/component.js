@@ -37,18 +37,18 @@ function addOption(){
 function setProgressBar(){
     try {
         const progressBar = document.querySelectorAll('.progress-bar')
-        const fill = document.querySelectorAll('.progress-bar div')
+        const fillProgress = document.querySelectorAll('.progress-bar div')
 
-        for(i = 0; i < progressBar.length; i++) {
+        fillProgress.forEach((fill, i) => {
             let value = progressBar[i].getAttribute('value')
 
-            fill[i].style.width = value+'%'
+            fill.style.width = value+'%'
 
             if (value < 34) 
-                fill[i].style.color = '#3d3d3d'
+                fill.style.color = '#3d3d3d'
             else 
-                fill[i].style.color = 'white'
-        }
+                fill.style.color = 'white'
+        });
 
     } catch(e){
         console.warn('No polls found')
@@ -66,7 +66,7 @@ function showToast(type, msg) {
     else
         toast.style.background = 'crimson'
 
-    setTimeout(() => { toast.className = toast.className.replace("show", "") }, 3000);
+    setTimeout(() => toast.className = toast.className.replace("show", "") , 3000);
 }
 
 function auto_grow(element) {
@@ -96,13 +96,28 @@ function assignActiveIcon(){
     }
 }
 
+function assignActiveServer(){
+    pathUrl = window.location.pathname
+
+    const serverItems = document.querySelectorAll('.server-item')
+    const itemBorders = document.querySelectorAll('.server-item .border')
+
+    serverItems.forEach((item, i) => { 
+        let server_id = item.getAttribute('id')
+        let itemBorder = itemBorders[i]
+
+        if (pathUrl.includes(server_id))
+            itemBorder.classList.add('active')
+        
+    })   
+}   
+
 function loadFirst(){
+    assignActiveServer()
     assignActiveIcon()
     setProgressBar()
 }
 
 
-
-
-
+// Load functions on page load
 window.onload = loadFirst

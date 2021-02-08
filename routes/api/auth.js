@@ -71,7 +71,7 @@ router.post('/signin', async (req, res, next) => {
     req.session.fullName = fullName;
     req.session.nickname = nickname;
     req.session.nim = nim;
-    req.flash('success','Your are logged in.');
+    req.flash('success','You are logged in');
     res.redirect('/');
   } catch (error) {
     errSignIn(req,res,error.message,email);

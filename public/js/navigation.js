@@ -11,11 +11,13 @@ function navigateReplace(target) {
 
     window.location.href = newUrl
 
-    console.log(newUrl);
+    console.log(currentUrl);
+}
+
+function navigateReplaceAll(target){
+    window.location.href = target
 }
 
 function back(){
     window.history.back()
 }
-
-
