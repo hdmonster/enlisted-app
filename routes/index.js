@@ -26,11 +26,6 @@ router.get('/account', (req, res, next) => {
   res.render('account/home-account', { title: 'Account - Enlisted' });
 });
 
-/* Join a server. */
-router.get('/s/:server_code', (req, res) => {
-  res.send('Join server')
-  // if success direct to server home page
-})
 
 
 module.exports = router;

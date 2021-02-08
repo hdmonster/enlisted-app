@@ -113,12 +113,10 @@ router.get('/:list_id/add-me', isMember, async (req, res, next) => {
         entryList.push(entry.data()['userId']);
     });
 
-    for(entry of entryList){
-        if(entry == req.session.uid){
-            req.flash('err','You have added your name in this list');
-            res.redirect('back');
-            return false;
-        }
+    if(entryList.includes(req.session.uid)){
+        req.flash('err','You have added your name in this list');
+        res.redirect('back');
+        return false;
     }
 
     try {

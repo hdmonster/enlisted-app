@@ -2,10 +2,14 @@
     <div class="recent_wrapper">
         <span>recent</span>
     </div>
-    <div class="content"></div>
+    <div class="card-list-container">
+        <div class="content"></div>
+    </div>
 
 </div>
 
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/socket/announcement.js"></script>
 <!-- Toast -->
 <script type="text/javascript">
     if('<%= messages.success %>'){
@@ -15,5 +19,3 @@
         showToast('failed','<%= messages.err %>')
     }
 </script>
-<script src="/socket.io/socket.io.js"></script>
-<script src="/js/socket/announcement.js"></script>

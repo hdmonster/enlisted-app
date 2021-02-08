@@ -66,7 +66,7 @@ app.use('/playground', playgroundRouter);
 app.use('/auth', authRouter);
 app.use('/api/auth',apiAuthRouter);
 app.use('/server', isLoggedIn, adminServerRouter);
-app.use('/account/:user_id', isLoggedIn ,accountRouter);
+app.use('/account/', isLoggedIn ,accountRouter);
 app.use('/api/server', isLoggedIn, apiAdminServerRouter);
 app.use('/api/:server_code', isLoggedIn, apiServerRouter);
 app.use('/api/:server_code/list', isLoggedIn,apiListRouter);
@@ -74,7 +74,7 @@ app.use('/api/:server_code/poll', isLoggedIn,apiPollRouter);
 app.use('/api/:server_code/announcement', isLoggedIn,apiAnnouncementRouter);
 app.use('/s/:server_code', isLoggedIn, serverRouter);
 app.use('/s/:server_code/list', isLoggedIn, listRouter);
-app.use('/s/:server_code/polls', isLoggedIn, pollRouter);
+app.use('/s/:server_code/poll', isLoggedIn, pollRouter);
 app.use('/s/:server_code/announcement', isLoggedIn, announcementRouter);
 
 // catch 404 and forward to error handler

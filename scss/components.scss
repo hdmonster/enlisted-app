@@ -294,38 +294,49 @@ input:checked + .slider:before {
   flex-direction: column;
 }
 
-.card-list {
-  @extend %card;
-
-  .icon-container {
-    display: flex;
-    align-items: center;
-    padding: 0 8px;
+.card-list-container{
+  
+  &:last-child {
+    margin-bottom: 72px
   }
 
-  .header{
-    @extend %card-header;
+  .card-list {
+    @extend %card;
   
-    .title {
-      font-size: 20px;
-      font-weight: 600;
-      color: $black;
-      padding: 16px 14px 6px;
+    .icon-container {
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+    }
+  
+    .header{
+      @extend %card-header;
+    
+      .title {
+        font-size: 20px;
+        font-weight: 600;
+        color: $black;
+        padding: 16px 14px 6px;
+      }
+      
+      .detail {
+        font-size: 12px;
+        font-weight: 600;
+        color: $dark-grey;
+        padding: 6px 14px 16px;
+      }
+    } 
+  
+    &:hover {
+      opacity: .8;
     }
     
-    .detail {
-      font-size: 12px;
-      font-weight: 600;
-      color: $dark-grey;
-      padding: 6px 14px 16px;
-    }
-  } 
-
-  &:hover {
-    opacity: .8;
   }
-  
+
+
 }
+
+
 
 .card-entry {
   @extend %card;
@@ -421,8 +432,8 @@ input:checked + .slider:before {
 .msg-card {
   display: flex;
   flex-direction: column;
-  width: 100%;
   padding: 0 12px;
+  margin: 0 12px;
   min-height: 16vh;
   border-radius: 8px;
   background: $grad-ocean;
@@ -434,13 +445,13 @@ input:checked + .slider:before {
   span {
     font-size: 15px;
     color: $white;
+    margin-bottom: 20px;
   }
 }
 
 .card-item_container {
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
   margin-top: 32px;
 }
 
@@ -448,6 +459,7 @@ input:checked + .slider:before {
   @extend %card;
   @extend %center;
 
+  flex: 0 0 39%;
   width: 18vh;
   height: 18vh;
   margin: 18px;
