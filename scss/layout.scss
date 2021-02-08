@@ -17,6 +17,12 @@ body {
     margin-top: 72px;
 }
 
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: 8px;
+}
+
 .list-container {
     display: flex;
     flex-direction: column;

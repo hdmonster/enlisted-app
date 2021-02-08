@@ -1,18 +1,25 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/css/style.css' />
-    <title><%= title %></title>
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    <a href="/api/auth/signout">Logout</a>
-    <p>
-      <% if(messages.success){ %>
-        <%= messages.success %>
-      <% } %>
-    </p>
-  </body>
-</html>
+<div class="container">
+  <div class="msg-card">
+    <span class="greetings">Hello, welcome to Enlisted!</span>
+    <span class="message">You can join a server by simply fill the the server code below, or ask your friend for the invite link.</span>
+  </div>
+
+  <div class="join-server_wrapper">
+      <label for="server_code">Join a server</label>
+      <div class="form_wrapper">
+        <input class="txt-field-fill_grey" autocomplete="off" type="text" id="server_code" placeholder="Server Code">
+        <button class="btn-join" onclick="joinServer()">
+          <i data-feather="send" class="btn-icon"></i>
+        </button>
+      </div>
+  </div>
+
+  <!-- <a href="/api/auth/signout">Logout</a>
+  <p>
+    <% if(messages.success){ %>
+      <%= messages.success %>
+    <% } %>
+  </p> -->
+</div>
+
+<script src="/js/join-server.js"></script>

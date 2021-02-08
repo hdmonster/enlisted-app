@@ -16,6 +16,12 @@ body {
   margin-top: 72px;
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 8px;
+}
+
 .list-container {
   display: flex;
   flex-direction: column;
@@ -148,7 +154,7 @@ button, input, textarea {
 }
 
 .btn-join {
-  width: 15%;
+  width: 18%;
   padding-left: 0;
   background: #3E41A6;
 }
@@ -399,18 +405,26 @@ input:checked + .slider:before {
   display: flex;
   flex-direction: column;
   padding: 0 12px;
-  margin: 0 12px;
+  margin: 0 8px;
   min-height: 16vh;
   border-radius: 8px;
   background: linear-gradient(90deg, #3d38a5 0%, #44a7aa 100%);
 }
-.msg-card h5 {
+.msg-card span:nth-child(1) {
+  margin: 18px 0 16px;
+  font-weight: 600;
   color: #EEEEEE;
 }
-.msg-card span {
-  font-size: 15px;
+.msg-card .title {
+  font-size: 13px;
+}
+.msg-card .greetings {
+  font-size: 18px;
+}
+.msg-card .message {
+  font-size: 14px;
   color: #fff;
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
 }
 
 .card-item_container {
@@ -425,6 +439,9 @@ input:checked + .slider:before {
   height: 18vh;
   margin: 18px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.card-square:hover {
+  opacity: 0.8;
 }
 
 .poll-card-container {
@@ -602,6 +619,8 @@ input:checked + .slider:before {
 
 /*  Sidenav */
 .sidenav {
+  display: flex;
+  flex-direction: column;
   height: 100%;
   /* 100% Full-height */
   width: 0;
@@ -619,8 +638,71 @@ input:checked + .slider:before {
   /* Disable horizontal scroll */
   padding-top: 15px;
   /* Place content 60px from the top */
-  transition: 0.5s;
+  transition: 0.3s;
   /* 0.5 second transition effect to slide in the sidenav */
+  box-shadow: -1px 1px 9px 1px rgba(136, 136, 136, 0.75);
+  -webkit-box-shadow: -1px 1px 9px 1px rgba(136, 136, 136, 0.75);
+  -moz-box-shadow: -1px 1px 9px 1px rgba(136, 136, 136, 0.75);
+}
+.sidenav .logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 18px;
+  padding-right: 12px;
+}
+.sidenav .logo-container img {
+  height: 16px;
+  object-fit: cover;
+}
+.sidenav .home_wrapper {
+  display: flex;
+  align-items: center;
+  margin: 32px 18px 15px;
+}
+.sidenav .home_wrapper .icon-container {
+  padding: 4px 0;
+  border-bottom: 1px solid #2B2B2B;
+}
+.sidenav .home_wrapper span {
+  font-size: 15px;
+  font-weight: 600;
+  color: #3d3d3d;
+  padding-left: 16px;
+}
+.sidenav .server-item {
+  display: flex;
+  visibility: hidden;
+  opacity: 0;
+  margin-bottom: 12px;
+  transition: opacity 1s;
+}
+.sidenav .server-item .border {
+  width: 3px;
+  height: 100%;
+  border-radius: 0 4px 4px 0;
+  background: none;
+}
+.sidenav .server-item .active {
+  background: #44A7AA;
+}
+.sidenav .server-item .server-info {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+}
+.sidenav .server-item .server-info img {
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
+  margin: 0 12px;
+  object-fit: cover;
+}
+.sidenav .server-item .server-info .title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #3d3d3d;
 }
 .sidenav a {
   padding: 8px 8px 8px 32px;
@@ -632,6 +714,25 @@ input:checked + .slider:before {
 }
 .sidenav a:hover {
   color: #f1f1f1;
+}
+
+.join-server_wrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 32px 8px;
+}
+.join-server_wrapper label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #3d3d3d;
+}
+.join-server_wrapper .form_wrapper {
+  display: flex;
+  align-items: center;
+}
+.join-server_wrapper .form_wrapper input {
+  margin-right: 12px;
+  height: 48px;
 }
 
 .list-post-container {
@@ -832,8 +933,9 @@ input:checked + .slider:before {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   width: 92%;
-  margin-top: 8vh;
+  margin-top: 6vh;
 }
 .account-container .edit-profile_wrapper input {
   margin-bottom: 16px;
@@ -932,10 +1034,10 @@ input:checked + .slider:before {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 60px;
+  margin: 12vh 0 24vh;
 }
 .auth-container .logo-wrapper img {
-  width: 45%;
+  width: 38%;
 }
 .auth-container form {
   width: 100%;

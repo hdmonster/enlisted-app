@@ -14,6 +14,10 @@ function navigateReplace(target) {
     console.log(newUrl);
 }
 
+function navigateReplaceAll(target){
+    window.location.href = target
+}
+
 function back(){
     window.history.back()
 }
