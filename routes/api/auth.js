@@ -74,7 +74,8 @@ router.post('/signin', async (req, res, next) => {
     req.flash('success','You are logged in');
     res.redirect('/');
   } catch (error) {
-    errSignIn(req,res,error.message,email);
+    req.flash('err',error.message);
+    res.redirect('back')
   }
 });
 

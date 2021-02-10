@@ -8,6 +8,7 @@ const session = require('express-session');
 const flash = require('express-flash');
 const moment = require('moment');
 const firebase = require('./firebase/config');
+const bodyParser = require('body-parser');
 
 
 var app = express();

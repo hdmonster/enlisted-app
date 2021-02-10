@@ -3,13 +3,13 @@ function navigateNext(target) {
 }
 
 function navigateReplace(target) {
-    currentUrl = window.location.href
+    currentUrl = window.location.href;
 
-    let lastSlash = currentUrl.lastIndexOf('/')
-    let currentDir = currentUrl.substring(lastSlash + 1)
-    let newUrl = currentUrl.replace(currentDir, target)
+    let lastSlash = currentUrl.lastIndexOf('/');
+    let currentDir = currentUrl.substring(lastSlash + 1);
+    let newUrl = currentUrl.replace(currentDir, target);
 
-    window.location.href = newUrl
+    window.location.href = newUrl;
 
     console.log(currentUrl);
 }
