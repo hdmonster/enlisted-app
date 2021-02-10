@@ -38,10 +38,10 @@ router.get('/post', isMember, async(req, res, next) => {
   try {
       const user = await db.collection(`servers/${server_code}/members`).where('userId','==',req.session.uid).get();
       user.forEach(doc => {
-          if(doc.data()['status'] == 'Anggota'){
-              req.flash('err',"You don't have permission");
-              res.redirect('back');
-              return false;
+          if(doc.data()['status'] == 'Anggota' && doc.data()['role'] != 'admin' ){
+            req.flash('err',"You don't have permission");
+            res.redirect('back');
+            return false;
           }
       });
       res.layout('announcement/post', {
@@ -111,11 +111,11 @@ async function isMember(req, res, next){
     let userId = req.session.uid;
     try {
         let allUserServers = [];
-        let snapshotUserServers = await db.doc(`users/${userId}`).get();
-        let getUserServers = snapshotUserServers.data()['servers'].forEach(userServer => {
-            allUserServers.push(userServer);
+        let snapshotServerMembers = await db.collection(`servers/${server_code}/members`).get();
+        let getServerMembers = snapshotServerMembers.forEach(userServer => {
+            allUserServers.push(userServer.data()['userId']);
         });
-        if(!allUserServers.includes(server_code)){
+        if(!allUserServers.includes(userId)){
             res.redirect('back')
         }else{
             next();

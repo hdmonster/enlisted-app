@@ -7,7 +7,6 @@ var db = firebase.firestore();
 
 /* GET sign in page. */
 router.get('/signin', isLoggedIn ,async(req, res) => {
-  
   res.layout('auth/signin', { layout: 'layout/auth', title: 'Sign In - Enlisted' });
 });
 

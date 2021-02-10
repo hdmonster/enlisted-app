@@ -34,7 +34,10 @@ router.post('/signup', async(req, res, next) => {
       displayName: displayName,
       fullName : fullName,
       nickname : nickname,
-      servers : []
+      servers : [],
+      instagram: "",
+      github: "",
+      whatsapp: "",
     });
     req.session.uid = cred.uid;
     req.session.displayName = displayName;

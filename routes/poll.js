@@ -8,7 +8,7 @@ router.get('/', isMember, async(req, res, next) => {
   const { server_code } = req.params;
   try {
     let polls = [];
-    const snapshotPoll = await db.collection(`servers/${server_code}/polls`).get();
+    const snapshotPoll = await db.collection(`servers/${server_code}/polls`).orderBy('createdAt','desc').get();
     const getPoll = snapshotPoll.forEach(poll => {
       const getData = poll.data();
       getData.id = poll.id;
@@ -67,11 +67,11 @@ async function isMember(req, res, next){
   let userId = req.session.uid;
   try {
       let allUserServers = [];
-      let snapshotUserServers = await db.doc(`users/${userId}`).get();
-      let getUserServers = snapshotUserServers.data()['servers'].forEach(userServer => {
-          allUserServers.push(userServer);
+      let snapshotServerMembers = await db.collection(`servers/${server_code}/members`).get();
+      let getServerMembers = snapshotServerMembers.forEach(userServer => {
+          allUserServers.push(userServer.data()['userId']);
       });
-      if(!allUserServers.includes(server_code)){
+      if(!allUserServers.includes(userId)){
           res.redirect('back')
       }else{
           next();

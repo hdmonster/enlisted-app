@@ -8,7 +8,7 @@
         </div>
         <div class="info_wrapper">
             <span id="entries-count">0 Entries</span>
-            <span id="entries-detail"><%= moment().format("DD MMM YYYY") %> - Posted by <%= displayName.split('AKA ')[1] %></span>
+            <span id="entries-detail"><%= moment().format("DD MMM YYYY") %> - Posted by <%= nickname %></span>
         </div>
     </div>
 
@@ -18,9 +18,9 @@
         </span>
 
         <div class="button-group_wrapper">
-            <input type="radio" class="stv-radio-button" name="type" value="single" id="btn-single" onclick="showPreview()" checked />
+            <input type="radio" class="stv-radio-button" name="type" value="single" id="btn-single" onclick="showPreview()" <%- messages.type == 'single' || messages.type == undefined ? 'checked' : '' %> />
             <label for="btn-single">Single</label>
-            <input type="radio" class="stv-radio-button" name="type" value="double" id="btn-double" onclick="showPreview()" />
+            <input type="radio" class="stv-radio-button" name="type" value="double" id="btn-double" onclick="showPreview()" <%- messages.type == 'double' ? 'checked' : '' %> />
             <label for="btn-double">Double</label>
         </div>
 
@@ -37,7 +37,7 @@
                     <div class="header">
                         <span class="title">Nama</span>
                         <div class="note-container">
-                            <input type="text" class="note" name="note" onfocus="this.select()" placeholder="Note (eg. alasan/nim etc.)" required>
+                            <input type="text" required class="note" name="note" onfocus="this.select()" placeholder="Note (eg. alasan/nim etc.)" value="<%- messages.note ? messages.note : '' %>">
                         </div>
                     </div>
                 </div>

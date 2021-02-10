@@ -2,14 +2,14 @@ var express = require('express');
 var router = express.Router();
 var firebase = require('firebase')
 var db = firebase.firestore();
+var moment = require('moment');
 var router = express.Router({ mergeParams: true });
 
 /* Post list. */
 router.post('/post', isMember, async(req, res, next) => {
     const { server_code } = req.params;
     const { title,content,type,note } = req.body;
-    const currentDate = new Date().toLocaleDateString('en-GB');
-    const currentTime = new Date().toLocaleTimeString('en-US',{ hour12:false });
+    const currentDate = moment().format("DD/MM/YYYY HH:mm:ss");
 
     if(title == "" || content == "" || !type){
         errPostList(req,res,'Please fill in the required form',title,content,type,note);
@@ -24,10 +24,10 @@ router.post('/post', isMember, async(req, res, next) => {
     try {
         const postList = await db.collection('servers').doc(server_code).collection('lists').add({
             author : {
-                name : req.session.displayName,
+                name : req.session.nickname,
                 userId : req.session.uid
             },
-            createdAt : currentDate + " " + currentTime,
+            createdAt : currentDate,
             settings : {
                 note : note,
                 type : type
@@ -61,7 +61,6 @@ router.post('/:list_id/edit', isMember, async (req, res, next) => {
     };
 
     try {
-
         const postList = await db.doc(`servers/${server_code}/lists/${list_id}`).update({
             title : title,
             content : content,
@@ -122,7 +121,7 @@ router.post('/:list_id/add-me', isMember, async (req, res, next) => {
 
     try {
         const addEntry = await db.collection(`servers/${server_code}/lists/${list_id}/entry`).add({
-            displayName: req.session.displayName,
+            name: req.session.nickname,
             userId: req.session.uid,
             nim: req.session.nim,
             note: note ? note : ''
@@ -139,11 +138,11 @@ async function isMember(req, res, next){
     let userId = req.session.uid;
     try {
         let allUserServers = [];
-        let snapshotUserServers = await db.doc(`users/${userId}`).get();
-        let getUserServers = snapshotUserServers.data()['servers'].forEach(userServer => {
-            allUserServers.push(userServer);
+        let snapshotServerMembers = await db.collection(`servers/${server_code}/members`).get();
+        let getServerMembers = snapshotServerMembers.forEach(userServer => {
+            allUserServers.push(userServer.data()['userId']);
         });
-        if(!allUserServers.includes(server_code)){
+        if(!allUserServers.includes(userId)){
             res.redirect('back')
         }else{
             next();

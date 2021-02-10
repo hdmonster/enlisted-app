@@ -21,7 +21,7 @@ socket.on('entries', entries => {
         content += `
             <div class="card-entry">
                 <div class="header">
-                    <span class="title">${entry.displayName}</span>
+                    <span class="title">${entry.name}</span>
                     <span class="note">${entry.note}</span>
                 </div>
             </div>

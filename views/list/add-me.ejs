@@ -10,13 +10,13 @@
     </div>
     <div class="info_wrapper">
         <span id="entries-count"></span>
-        <span id="entries-detail"><%= list.createdAt %> - Posted by <%= list.author.name.split('AKA ')[1] %></span>
+        <span id="entries-detail"><%= moment(list.createdAt).format("DD MMM YYYY") %> - Posted by <%= list.author.name%></span>
     </div>
 </div>
 
 <div class="add-me-form-container">
     <form action="/api/<%= serverCode %>/list/<%= listId %>/add-me" method="post">
-        <input class="txt-field_white" autocomplete="off" type="text" name="name" placeholder="<%= displayName %>">
+        <input class="txt-field_white" autocomplete="off" type="text" name="name" placeholder="<%= nickname %>" readonly>
         <% if(list.settings.type == 'double'){ %>
             <input class="txt-field_white" autocomplete="off" type="text" name="note" placeholder="<%= list.settings.note %>" required>
         <% }; %>

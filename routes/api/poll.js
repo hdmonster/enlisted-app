@@ -16,7 +16,7 @@ router.post('/post', isMember ,async(req, res, next) => {
     let option = [];
     showAfterVote = showAfterVote == 'on' ? 'on' : 'off';
     openPoll = openPoll == 'on' ? 'on' : 'off';
-    
+    console.log(datetime_available);
     if(question == "" || showAfterVote == "" || openPoll == ""){
         errPostPoll(req,res,"Please fill in the required field",question, showAfterVote, openPoll, datetime_available);
         return false;
@@ -108,7 +108,7 @@ router.post('/:poll_id/vote',isMember , async(req, res, next) => {
             await t.update(poll, { 
                 "option": options,
                 "voter":firebase.firestore.FieldValue.arrayUnion({
-                    name: req.session.displayName.split('AKA ')[1],
+                    name: req.session.nickname,
                     userId: req.session.uid
                 })
             });
@@ -144,17 +144,16 @@ router.post('/:poll_id/delete',isMember , async(req, res, next) => {
     }
 })
 
-
 async function isMember(req, res, next){
     let { server_code } = req.params;
     let userId = req.session.uid;
     try {
         let allUserServers = [];
-        let snapshotUserServers = await db.doc(`users/${userId}`).get();
-        let getUserServers = snapshotUserServers.data()['servers'].forEach(userServer => {
-            allUserServers.push(userServer);
+        let snapshotServerMembers = await db.collection(`servers/${server_code}/members`).get();
+        let getServerMembers = snapshotServerMembers.forEach(userServer => {
+            allUserServers.push(userServer.data()['userId']);
         });
-        if(!allUserServers.includes(server_code)){
+        if(!allUserServers.includes(userId)){
             res.redirect('back')
         }else{
             next();

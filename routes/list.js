@@ -148,11 +148,11 @@ async function isMember(req, res, next){
     let userId = req.session.uid;
     try {
         let allUserServers = [];
-        let snapshotUserServers = await db.doc(`users/${userId}`).get();
-        let getUserServers = snapshotUserServers.data()['servers'].forEach(userServer => {
-            allUserServers.push(userServer);
+        let snapshotServerMembers = await db.collection(`servers/${server_code}/members`).get();
+        let getServerMembers = snapshotServerMembers.forEach(userServer => {
+            allUserServers.push(userServer.data()['userId']);
         });
-        if(!allUserServers.includes(server_code)){
+        if(!allUserServers.includes(userId)){
             res.redirect('back')
         }else{
             next();

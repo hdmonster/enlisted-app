@@ -6,7 +6,7 @@ var db = firebase.firestore();
 
 
 /* GET home page. */
-router.get('/home', async(req, res, next) => {
+router.get('/home', isMember ,async(req, res, next) => {
   const { server_code } = req.params;
   const snapshotServer = await db.doc(`servers/${server_code}`).get();
   const server_name = snapshotServer.data()['name'];
@@ -17,12 +17,12 @@ router.get('/home', async(req, res, next) => {
 });
 
 /* GET bph page. */
-router.get('/bph', (req, res) => {
+router.get('/bph', isMember , (req, res) => {
   res.send('Bph page')
 })
 
 /* GET mahasiswa page. */
-router.get('/mahasiswa', (req, res) => {
+router.get('/mahasiswa', isMember , (req, res) => {
   res.layout('home/mahasiswa', 
       { 'title': `Mahasiswa - Enlisted`, 
         'layout': 'layout/listview-layout',
@@ -30,14 +30,14 @@ router.get('/mahasiswa', (req, res) => {
 })
 
 /* GET mahasiswa search page. */
-router.get('/mahasiswa/search', (req, res) => {
+router.get('/mahasiswa/search', isMember , (req, res) => {
   res.layout('home/mahasiswa/search', 
       { 'title': 'Mahasiswa Search - Enlisted', 
         'layout': 'layout/search-layout'});
 })
 
 /* GET mahasiswa detail page. */
-router.get('/mahasiswa/id/:docs_uid/view', (req, res) => {
+router.get('/mahasiswa/id/:docs_uid/view', isMember , (req, res) => {
   const mahasiswa_name = 'Russel Van Dulken'
 
   res.layout('home/mahasiswa/detail', 
@@ -45,5 +45,25 @@ router.get('/mahasiswa/id/:docs_uid/view', (req, res) => {
         'layout': 'layout/simple-layout',
         'nav_title' : mahasiswa_name});
 })
+
+async function isMember(req, res, next){
+  let { server_code } = req.params;
+  let userId = req.session.uid;
+  try {
+      let allUserServers = [];
+      let snapshotServerMembers = await db.collection(`servers/${server_code}/members`).get();
+      let getServerMembers = snapshotServerMembers.forEach(userServer => {
+          allUserServers.push(userServer.data()['userId']);
+      });
+      if(!allUserServers.includes(userId)){
+          res.redirect('back')
+      }else{
+          next();
+      }
+  } catch (error) {
+      req.flash('err',error.message);
+      res.redirect('back');
+  }
+}
 
 module.exports = router;

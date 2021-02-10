@@ -3,11 +3,11 @@ var router = express.Router();
 var firebase = require('firebase');
 var auth = firebase.auth();
 var db = firebase.firestore();
+var moment = require('moment');
 
 /* POST create a server */
 router.post('/create', isAdmin ,async(req, res, next) => {
-    let currentDate = new Date().toLocaleDateString();
-    let currentTime = new Date().toLocaleTimeString('en-US',{ hour12:false })
+    const currentDate = moment().format("DD/MM/YYYY HH:mm:ss");
     let {serverName, serverType, userId, status,name} = req.body;
 
     if (serverName == ""|| serverType == "" || userId == "" || status == ""){
@@ -16,23 +16,27 @@ router.post('/create', isAdmin ,async(req, res, next) => {
     };
     try {
         const createServer = await db.collection('servers').add({
-            createdAt : currentDate + " " + currentTime,
+            createdAt : currentDate,
             createdBy : {
-                name: req.session.displayName,
+                name: req.session.fullName,
                 userId : req.session.uid
             },
             name : serverName,
             type : serverType,
+            icon: ""
         });
-        const members = await db.collection('servers').doc(createServer.id).collection('members').add({
+        
+        const members = await db.collection(`servers/${createServer.id}/members`).add({
             role : 'admin',
             status : status,
             userId : userId,
             name: name
         });
-        const addToUser = await db.doc(`users/${userId}`).update({
-            "servers" : firebase.firestore.FieldValue.arrayUnion(createServer.id)
+
+        const addToUser = await db.collection(`users/${userId}/servers`).add({
+            server_id : createServer.id
         });
+        
         req.flash('success','Server has been created successfully.')
         res.redirect('/server/')
     } catch (error) {
@@ -53,9 +57,9 @@ router.post('/join', async (req, res, next) => {
     try {
         let allUserServers = [];
         let allServers = [];
-        let snapshotUserServers = await db.doc(`users/${userId}`).get();
-        let getUserServers = snapshotUserServers.data()['servers'].forEach(userServer => {
-            allUserServers.push(userServer);
+        let snapshotUserServers = await db.collection(`users/${userId}/servers`).get();
+        let getUserServers = snapshotUserServers.forEach(userServer => {
+            allUserServers.push(userServer.data()['server_id']);
         });
         let snapshotAllServers = await db.collection('servers').get();
         let getServers = snapshotAllServers.forEach(allServer => {
@@ -74,11 +78,11 @@ router.post('/join', async (req, res, next) => {
                 role : 'member',
                 status : 'Anggota',
                 userId : userId,
-                name: req.session.displayName
+                name: req.session.fullName
             });
 
-            const addToUser = await db.doc(`users/${userId}`).update({
-                "servers" : firebase.firestore.FieldValue.arrayUnion(server_code)
+            const addToUser = await db.collection(`users/${userId}/servers`).add({
+                server_id : server_code
             });
 
             req.flash('success','You have been added to the server');

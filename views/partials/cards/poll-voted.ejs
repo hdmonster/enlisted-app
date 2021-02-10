@@ -16,7 +16,7 @@
         <% let voterCount = data.voter.length %>
         <% data.option.forEach((option,index) => { %>
             <% let percentage = (option.count/voterCount) * 100 %>
-            <% percentage = data.settings.showAfterVote ?  percentage : currentDate > data.settings.availability.endDate && !data.settings.showAfterVote ?  percentage : '0' %>
+            <% percentage = data.settings.showAfterVote ?  percentage : data.settings.isAlwaysAvailable && !data.settings.showAfterVote ? '0' : currentDate > data.settings.availability.endDate && !data.settings.showAfterVote ?  percentage : '0' %>
             <div class="progress-bar_wrapper">
                 <div class="progress-bar" value="<%= percentage %>">
                     <div>

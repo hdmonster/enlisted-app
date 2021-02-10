@@ -28,7 +28,7 @@
         <select name="userId" id="userId" onchange="selectUser()">
             <option disabled selected>Select Users</option>
             <% users.forEach(function(user,index) { %>
-                <option value="<%= user.id %>" <%if(messages.userId == user.id) { %>selected<%}%> > <%= user.nim %> - <%= user.displayName %> </option >
+                <option value="<%= user.id %>" <%if(messages.userId == user.id) { %>selected<%}%> > <%= user.nim %> - <%= user.fullName %> </option >
             <% }) %>
         </select>
         <input type="hidden" name="name" value="">
@@ -38,6 +38,7 @@
             <option value="Wakil Komting" <%if(messages.status == 'Wakil Komting' || messages.status == 'Wakil Ketua'){ %>selected<%}%> >Wakil Komting</option>
             <option value="Bendahara" <%if(messages.status == 'Bendahara'){ %>selected<%}%> >Bendahara</option>
             <option value="Sekretaris" <%if(messages.status == 'Sekretaris'){ %>selected<%}%> >Sekretaris</option>
+            <option value="Anggota" <%if(messages.status == 'Anggota'){ %>selected<%}%> >Anggota</option>
         </select>
         <input type="submit">
     </form>

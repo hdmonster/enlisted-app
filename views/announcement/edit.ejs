@@ -4,7 +4,7 @@
             <input type="text" class="txt-field_transparent" name="title" autocomplete="off" onfocus="this.select()" placeholder="Title" value="<%- messages.title ? messages.title : announcement.title %>" required>
         </div>
         <div class="info_wrapper">
-            <span id="entries-detail"><%= moment(announcement.createdAt, ).format("DD MMM YYYY") %> - Posted by <%= announcement.author.name.split('AKA ')[1] %></span>
+            <span id="entries-detail"><%= moment(announcement.createdAt, ).format("DD MMM YYYY") %> - Posted by <%= announcement.author.name %></span>
         </div>
         <div class="content_wrapper">
             <textarea rows="1" class="txt-field_line" name="content" autocomplete="off" oninput="auto_grow(this)" placeholder="Write content..." required><%- messages.content ? messages.content : announcement.content %></textarea>

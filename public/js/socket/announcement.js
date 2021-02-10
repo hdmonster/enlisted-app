@@ -16,7 +16,7 @@ socket.on('announcements', announcements => {
             <div class="card-list" onclick="navigateNext('${announcement.id}/view')">
                 <div class="header">
                     <span class="title">${announcement.title}</span>
-                    <span class="detail">${announcement.author.name.split('AKA ')[1]} - ${createdAt}</span>
+                    <span class="detail">${announcement.author.name} - ${createdAt}</span>
                 </div>
                 <div class="icon-container">
                     <i data-feather="chevron-right"></i>

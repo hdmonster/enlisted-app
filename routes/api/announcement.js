@@ -2,14 +2,14 @@ var express = require('express');
 var router = express.Router();
 var firebase = require('firebase')
 var db = firebase.firestore();
+var moment = require('moment');
 var router = express.Router({ mergeParams: true });
 
 /* Post announcement. */
 router.post('/post', isMember, async(req, res, next) => {
     const { server_code } = req.params;
     const { title,content } = req.body;
-    const currentDate = new Date().toLocaleDateString('en-GB');
-    const currentTime = new Date().toLocaleTimeString('en-US',{ hour12:false });
+    const currentDate = moment().format("DD/MM/YYYY HH:mm:ss");
 
     if(title == "" || content == ""){
         errPostAnn(req,res,'Please fill in the required field',title,content);
@@ -18,7 +18,7 @@ router.post('/post', isMember, async(req, res, next) => {
 
     const user = await db.collection(`servers/${server_code}/members`).where('userId','==',req.session.uid).get();
     user.forEach(doc => {
-        if(doc.data()['status'] == 'Anggota'){
+        if(doc.data()['status'] == 'Anggota' && doc.data()['role'] != 'admin' ){
             req.flash('err',"You don't have permission");
             res.redirect('back');
             return false;
@@ -28,12 +28,12 @@ router.post('/post', isMember, async(req, res, next) => {
     try{
         const postAnn = await db.collection(`servers/${server_code}/announcements`).add({
             author:{
-                name: req.session.displayName,
+                name: req.session.nickname,
                 userId : req.session.uid
             },
             title: title,
             content: content,
-            createdAt: currentDate + " " + currentTime
+            createdAt: currentDate
         });
         req.flash('success','Announcement has been created successfully');
         res.redirect(`/s/${server_code}/announcement`)
@@ -104,11 +104,11 @@ async function isMember(req, res, next){
     let userId = req.session.uid;
     try {
         let allUserServers = [];
-        let snapshotUserServers = await db.doc(`users/${userId}`).get();
-        let getUserServers = snapshotUserServers.data()['servers'].forEach(userServer => {
-            allUserServers.push(userServer);
+        let snapshotServerMembers = await db.collection(`servers/${server_code}/members`).get();
+        let getServerMembers = snapshotServerMembers.forEach(userServer => {
+            allUserServers.push(userServer.data()['userId']);
         });
-        if(!allUserServers.includes(server_code)){
+        if(!allUserServers.includes(userId)){
             res.redirect('back')
         }else{
             next();
