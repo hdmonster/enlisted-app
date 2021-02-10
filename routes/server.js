@@ -22,28 +22,82 @@ router.get('/bph', isMember , (req, res) => {
 })
 
 /* GET mahasiswa page. */
-router.get('/mahasiswa', isMember , (req, res) => {
-  res.layout('home/mahasiswa', 
-      { 'title': `Mahasiswa - Enlisted`, 
-        'layout': 'layout/listview-layout',
-        'nav_title' : 'Mahasiswa'});
+router.get('/mahasiswa', isMember , async (req, res) => {
+  const { server_code } = req.params;
+  try{
+    let mahasiswaUserId = [];
+    let allMahasiswa = [];
+    const snapshotMahasiswa = await db.collection(`servers/${server_code}/members`).get();
+    const getMahasiswa = snapshotMahasiswa.forEach(dataMahasiswa => {
+      mahasiswaUserId.push(dataMahasiswa.data()['userId'])
+    });
+    const snapshotUser = await db.collection(`users`).get();
+    const getUser = snapshotUser.forEach(dataUser => {
+      if(mahasiswaUserId.includes(dataUser.id)){
+        const getData = dataUser.data();
+        getData.id = dataUser.id;
+        allMahasiswa.push(getData);
+      }
+    })
+    res.layout('home/mahasiswa',{ 
+      'title': `Mahasiswa - Enlisted`, 
+      'layout': 'layout/listview-layout',
+      'nav_title' : 'Mahasiswa',
+      'allMahasiswa' : allMahasiswa
+    });
+  }catch(error){
+    req.flash('err',error.message);
+    res.redirect('back');
+  }
 })
 
 /* GET mahasiswa search page. */
-router.get('/mahasiswa/search', isMember , (req, res) => {
-  res.layout('home/mahasiswa/search', 
-      { 'title': 'Mahasiswa Search - Enlisted', 
-        'layout': 'layout/search-layout'});
+router.get('/mahasiswa/search', isMember , async (req, res) => {
+  const { server_code } = req.params;
+  try{
+    let mahasiswaUserId = [];
+    let allMahasiswa = [];
+    const snapshotMahasiswa = await db.collection(`servers/${server_code}/members`).get();
+    const getMahasiswa = snapshotMahasiswa.forEach(dataMahasiswa => {
+      mahasiswaUserId.push(dataMahasiswa.data()['userId'])
+    });
+    const snapshotUser = await db.collection(`users`).get();
+    const getUser = snapshotUser.forEach(dataUser => {
+      if(mahasiswaUserId.includes(dataUser.id)){
+        const getData = dataUser.data();
+        getData.id = dataUser.id;
+        allMahasiswa.push(getData);
+      }
+    })
+    res.layout('home/mahasiswa/search', { 
+      'title': 'Mahasiswa Search - Enlisted', 
+      'layout': 'layout/search-layout',
+      'allMahasiswa': allMahasiswa
+    });
+  } catch(error) {
+    req.flash('err',error.message);
+    res.redirect('back');
+  }
 })
 
 /* GET mahasiswa detail page. */
-router.get('/mahasiswa/id/:docs_uid/view', isMember , (req, res) => {
-  const mahasiswa_name = 'Russel Van Dulken'
-
-  res.layout('home/mahasiswa/detail', 
-      { 'title': 'Mahasiswa Detail - Enlisted', 
-        'layout': 'layout/simple-layout',
-        'nav_title' : mahasiswa_name});
+router.get('/mahasiswa/id/:user_id/view', isMember , async (req, res) => {
+  const { server_code, user_id } = req.params;
+  try {
+    const snapshotUser = await db.doc(`users/${user_id}`).get();
+    const user = snapshotUser.data();
+    const mahasiswa_name = user.fullName;
+  
+    res.layout('home/mahasiswa/detail', { 
+      'title': 'Mahasiswa Detail - Enlisted', 
+      'layout': 'layout/simple-layout',
+      'nav_title' : mahasiswa_name,
+      'user' : user
+    });
+  } catch (error) {
+    req.flash('err',error.message);
+    res.redirect('back');
+  }
 })
 
 async function isMember(req, res, next){

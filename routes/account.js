@@ -6,7 +6,8 @@ const auth = firebase.auth();
 
 /* GET account profile. */
 router.get('/', async (req, res, next) => {
-    const user = await auth.currentUser;
+    const snapshotUser = await db.doc(`users/${req.session.uid}`).get();
+    const user = snapshotUser.data();
     res.layout('account',
       { 'title': 'Account - Enlisted',
         'layout': 'layout/master',
@@ -17,16 +18,14 @@ router.get('/', async (req, res, next) => {
 
 // Edit account
 router.get('/edit', async (req, res, next) => {
-    const user = await auth.currentUser;
     const snapshotUser = await db.doc(`users/${req.session.uid}`).get();
-    const getUser = snapshotUser.data();
+    const user = snapshotUser.data();
 
     res.layout('account/edit',
     { 'title': 'Edit Profile - Enlisted',
       'layout': 'layout/edit-layout',
       'nav_title' : 'Edit Profile',
-      'user': user,
-      'getUser': getUser
+      'user': user
     });
 });
 

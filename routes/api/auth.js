@@ -26,7 +26,6 @@ router.post('/signup', async(req, res, next) => {
     const cred = createUser.user;
     const updateUser = await auth.currentUser.updateProfile({
       displayName: displayName,
-      photoURL : "https://i.stack.imgur.com/l60Hf.png",
     });
     const userCollection = await db.collection('users').doc(cred.uid).set({
       bio : "",
@@ -38,6 +37,7 @@ router.post('/signup', async(req, res, next) => {
       instagram: "",
       github: "",
       whatsapp: "",
+      photoURL : "https://i.stack.imgur.com/l60Hf.png",
     });
     req.session.uid = cred.uid;
     req.session.displayName = displayName;
