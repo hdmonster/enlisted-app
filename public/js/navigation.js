@@ -18,6 +18,10 @@ function navigateReplaceAll(target){
     window.location.href = target
 }
 
+function openNewTab(target){
+    window.open(target)
+}
+
 function back(){
     window.history.back()
 }

@@ -8,7 +8,6 @@ const session = require('express-session');
 const flash = require('express-flash');
 const moment = require('moment');
 const firebase = require('./firebase/config');
-const bodyParser = require('body-parser');
 
 
 var app = express();
@@ -49,6 +48,7 @@ app.use((req, res, next) => {
 
     res.locals.userId = req.session.uid;
     res.locals.displayName = req.session.displayName;
+    res.locals.nickname = req.session.nickname;
     res.locals.nim = req.session.nim;
     res.locals.moment = moment;
     res.io = socketio;

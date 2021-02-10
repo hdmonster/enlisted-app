@@ -1,3 +1,16 @@
+/* config */
+button, input, textarea {
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+span, p {
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+}
+
 html {
   box-sizing: border-box;
 }
@@ -49,9 +62,17 @@ body {
   margin: 12px 0;
 }
 
+/* config */
 button, input, textarea {
   outline: none;
   -webkit-tap-highlight-color: transparent;
+}
+
+span, p {
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
 }
 
 .recent_wrapper {
@@ -71,6 +92,17 @@ button, input, textarea {
   padding: 16px 10px;
   width: 100%;
   font-size: 14px;
+}
+
+.txt-field-search {
+  color: #3d3d3d;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 12px;
+  margin-right: 8px;
+  width: 100%;
+  font-size: 12px;
+  background: #f5f5f5;
 }
 
 .txt-field-fill_grey {
@@ -389,12 +421,13 @@ input:checked + .slider:before {
   display: flex;
   align-items: center;
   border-bottom: 0.5px solid #3d3d3d;
-  padding: 16px;
+  padding: 12px;
 }
 .card-classic img {
   width: 45px;
   height: 45px;
   border-radius: 24px;
+  object-fit: cover;
 }
 .card-classic .title {
   padding: 0 18px;
@@ -829,8 +862,8 @@ input:checked + .slider:before {
 
 .add-me_wrapper {
   position: fixed;
-  bottom: 4rem;
-  right: 3rem;
+  bottom: 3rem;
+  right: 2rem;
 }
 .add-me_wrapper button {
   position: absolute;
@@ -922,6 +955,15 @@ input:checked + .slider:before {
   align-items: center;
   margin: 48px 0;
 }
+.account-container .profile-info_wrapper .name {
+  font-size: 24px;
+  color: #3d3d3d;
+}
+.account-container .profile-info_wrapper .bio {
+  font-size: 15px;
+  color: #3d3d3d;
+  text-align: center;
+}
 .account-container .profile-info_wrapper span {
   font-size: 16px;
   color: #3d3d3d;
@@ -939,6 +981,24 @@ input:checked + .slider:before {
 }
 .account-container .edit-profile_wrapper input {
   margin-bottom: 16px;
+}
+.account-container .social_wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+}
+.account-container .social_wrapper .icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  width: 48px;
+  margin-top: 24px;
+  border-radius: 32px;
+  background: #CBCBCB;
+}
+.account-container .social_wrapper .icon-container i {
+  color: #fff;
 }
 
 #snackbar {

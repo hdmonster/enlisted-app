@@ -16,7 +16,6 @@
     </div>
 
     <form action="/api/<%= serverCode %>/poll/<%= data.id %>/vote" method="post">
-        <% const currentDate = moment().format("DD/MM/YYYY") %>
         <div class="poll-wrapper">
             <% data.option.forEach((option,index) => { %>
                <input type="radio" id="vote-btn-<%= index %>" name="vote_option" value="<%= option.item %>">
@@ -24,7 +23,7 @@
             <% }); %>
         </div>
         <div class="vote-btn_wrapper">
-            <button type="submit" class="btn-lg" <%- data.settings.isAlwaysAvailable ? '' : currentDate > data.settings.availability.endDate || currentDate < data.settings.availability.startDate ? 'disabled' : '' %> >vote</button>
+            <button type="submit" class="btn-lg" <%- data.settings.isAlwaysAvailable ? '' : currentDate > data.settings.availability.endDate && currentDate < data.settings.availability.startDate ? 'disabled' : '' %> >vote</button>
         </div>
     </form>
 </div>

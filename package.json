@@ -10,7 +10,6 @@
     "watch": "sass --watch scss/style.scss public/css/style.css"
   },
   "dependencies": {
-    "body-parser": "^1.19.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
