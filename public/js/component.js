@@ -1,19 +1,28 @@
 function showPreview(){
-    const checkBtnSingle = document.querySelector('#btn-single')
+    try {
+        const checkBtnSingle = document.querySelector('#btn-single')
     
-    const previewSingle = document.querySelector('.preview-single')
-    const previewDouble = document.querySelector('.preview-double')
-
-    previewSingle.style.display = checkBtnSingle.checked ? 'block' : 'none'
-    previewDouble.style.display = checkBtnSingle.checked ? 'none' : 'block'
+        const previewSingle = document.querySelector('.preview-single')
+        const previewDouble = document.querySelector('.preview-double')
+    
+        previewSingle.style.display = checkBtnSingle.checked ? 'block' : 'none'
+        previewDouble.style.display = checkBtnSingle.checked ? 'none' : 'block'
+    } catch(e) {
+        console.warn('No list preview')
+    }
+    
 }
 
 function showDatepicker(){
-    const openPoll = document.querySelector('#openPoll')
+    try {
+        const openPoll = document.querySelector('#openPoll')
 
-    const datepicker = document.querySelector('.datetime_wrapper')
-
-    datepicker.style.display = openPoll.checked ? 'none' : 'block'
+        const datepicker = document.querySelector('.datetime_wrapper')
+    
+        datepicker.style.display = openPoll.checked ? 'none' : 'block'
+    } catch(e) {
+        console.warn('No datepicker found')
+    }
 }
 
 function addOption(){
@@ -97,7 +106,7 @@ function assignActiveIcon(){
 }
 
 function assignActiveServer(){
-    pathUrl = window.location.pathname
+    const pathUrl = window.location.pathname
 
     const serverItems = document.querySelectorAll('.server-item')
     const itemBorders = document.querySelectorAll('.server-item .border')
@@ -113,9 +122,21 @@ function assignActiveServer(){
 }   
 
 function loadFirst(){
+    const pathUrl = window.location.pathname
+
+
     assignActiveServer()
     assignActiveIcon()
-    setProgressBar()
+
+    if (pathUrl.includes('list')){
+        showPreview()
+    } else if (pathUrl.includes('poll')){
+        setProgressBar()
+        showDatepicker()
+    } else{
+        console.warn('No function to load')
+    }
+    
 }
 
 

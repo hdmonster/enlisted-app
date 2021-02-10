@@ -29,3 +29,21 @@ $right-shadow:-1px 1px 9px 1px rgba(136,136,136,0.75);
 
 $font-family: 'Overpass';
 
+/* config */
+
+// remove outline
+
+button, input, textarea {
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}
+  
+// disable selection
+
+span, p {
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+}
+
