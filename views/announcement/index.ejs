@@ -3,18 +3,19 @@
         <span>recent</span>
     </div>
     <div class="card-list-container">
-
-        <div class="card-list" onclick="navigateNext('someid/view')">
-            <div class="header">
-                <span class="title">Surat dari rektor</span>
-                <span class="detail">Admin - 12 hours ago</span>
-            </div>
-            <div class="icon-container">
-                <i data-feather="chevron-right"></i>
-            </div>
-        </div> 
-
+        <div class="content"></div>
     </div>
+
 </div>
 
+<script src="/socket.io/socket.io.js"></script>
 <script src="/js/socket/announcement.js"></script>
+<!-- Toast -->
+<script type="text/javascript">
+    if('<%= messages.success %>'){
+        showToast('success','<%= messages.success %>')
+    }
+    if('<%= messages.err %>'){
+        showToast('failed','<%= messages.err %>')
+    }
+</script>

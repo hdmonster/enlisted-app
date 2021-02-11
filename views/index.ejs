@@ -6,20 +6,31 @@
 
   <div class="join-server_wrapper">
       <label for="server_code">Join a server</label>
-      <div class="form_wrapper">
-        <input class="txt-field-fill_grey" autocomplete="off" type="text" id="server_code" placeholder="Server Code">
-        <button class="btn-join" onclick="joinServer()">
-          <i data-feather="send" class="btn-icon"></i>
-        </button>
-      </div>
+      <form action="/api/server/join" method="post">
+          <div class="form_wrapper">
+              <input class="txt-field-fill_grey" autocomplete="off" type="text" id="server_code" placeholder="Server Code" name="server_code">
+              <button class="btn-join" type="submit">
+                  <i data-feather="send" class="btn-icon"></i>
+              </button>
+          </div>
+      </form>
   </div>
 
-  <!-- <a href="/api/auth/signout">Logout</a>
+  <a href="/api/auth/signout">Logout</a>
   <p>
     <% if(messages.success){ %>
       <%= messages.success %>
     <% } %>
-  </p> -->
+  </p>
 </div>
 
-<script src="/js/join-server.js"></script>
+
+<!-- Toast -->
+<script type="text/javascript">
+    if('<%= messages.success %>'){
+        showToast('success','<%= messages.success %>')
+    }
+    if('<%= messages.err %>'){
+        showToast('failed','<%= messages.err %>')
+    }
+</script>

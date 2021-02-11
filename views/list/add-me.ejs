@@ -1,23 +1,36 @@
+
 <div class="list-post-container">
     <div class="input_wrapper">
         <span class="title">
-            Tidak bisa hadir gmeet
+            <%= list.title %>
         </span>
     </div>
     <div class="content_wrapper">
-        <p>Yang merasa tidak bisa hadir boleh ngelist namanya</p>
+        <p><%= list.content %></p>
     </div>
     <div class="info_wrapper">
-        <span id="entries-count">2 Entries</span>
-        <span id="entries-detail">2 Feb 2021 - Posted by Russel</span>
+        <span id="entries-count"></span>
+        <span id="entries-detail"><%= moment(list.createdAt).format("DD MMM YYYY") %> - Posted by <%= list.author.name%></span>
     </div>
 </div>
 
 <div class="add-me-form-container">
-    <form action="#">
-        <input class="txt-field_white" autocomplete="off" type="text" name="nama" placeholder="Nama">
-        <input class="txt-field_white" autocomplete="off" type="text" name="alasan" placeholder="Alasan"> 
+    <form action="/api/<%= serverCode %>/list/<%= listId %>/add-me" method="post">
+        <input class="txt-field_white" autocomplete="off" type="text" name="name" placeholder="<%= nickname %>" readonly>
+        <% if(list.settings.type == 'double'){ %>
+            <input class="txt-field_white" autocomplete="off" type="text" name="note" placeholder="<%= list.settings.note %>" required>
+        <% }; %>
         <button class="btn-rounded" type="submit">submit</button>
     </form>
-    
+
 </div>
+
+<!-- Toast -->
+<script type="text/javascript">
+    if('<%= messages.success %>'){
+        showToast('success','<%= messages.success %>')
+    }
+    if('<%= messages.err %>'){
+        showToast('failed','<%= messages.err %>')
+    }
+</script>

@@ -1,26 +1,29 @@
+
 <div class="container">
     <div class="recent_wrapper">
         <span>recent</span>
     </div>
     <div class="card-list-container">
-
-        <div class="card-list" onclick="navigateNext('someid/view')">
-            <div class="header">
-                <span class="title">Tidak bisa hadir gmeet</span>
-                <span class="detail">Russel - 12 hours ago</span>
+        <% lists.forEach(function(list){ %>
+            <div class="card-list" onclick="navigateNext('<%= list.id %>/view')">
+                <div class="header">
+                    <span class="title"><%= list.title %></span>
+                    <span class="detail"><%= list.author.name %> -  <%= moment(list.createdAt, "DD/MM/YYYY HH:mm:ss").fromNow() %></span>
+                </div>
+                <div class="icon-container">
+                    <i data-feather="chevron-right"></i>
+                </div>
             </div>
-            <div class="icon-container">
-                <i data-feather="chevron-right"></i>
-            </div>
-        </div> 
-
+        <% }) %>
     </div>
 </div>
 
-<script>
-    showToast('success', 'Your list has been created')
+<!-- Toast -->
+<script type="text/javascript">
+    if('<%= messages.success %>'){
+        showToast('success','<%= messages.success %>')
+    }
+    if('<%= messages.err %>'){
+        showToast('failed','<%= messages.err %>')
+    }
 </script>
-
-
-<script src="/js/socket/list.js"></script>
-

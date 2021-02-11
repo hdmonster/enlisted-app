@@ -1,10 +1,10 @@
 <div class="account-container">
     <div class="profile-pic_wrapper">
-        <img src="/images/aurora.jpg" alt="User Profile Picture">
+        <img src="<%= user.photoURL %>" alt="User Profile Picture">
     </div>
     <div class="profile-info_wrapper">
-        <span> Russel Van Dulken AKA Russel </span>
-        <span> 10201043 </span>
+        <span> <%= displayName %> </span>
+        <span> <%= nim %> </span>
     </div>
     <div class="edit-profile_wrapper" onclick="navigateNext('edit')">
         <button class="btn-edit-profile">edit profile</button>

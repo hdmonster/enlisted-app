@@ -6,9 +6,8 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const session = require('express-session');
 const flash = require('express-flash');
-
-const firebase = require('./firebase/config')
-const db = firebase.firestore();
+const moment = require('moment');
+const firebase = require('./firebase/config');
 
 var app = express();
 const server = http.createServer(app)
@@ -22,11 +21,14 @@ var announcementRouter = require('./routes/announcement');
 var accountRouter = require('./routes/account');
 var playgroundRouter = require('./routes/playground');
 var authRouter = require('./routes/auth');
+var adminServerRouter = require('./routes/admin-server');
+var serverRouter = require('./routes/server');
 var apiAnnouncementRouter = require('./routes/api/announcement.js');
 var apiAuthRouter = require('./routes/api/auth.js');
 var apiListRouter = require('./routes/api/list.js');
 var apiPollRouter = require('./routes/api/poll.js');
 var apiServerRouter = require('./routes/api/server.js');
+var apiAdminServerRouter = require('./routes/api/admin-server.js');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -42,8 +44,15 @@ app.use(session({
 
 // Make socket accessible to routes
 app.use((req, res, next) => {
-  res.io = socketio;  
-  next()
+
+    res.locals.userId = req.session.uid;
+    res.locals.displayName = req.session.displayName;
+    res.locals.fullName = req.session.fullName;
+    res.locals.nickname = req.session.nickname;
+    res.locals.nim = req.session.nim;
+    res.locals.moment = moment;
+    res.io = socketio;
+    next()
 });
 
 app.use(require('ejs-yield'))
@@ -54,19 +63,21 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.all('/', indexRouter);
-app.use('/account', accountRouter);
+app.all('/', isLoggedIn, indexRouter);
 app.use('/playground', playgroundRouter);
 app.use('/auth', authRouter);
-app.use('/api/announcement',announcementRouter);
 app.use('/api/auth',apiAuthRouter);
-app.use('/api/list',apiListRouter);
-app.use('/api/poll',apiPollRouter);
-app.use('/api/server',apiServerRouter);
-app.use('/s/:server_code', callServerList, serverRouter);
-app.use('/s/:server_code/list', listRouter);
-app.use('/s/:server_code/poll', pollRouter);
-app.use('/s/:server_code/announcement', announcementRouter);
+app.use('/server', isLoggedIn, adminServerRouter);
+app.use('/account/', isLoggedIn ,accountRouter);
+app.use('/api/server', isLoggedIn, apiAdminServerRouter);
+app.use('/api/:server_code', isLoggedIn, apiServerRouter);
+app.use('/api/:server_code/list', isLoggedIn,apiListRouter);
+app.use('/api/:server_code/poll', isLoggedIn,apiPollRouter);
+app.use('/api/:server_code/announcement', isLoggedIn,apiAnnouncementRouter);
+app.use('/s/:server_code', isLoggedIn, serverRouter);
+app.use('/s/:server_code/list', isLoggedIn, listRouter);
+app.use('/s/:server_code/poll', isLoggedIn, pollRouter);
+app.use('/s/:server_code/announcement', isLoggedIn, announcementRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -89,10 +100,6 @@ function isLoggedIn(req, res, next) {
   if (!req.session.uid) {
     res.redirect('/auth/signin');
   } else {
-    console.log(req.session.displayName);
-    console.log(req.session.fullName);
-    console.log(req.session.nickname);
-    console.log(req.session.nim);
     next();
   }
 }

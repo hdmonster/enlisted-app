@@ -3,42 +3,46 @@
 
 <form action="/api/auth/signup" method="post">
   <div class="input-wrappper">
-    <input 
-      class="txt-field-fill_grey" 
-      autocomplete="off" 
+    <input
+      class="txt-field-fill_grey"
+      autocomplete="off"
       type="text"
-      name="fullName" 
-      placeholder="Fullname"
-      value="<%if(messages.fullName){ %><%=messages.fullName%><%}%>">
+      name="fullName"
+      placeholder="Full Name"
+      value="<%- messages.fullName ? messages.fullName : ''%>"
+      required>
   </div>
 
   <div class="input-wrappper">
-    <input 
-      class="txt-field-fill_grey" 
-      autocomplete="off" 
+    <input
+      class="txt-field-fill_grey"
+      autocomplete="off"
       type="text"
-      name="nickname" 
+      name="nickname"
       placeholder="Nickname"
-      value="<%if(messages.nickname){ %><%=messages.nickname%><%}%>">
+      value="<%- messages.nickname ? messages.nickname : ''%>"
+      required>
   </div>
 
   <div class="input-wrappper">
-    <input 
-      class="txt-field-fill_grey" 
-      autocomplete="off" 
+    <input
+      class="txt-field-fill_grey"
+      autocomplete="off"
       type="email"
-      name="email" 
+      name="email"
       placeholder="Email"
-      value="<%if(messages.email){ %><%=messages.email%><%}%>">
+      value="<%- messages.email ? messages.email : ''%>"
+      required>
   </div>
 
   <div class="input-wrapper">
-    <input 
-      class="txt-field-fill_grey" 
-      autocomplete="off" 
-      type="password" 
-      name="password" 
-      placeholder="Password">
+    <input
+      class="txt-field-fill_grey"
+      autocomplete="off"
+      type="password"
+      name="password"
+      placeholder="Password"
+      required>
   </div>
 
   <% if(messages.err){ %>
@@ -48,7 +52,7 @@
   <button class="btn-lg btn-signin" type="submit">Sign Up</button>
 </form>
 
-<span class="signup-option">Already have an account? 
+<span class="signup-option">Already have an account?
   <a href="/auth/signin">Sign In</a>
   here
 </span>

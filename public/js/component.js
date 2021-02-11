@@ -27,20 +27,20 @@ function showDatepicker(){
 
 function addOption(){
     const additional_option_container = document.createElement("div");
-     
+
     const option_container = document.querySelector('.additional-option-input_container')
 
     const option = index => {
         return `
-            <input class="txt-field-fill_grey" autocomplete="off" type="text" name="vote_option-${index}" placeholder="Option ${index}">
+            <input class="txt-field-fill_grey" autocomplete="off" type="text" name="vote_option[]" placeholder="Option ${index}">
         `
     }
 
     count = option_container.childElementCount + 3
- 
+
     additional_option_container.innerHTML += option(count)
 
-    option_container.appendChild(additional_option_container);  
+    option_container.appendChild(additional_option_container);
 }
 
 function setProgressBar(){
@@ -53,9 +53,9 @@ function setProgressBar(){
 
             fill.style.width = value+'%'
 
-            if (value < 34) 
+            if (value < 34)
                 fill.style.color = '#3d3d3d'
-            else 
+            else
                 fill.style.color = 'white'
         });
 
@@ -92,11 +92,11 @@ function assignActiveIcon(){
     pathUrl = window.location.pathname
 
     try{
-        if (pathUrl.includes('list')) 
+        if (pathUrl.includes('list'))
             listIcon.classList.add("nav__link--active");
-        else if (pathUrl.includes('poll')) 
+        else if (pathUrl.includes('poll'))
             pollIcon.classList.add("nav__link--active");
-        else if (pathUrl.includes('announcement')) 
+        else if (pathUrl.includes('announcement'))
             announcementIcon.classList.add("nav__link--active");
         else
             homeIcon.classList.add("nav__link--active");
@@ -111,15 +111,15 @@ function assignActiveServer(){
     const serverItems = document.querySelectorAll('.server-item')
     const itemBorders = document.querySelectorAll('.server-item .border')
 
-    serverItems.forEach((item, i) => { 
+    serverItems.forEach((item, i) => {
         let server_id = item.getAttribute('id')
         let itemBorder = itemBorders[i]
 
         if (pathUrl.includes(server_id))
             itemBorder.classList.add('active')
-        
-    })   
-}   
+
+    })
+}
 
 function loadFirst(){
     const pathUrl = window.location.pathname

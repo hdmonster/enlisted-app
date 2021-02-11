@@ -1,46 +1,24 @@
-<div class="list-post-container">
-    <div class="input_wrapper">
-        <input type="text" class="txt-field_transparent" name="title" autocomplete="off" placeholder="Untitled">
-    </div>
-    <div class="content_wrapper">
-        <input type="text" class="txt-field_line" name="content" autocomplete="off" placeholder="Write caption...">
-    </div>
-    <div class="info_wrapper">
-        <span id="entries-count">0 Entries</span>
-        <span id="entries-detail">2 Feb 2021 - Posted by Russel</span>
-    </div>
-</div>
-
-<div class="list-settings-container">
-    <span>
-        list settings
-    </span>
-
-    <div class="button-group_wrapper">
-        <input type="radio" class="stv-radio-button" name="type" value="single" id="btn-single" onclick="showPreview()" checked />
-        <label for="btn-single">Single</label>
-        <input type="radio" class="stv-radio-button" name="type" value="double" id="btn-double" onclick="showPreview()" />
-        <label for="btn-double">Double</label>
-    </div>
-
-    <div class="list-preview_wrapper">
-        <div class="preview-single">
-            <div class="card-post-single">
-                <div class="header">
-                    <span class="title">Nama</span>
-                </div>
-            </div>
+<form action="/api/<%= serverCode %>/list/<%= listId %>/edit" method="post" id="post">
+    <div class="list-post-container">
+        <div class="input_wrapper">
+            <input type="text" class="txt-field_transparent" name="title" autocomplete="off" placeholder="Untitled" required value="<%- messages.title ? messages.title : list.title %>">
         </div>
-        <div class="preview-double">
-            <div class="card-post-double">
-                <div class="header">
-                    <span class="title">Nama</span>
-                    <div class="note-container">
-                        <input type="text" class="note" name="note" value="Untitled note" placeholder="Note (eg. alasan/nim etc.)">
-                    </div>
-                </div>
-            </div>
+        <div class="content_wrapper">
+            <input type="text" class="txt-field_line" name="content" autocomplete="off" placeholder="Write caption..." required value="<%- messages.content ? messages.content : list.content %>">
         </div>
-        
+        <div class="info_wrapper">
+            <span id="entries-count">0 Entries</span>
+            <span id="entries-detail"><%= moment(list.createdAt, ).format("DD MMM YYYY") %> - Posted by <%= list.author.name.split('AKA ')[1] %></span>
+        </div>
     </div>
-</div>
+</form>
+
+<!-- Toast -->
+<script type="text/javascript">
+    if('<%= messages.success %>'){
+        showToast('success','<%= messages.success %>')
+    }
+    if('<%= messages.err %>'){
+        showToast('failed','<%= messages.err %>')
+    }
+</script>

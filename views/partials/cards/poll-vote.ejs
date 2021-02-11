@@ -1,31 +1,30 @@
 <div class="poll-card-container">
     <div class="info_wrapper">
-        <span class="author">Admin</span>
-        <span class="end-time">
-            Ends in 8 hours
+        <span class="author"><%= data.author.name %></span>
+        <span class="end-time"> 
+            <% if(!data.settings.isAlwaysAvailable){ %>
+                Ends <%= moment(data.settings.availability.endDate, "DD/MM/YYYY").fromNow(); %>
+            <% }else{ %>
+                Always available
+            <% } %>
         </span>
     </div>
     <div class="question_wrapper">
         <span>
-            Pilih destinasi buat fieldtrip kita akhir tahun ini
+            <%= data.question %>
         </span>
     </div>
 
-    <form action="" method="post">
+    <form action="/api/<%= serverCode %>/poll/<%= data.id %>/vote" method="post">
         <div class="poll-wrapper">
-            <input type="hidden" name="poll_id" value="someid">
-
-            <input type="radio" id="vote-btn-1" name="vote_option" value="Shenzen">
-            <label for="vote-btn-1" class="btn">Shenzen</label>
-
-            <input type="radio" id="vote-btn-2" name="vote_option" value="Tokyo">
-            <label for="vote-btn-2" class="btn">Tokyo</label>
-
-            <input type="radio" id="vote-btn-3" name="vote_option" value="Manhattan">
-            <label for="vote-btn-3" class="btn">Manhattan</label>
+            <% data.option.forEach((option,index) => { %>
+               <input type="radio" id="vote-btn-<%= index %>-<%= data.id %>" name="vote_option" value="<%= option.item %>">
+               <label for="vote-btn-<%= index %>-<%= data.id %>" class="btn"><%= option.item %></label>
+            <% }); %>
         </div>
         <div class="vote-btn_wrapper">
-            <button type="submit" class="btn-lg">vote</button>
+            <%-   %>
+            <button type="submit" class="btn-lg" <%- data.settings.isAlwaysAvailable ? '' : moment(currentDate).isBetween(data.settings.availability.startDate, data.settings.availability.endDate, undefined, '[]') ? '' : 'disabled' %> >vote</button>
         </div>
     </form>
 </div>

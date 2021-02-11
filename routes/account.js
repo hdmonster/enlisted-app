@@ -1,20 +1,49 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const firebase = require('firebase');
+const db = firebase.firestore();
+const auth = firebase.auth();
 
 /* GET account profile. */
-router.get('/', (req, res, next) => {
-    res.layout('account', 
-      { 'title': 'Account - Enlisted', 
+router.get('/', async (req, res, next) => {
+    const snapshotUser = await db.doc(`users/${req.session.uid}`).get();
+    const user = snapshotUser.data();
+    res.layout('account',
+      { 'title': 'Account - Enlisted',
         'layout': 'layout/master',
-        'nav_title' : 'Account'});
+        'nav_title' : 'Account',
+        'user': user
+    });
 });
 
 // Edit account
-router.get('/edit', (req, res, next) => {
-  res.layout('account/edit', 
-    { 'title': 'Edit Profile - Enlisted', 
+router.get('/edit', async (req, res, next) => {
+    const snapshotUser = await db.doc(`users/${req.session.uid}`).get();
+    const user = snapshotUser.data();
+
+    res.layout('account/edit',
+    { 'title': 'Edit Profile - Enlisted',
       'layout': 'layout/edit-layout',
-      'nav_title' : 'Edit Profile'});
+      'nav_title' : 'Edit Profile',
+      'user': user
+    });
 });
+
+// POST Edit account
+router.post('/edit', async (req, res, next) => {
+    const { bio } = req.body;
+    try {
+        const update = await db.doc(`users/${req.session.uid}`).update({
+            bio: bio
+        });
+        req.flash('success','Your account has been updated');
+        res.redirect('back');
+    } catch (error) {
+        req.flash('err',error.message);
+        req.flash('bio',bio);
+        res.redirect('back');
+    }
+});
+
 
 module.exports = router;

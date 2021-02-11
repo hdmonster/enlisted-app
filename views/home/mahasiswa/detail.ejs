@@ -1,19 +1,19 @@
 <div class="account-container">
     <div class="profile-pic_wrapper">
-        <img src="/images/aurora.jpg" alt="User Profile Picture">
+        <img src="<%= user.photoURL %>" alt="User Profile Picture">
     </div>
     <div class="profile-info_wrapper">
-        <span class="name"> Russel Van Dulken </span>
-        <span class="bio">Russel David Kevin Van Dulken, better known as Twistzz, is a Canadian professional Counter-Strike:  Global Offensive player.</span>
+        <span class="name"> <%= user.fullName %> </span>
+        <span class="bio"><%= user.bio %></span>
     </div>
     <div class="social_wrapper">
-        <div class="icon-container" onclick="openNewTab('tel:081237791879')">
+        <div class="icon-container" onclick="openNewTab('https://wa.me/62<%= user.whatsapp %>?text=Hai,saya <%= fullName %> biasa dipanggil <%= nickname %>')">
             <i data-feather="phone"></i>
         </div>
-        <div class="icon-container" onclick="openNewTab('https://www.instagram.com/haydardzaky_')">
+        <div class="icon-container" onclick="openNewTab('https://www.instagram.com/<%= user.instagram %>')">
             <i data-feather="instagram"></i>
         </div>
-        <div class="icon-container" onclick="openNewTab('https://www.github.com/hdmonster')">
+        <div class="icon-container" onclick="openNewTab('https://www.github.com/<%= user.github %>')">
             <i data-feather="github"></i>
         </div>
     </div>

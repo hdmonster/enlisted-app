@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var firebase = require('firebase')
+var firebase = require('firebase');
 var auth = firebase.auth();
 var db = firebase.firestore();
 
@@ -13,9 +13,12 @@ router.post('/signup', async(req, res, next) => {
 
   if(fullName == "" || nickname == "" || email == "" || password == ""){
     errSignUp(req,res,'Please fill in the required form!',fullName,nickname,email);
+    return false;
   };
-  if(splitEmail != "student.itk.ac.id"){
-    errSignUp(req,res,'Please use your business email! (@student.itk.ac.id)',fullName,nickname,email);
+
+  if(typeof parseInt(nim) !== 'number' || nim.length != 8 || splitEmail != "student.itk.ac.id"){
+    errSignUp(req,res,'Please use your business email! (Your NIM Here@student.itk.ac.id)',fullName,nickname,email);
+    return false;
   };
 
   try {
@@ -23,13 +26,18 @@ router.post('/signup', async(req, res, next) => {
     const cred = createUser.user;
     const updateUser = await auth.currentUser.updateProfile({
       displayName: displayName,
-      photoURL : "https://i.stack.imgur.com/l60Hf.png"
     });
     const userCollection = await db.collection('users').doc(cred.uid).set({
-      isActive : true,
       bio : "",
       nim : nim,
-      servers : []
+      displayName: displayName,
+      fullName : fullName,
+      nickname : nickname,
+      servers : [],
+      instagram: "",
+      github: "",
+      whatsapp: "",
+      photoURL : "https://i.stack.imgur.com/l60Hf.png",
     });
     req.session.uid = cred.uid;
     req.session.displayName = displayName;
@@ -53,7 +61,7 @@ router.post('/signin', async (req, res, next) => {
     errSignIn(req,res,'Please fill in the required form!',email);
   };
   if(splitEmail != "student.itk.ac.id"){
-    errSignIn(req,res,'Please use your business email! (@student.itk.ac.id)',email);
+    errSignIn(req,res,'Please use your business email! (Your NIM Here@student.itk.ac.id)',email);
   };
 
   try {
@@ -66,10 +74,11 @@ router.post('/signin', async (req, res, next) => {
     req.session.fullName = fullName;
     req.session.nickname = nickname;
     req.session.nim = nim;
-    req.flash('success','Your are logged in.');
+    req.flash('success','You are logged in');
     res.redirect('/');
   } catch (error) {
-    errSignIn(req,res,error.message,email);
+    req.flash('err',error.message);
+    res.redirect('back')
   }
 });
 

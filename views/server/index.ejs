@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/css/style.css' />
+    <title><%= title %></title>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <a href="/api/auth/signout">Logout</a>
+    <p>
+      <% if(messages.success){ %>
+        <%= messages.success %>
+      <% } %>
+      <% if(messages.err){ %>
+        <%= messages.err %>
+      <% } %>
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <td>No.</td>
+          <td>ID Server</td>
+          <td>Name</td>
+          <td>Created By</td>
+          <td>Action</td>
+        </tr>
+      </thead>
+      <tbody>
+        <% servers.forEach(function(server,index) { %>
+           <tr>
+             <td><%= index += 1 %></td>
+             <td><%= server.id %></td>
+             <td><%= server.name %></td>
+             <td><%= server.createdBy['name'] %></td>
+             <td>
+                 <a href="#">Edit</a>
+                 <a href="#">Delete</a>
+             </td>
+           </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </body>
+</html>

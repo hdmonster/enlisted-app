@@ -1,35 +1,31 @@
 <div class="poll-card-container">
     <div class="info_wrapper">
-        <span class="author">Flip Monke</span>
+        <span class="author"><%= data.author.name %></span>
         <span class="end-time">
             Polls ended
         </span>
     </div>
+    
     <div class="question_wrapper">
         <span>
-            Godzilla or Kong?
+            <%= data.question %>
         </span>
     </div>
 
     <div class="poll-wrapper">
-        <input type="hidden" name="poll_id" value="someid">
-        
-        <div class="progress-bar_wrapper">
-            <div class="progress-bar" value="40">
-                <div>
-                    <span>Godzilla</span>
-                    <span class="percentage">40%</span>
+        <% let voterCount = data.voter.length %>
+        <% data.option.forEach((option,index) => { %>
+            <% let percentage = (option.count/voterCount) * 100 %>
+            <% percentage = data.settings.showAfterVote ?  percentage : data.settings.isAlwaysAvailable && !data.settings.showAfterVote ? '0' : currentDate > data.settings.availability.endDate && !data.settings.showAfterVote ?  percentage : '0' %>
+            <div class="progress-bar_wrapper">
+                <div class="progress-bar" value="<%= percentage %>">
+                    <div>
+                        <span><%= option.item %></span>
+                        <span class="percentage"><%= percentage %>%</span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="progress-bar_wrapper">
-            <div class="progress-bar" value="60">
-                <div>
-                    <span>Kong</span>
-                    <span class="percentage">60%</span>
-                </div>
-            </div>
-        </div>
+        <% }) %>
     </div>
     <div class="vote-btn_wrapper">
         <span>Thanks for the response!</span>

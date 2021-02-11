@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%= title %></title>
+        <link rel='stylesheet' href='/css/style.css' />
+        <title><%= title %></title>
+    </head>
+    <body>
+        <h1><%= title %></h1>
+        <p>Welcome to <%= title %></p>
+        <a href="/api/auth/signout">Logout</a>
+        <p>
+          <% if(messages.success){ %>
+            <%= messages.success %>
+          <% } %>
+          <% if(messages.err){ %>
+            <%= messages.err %>
+          <% } %>
+        </p>
+    </body>
+</html>

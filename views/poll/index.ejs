@@ -2,11 +2,26 @@
     <div class="recent_wrapper">
         <span>recent</span>
     </div>
+    <% let currentDate = moment().format("DD/MM/YYYY"); %>
+    <% polls.forEach(function(poll){ %>
+        <% if(poll.isVoted === true){ %>
+            <!--If user voted the poll pass data here-->
+            <%- include('../partials/cards/poll-voted',{data: poll,currentDate: currentDate}) %>
+        <% }else{ %>
+            <!--else here-->
+            <%- include('../partials/cards/poll-vote', {data: poll,currentDate: currentDate}) %>
+        <% } %>
+    <% }) %>
 
-    <!--If user voted the poll pass data here-->
-    <%- include('../partials/cards/poll-voted', {data: 'dataObject'}) %>
-
-    <!--else here-->
-    <%- include('../partials/cards/poll-vote', {data: 'dataObject'}) %>
     
 </div>
+
+<!-- Toast -->
+<script type="text/javascript">
+    if('<%= messages.success %>'){
+        showToast('success','<%= messages.success %>')
+    }
+    if('<%= messages.err %>'){
+        showToast('failed','<%= messages.err %>')
+    }
+</script>

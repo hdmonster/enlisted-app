@@ -1,4 +1,4 @@
-const container = document.querySelector('.container')
+const container = document.querySelector('.list')
 
 const socket = io()
 
@@ -9,15 +9,14 @@ socket.on('protocol', msg => {
 socket.on('lists', lists => {
 
     var content = ''
-    
-    lists.forEach(list => {
-        createdAt = moment(list.createdAt, "DD/MM/YYYY HH:mm:ss").fromNow();
 
+    lists.forEach(list => {
+        var createdAt = moment(list.createdAt, "DD/MM/YYYY HH:mm:ss").fromNow();
         content += `
-            <div class="card">
+            <div class="card-list" onclick="navigateNext('${list.id}/view')">
                 <div class="header">
                     <span class="title">${list.title}</span>
-                    <span class="detail">${createdAt} - ${list.author}</span>
+                    <span class="detail">${list.author.name.split('AKA ')[1]} - ${createdAt}</span>
                 </div>
                 <div class="icon-container">
                     <i data-feather="chevron-right"></i>
@@ -26,7 +25,7 @@ socket.on('lists', lists => {
         `
     })
 
-    //container.innerHTML = content
-    
-    
+    container.innerHTML = content
+
+
 })
