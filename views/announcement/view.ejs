@@ -5,7 +5,7 @@
         </span>
     </div>
     <div class="info_wrapper">
-        <span id="entries-detail"><%= moment(announcement.createdAt, "DD/MM/YYYY HH:mm:ss").fromNow() %> - Posted by <%= announcement.author.name.split('AKA ')[1] %></span>
+        <span id="entries-detail"><%= moment(announcement.createdAt, "DD/MM/YYYY HH:mm:ss").fromNow() %> - Posted by <%= announcement.author.name %></span>
     </div>
     <div class="content_wrapper">
         <p><%= announcement.content %></p>
