@@ -9,13 +9,13 @@ var moment = require('moment');
 router.post('/create', isAdmin ,async(req, res, next) => {
     const currentDate = moment().format("DD/MM/YYYY HH:mm:ss");
     let {serverName, serverType, userId, status,name} = req.body;
-
     if (serverName == ""|| serverType == "" || userId == "" || status == ""){
         errCreate(req,res,'Please fill in the required form!',serverName,serverType,userId,status);
         return false;
     };
     try {
-        const createServer = await db.collection('servers').add({
+        let serverId = getRandomString();
+        const createServer = await db.doc(`servers/${serverId}`).set({
             createdAt : currentDate,
             createdBy : {
                 name: req.session.fullName,
@@ -26,7 +26,7 @@ router.post('/create', isAdmin ,async(req, res, next) => {
             icon: ""
         });
         
-        const members = await db.collection(`servers/${createServer.id}/members`).add({
+        const members = await db.collection(`servers/${serverId}/members`).add({
             role : 'admin',
             status : status,
             userId : userId,
@@ -34,7 +34,7 @@ router.post('/create', isAdmin ,async(req, res, next) => {
         });
 
         const addToUser = await db.collection(`users/${userId}/servers`).add({
-            server_id : createServer.id
+            server_id : serverId
         });
         
         req.flash('success','Server has been created successfully.')
@@ -105,6 +105,15 @@ async function isAdmin(req,res,next){
   }else{
     res.redirect('back');
   }
+}
+
+function getRandomString() {
+    var randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var result = '';
+    for ( var i = 0; i < 6; i++ ) {
+        result += randomChars.charAt(Math.floor(Math.random() * randomChars.length));
+    }
+    return result;
 }
 
 function errCreate(req,res,msg,serverName,serverType,userId,status){

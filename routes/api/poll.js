@@ -121,6 +121,36 @@ router.post('/:poll_id/vote',isMember , async(req, res, next) => {
     }
 });
 
+/* Update poll. */
+router.get('/:poll_id/update', isMember ,async(req, res, next) => {
+    const { server_code, poll_id } = req.body;
+    try {
+        const refPoll = await db.doc(`servers/${server_code}/polls/${poll_id}`).get();
+        const poll = refPoll.data();
+        if(poll.author.userId != req.session.uid){
+            req.flash('err','You are not the owner of this poll');
+            res.redirect('back');
+            return false;
+        }
+        let settings = {
+            availability: {
+                endDate: poll.settings.availability.endDate,
+                startDate: poll.settings.availability.startDate,
+            },
+            isAlwaysAvailable: poll.settings.isAlwaysAvailable,
+            showAfterVote: poll.settings.showAfterVote ? false : true 
+        };
+        const updatePoll = await db.doc(`servers/${server_code}/polls/${poll_id}`).update({
+            settings: settings
+        });
+        req.flash('success','Poll has been updated');
+        res.redirect('back');
+    } catch (error) {
+        req.flash('err',error);
+        res.redirect('back');
+    }
+})
+
 /* Delete poll. */
 router.post('/:poll_id/delete',isMember , async(req, res, next) => {
     const { server_code, poll_id } = req.params;
