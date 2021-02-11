@@ -2,7 +2,16 @@
     <div class="info_wrapper">
         <span class="author"><%= data.author.name %></span>
         <span class="end-time">
-            Polls ended
+            <% let isBetween = moment(currentDate).isBetween(data.settings.availability.startDate, data.settings.availability.endDate, undefined, '[]') %>
+            <% if(!data.settings.isAlwaysAvailable && moment(currentDate).isAfter(data.settings.availability.endDate)){ %> 
+                Polls ended
+            <% } %>
+            <% if(!data.settings.isAlwaysAvailable && isBetween){ %>
+                Poll ends <%= moment(data.settings.availability.endDate, "DD/MM/YYYY 23:59:59").fromNow(); %>
+            <% } %>
+            <% if(data.settings.isAlwaysAvailable){ %>
+                Always available
+            <% } %>
         </span>
     </div>
     
@@ -15,7 +24,7 @@
     <div class="poll-wrapper">
         <% let voterCount = data.voter.length %>
         <% data.option.forEach((option,index) => { %>
-            <% let percentage = (option.count/voterCount) * 100 %>
+            <% let percentage = Math.round((option.count/voterCount) * 100) %>
             <% percentage = data.settings.showAfterVote ?  percentage : data.settings.isAlwaysAvailable && !data.settings.showAfterVote ? '0' : currentDate > data.settings.availability.endDate && !data.settings.showAfterVote ?  percentage : '0' %>
             <div class="progress-bar_wrapper">
                 <div class="progress-bar" value="<%= Math.round(percentage) %>">
