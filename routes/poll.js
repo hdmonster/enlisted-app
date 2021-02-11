@@ -23,7 +23,7 @@ router.get('/', isMember, async(req, res, next) => {
       'title': 'Poll - Enlisted',
       'layout': 'layout/index-layout',
       'nav_title' : 'Polls',
-      'polls':polls,
+      'polls': polls,
       'serverCode': server_code
     });
   } catch (error) {

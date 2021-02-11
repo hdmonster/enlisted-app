@@ -16,7 +16,14 @@
 </head>
     <body>
         <%- include('../partials/sidenav') %>
-        <%- include('../partials/navbar/master.ejs') %>
+
+        <% if (title.includes('Account')) { %>
+            <%- include('../partials/navbar/account-nav.ejs') %>
+        <% } else { %>
+            <%- include('../partials/navbar/master.ejs') %>
+        <% } %>
+        
+        
         <%- include('../partials/snackbar') %>
         <div class="main">
             <%- yield %>

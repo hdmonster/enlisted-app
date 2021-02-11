@@ -123,7 +123,7 @@ router.post('/:poll_id/vote',isMember , async(req, res, next) => {
 
 /* Update poll. */
 router.get('/:poll_id/update', isMember ,async(req, res, next) => {
-    const { server_code, poll_id } = req.body;
+    const { server_code, poll_id } = req.params;
     try {
         const refPoll = await db.doc(`servers/${server_code}/polls/${poll_id}`).get();
         const poll = refPoll.data();

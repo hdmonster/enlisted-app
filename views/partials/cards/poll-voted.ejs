@@ -18,16 +18,20 @@
             <% let percentage = (option.count/voterCount) * 100 %>
             <% percentage = data.settings.showAfterVote ?  percentage : data.settings.isAlwaysAvailable && !data.settings.showAfterVote ? '0' : currentDate > data.settings.availability.endDate && !data.settings.showAfterVote ?  percentage : '0' %>
             <div class="progress-bar_wrapper">
-                <div class="progress-bar" value="<%= percentage %>">
+                <div class="progress-bar" value="<%= Math.round(percentage) %>">
                     <div>
                         <span><%= option.item %></span>
-                        <span class="percentage"><%= percentage %>%</span>
+                        <span class="percentage"><%= Math.round(percentage) %>%</span>
                     </div>
                 </div>
             </div>
         <% }) %>
     </div>
     <div class="vote-btn_wrapper">
-        <span>Thanks for the response!</span>
+        <% if (data.author.userId == userId) {  %>
+            <a href="/api/<%= serverCode %>/poll/<%= data.id %>/update"><%= data.settings.showAfterVote ? 'Hide results' : 'Show results' %></a>
+        <% } else { %>
+            <span>Thanks for the response!</span>
+        <% } %>
     </div>
 </div>

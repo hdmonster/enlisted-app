@@ -3,7 +3,7 @@
         <span class="author"><%= data.author.name %></span>
         <span class="end-time"> 
             <% if(!data.settings.isAlwaysAvailable){ %>
-                Ends <%= moment(data.settings.availability.endDate, "DD/MM/YYYY").fromNow(); %>
+                Ends <%= moment(data.settings.availability.endDate, "DD/MM/YYYY HH:mm:ss").fromNow(); %>
             <% }else{ %>
                 Always available
             <% } %>
