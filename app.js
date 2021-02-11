@@ -8,6 +8,7 @@ const session = require('express-session');
 const flash = require('express-flash');
 
 const firebase = require('./firebase/config')
+const db = firebase.firestore();
 
 var app = express();
 const server = http.createServer(app)
@@ -39,9 +40,9 @@ app.use(session({
   cookie: { maxAge:null }
 }))
 
-
+// Make socket accessible to routes
 app.use((req, res, next) => {
-  res.io = socketio;
+  res.io = socketio;  
   next()
 });
 
@@ -53,7 +54,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.all('/', isLoggedIn, indexRouter);
+app.all('/', indexRouter);
 app.use('/account', accountRouter);
 app.use('/playground', playgroundRouter);
 app.use('/auth', authRouter);
@@ -62,7 +63,7 @@ app.use('/api/auth',apiAuthRouter);
 app.use('/api/list',apiListRouter);
 app.use('/api/poll',apiPollRouter);
 app.use('/api/server',apiServerRouter);
-app.use('/s/:server_code', serverRouter);
+app.use('/s/:server_code', callServerList, serverRouter);
 app.use('/s/:server_code/list', listRouter);
 app.use('/s/:server_code/poll', pollRouter);
 app.use('/s/:server_code/announcement', announcementRouter);
@@ -94,6 +95,38 @@ function isLoggedIn(req, res, next) {
     console.log(req.session.nim);
     next();
   }
+}
+
+function callServerList(req, res, next){
+  const io = socketio
+
+  const user_id = 'VQl24LbkRlVJn7xAvGDsVycvX4K3'
+
+  console.log('Listening to server changes')
+
+  const observer = db.collection(`users`).doc(user_id).collection('servers')
+  .onSnapshot(async querySnapshot => {
+
+    for (let change of querySnapshot.docChanges()){
+
+      const server_id = change.doc.data().server_id
+
+      const serverRef = db.collection('servers').doc(server_id);
+      const doc = await serverRef.get()
+
+      const { name, icon } = doc.data()
+
+      const data = { server_id, name, icon }
+
+      console.log('data', data);
+
+      io.on('connection', socket => {
+        socket.emit('server_changes', {type: change.type, data})
+      })
+
+      next()
+    }
+  });
 }
 
 const PORT = 3000

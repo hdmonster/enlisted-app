@@ -14,8 +14,11 @@ router.get('/home', (req, res, next) => {
 });
 
 /* GET bph page. */
-router.get('/bph', (req, res) => {
-  res.send('Bph page')
+router.get('/pengurus', (req, res) => {
+  res.layout('home/pengurus', 
+      { 'title': 'Pengurus - Enlisted', 
+        'layout': 'layout/simple-layout',
+        'nav_title' : 'Pengurus'});
 })
 
 /* GET mahasiswa page. */
