@@ -61,7 +61,7 @@ router.post('/post', isMember ,async(req, res, next) => {
             settings:{
                 availability:{
                     startDate: startDate,
-                    endDate: endDate,
+                    endDate: endDate + ' 23:59:59',
                 },
                 showAfterVote: showAfterVote == 'on' ? true : false,
                 isAlwaysAvailable: isAlwaysAvailable,

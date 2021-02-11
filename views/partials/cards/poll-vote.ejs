@@ -4,10 +4,10 @@
         <span class="author"><%= data.author.name %></span>
         <span class="end-time">
             <% if(!data.settings.isAlwaysAvailable && moment(currentDate).isBefore(data.settings.availability.startDate)){ %> 
-                Open <%= moment(data.settings.availability.startDate, "DD/MM/YYYY 00:00:00").fromNow(); %>
+                Opens <%= moment(data.settings.availability.startDate, "DD/MM/YYYY 00:00:00").fromNow(); %>
             <% } %>
             <% if(!data.settings.isAlwaysAvailable && isBetween){ %>
-                Ends <%= moment(data.settings.availability.endDate, "DD/MM/YYYY 23:59:59").fromNow(); %>
+                Ends <%= moment(data.settings.availability.endDate, "DD/MM/YYYY HH:mm:ss").fromNow(); %>
             <% } %>
             <% if(data.settings.isAlwaysAvailable){ %>
                 Always available

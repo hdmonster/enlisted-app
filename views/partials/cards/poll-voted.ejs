@@ -7,7 +7,7 @@
                 Polls ended
             <% } %>
             <% if(!data.settings.isAlwaysAvailable && isBetween){ %>
-                Poll ends <%= moment(data.settings.availability.endDate, "DD/MM/YYYY 23:59:59").fromNow(); %>
+                Ends <%= moment(data.settings.availability.endDate, "DD/MM/YYYY HH:mm:ss").fromNow(); %>
             <% } %>
             <% if(data.settings.isAlwaysAvailable){ %>
                 Always available
