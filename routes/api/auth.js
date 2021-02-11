@@ -4,6 +4,9 @@ var firebase = require('firebase');
 var auth = firebase.auth();
 var db = firebase.firestore();
 
+// TODO: import callServerList
+const server = require('./admin-server')
+
 /* POST sign up. */
 router.post('/signup', async(req, res, next) => {
   const {fullName,nickname,email,password} = req.body;
@@ -44,6 +47,9 @@ router.post('/signup', async(req, res, next) => {
     req.session.fullName = fullName;
     req.session.nickname = nickname;
     req.session.nim = nim;
+
+    const refreshUserServer = await callServerList(req)
+
     req.flash('success','Your account has been created successfully.');
     res.redirect('/');
   } catch (error) {
@@ -74,6 +80,9 @@ router.post('/signin', async (req, res, next) => {
     req.session.fullName = fullName;
     req.session.nickname = nickname;
     req.session.nim = nim;
+
+    const refreshUserServer = await callServerList(req)
+
     req.flash('success','You are logged in');
     res.redirect('/');
   } catch (error) {
@@ -107,6 +116,31 @@ function errSignIn(req,res,msg,email){
   req.flash('err',msg);
   req.flash('email',email);
   res.redirect('back');
+}
+
+async function callServerList(req){
+  const db = firebase.firestore();
+  
+  const user_id = req.session.uid
+
+  const query = await db.collection(`users/${user_id}/servers`).get()
+
+  let userServerIds = []
+  let userServers = req.session.userServers = []
+
+  query.forEach(doc => userServerIds.push(doc.data().server_id))
+
+  const snapshotServer = await db.collection(`servers`).get();
+  const getServer = snapshotServer.forEach(server => {
+    if(userServerIds.includes(server.id)){
+      const { icon, name } = server.data()
+
+      userServers.push({ id : server.id, name, icon })
+    }
+  })
+
+  console.log('server list added to session');
+  console.log(userServers);
 }
 
 module.exports = router;

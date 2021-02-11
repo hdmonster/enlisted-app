@@ -117,6 +117,7 @@ function assignActiveServer(){
 
         if (pathUrl.includes(server_id))
             itemBorder.classList.add('active')
+            console.log('active');
 
     })
 }

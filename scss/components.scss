@@ -572,6 +572,14 @@ input:checked + .slider:before {
     justify-content: center;
     margin: 12px 0 36px;
 
+    a {
+      margin-top: 24px;
+      font-size: 16px;
+      font-weight: 600;
+      color: $green;
+      text-decoration: none;
+    }
+
     span {
       margin-top: 24px;
       font-size: 18px;
@@ -746,7 +754,6 @@ input:checked + .slider:before {
 
     .border {
       width: 3px;
-      height: 100%;
       border-radius: 0 4px 4px 0;
       background: none;
     }
@@ -861,6 +868,7 @@ input:checked + .slider:before {
 
   .info_wrapper {
     display: flex;
+    align-items: center;
     justify-content: space-between;
     padding: 12px;
 

@@ -85,6 +85,8 @@ router.post('/join', async (req, res, next) => {
                 server_id : server_code
             });
 
+            const refreshUserServer = await callServerList(req)
+
             req.flash('success','You have been added to the server');
             res.redirect(`/s/${server_code}/home`);
         } catch (error) {
@@ -119,4 +121,29 @@ function errJoin(req,res,msg){
     res.redirect('back');
 }
 
-module.exports = router;
+async function callServerList(req){
+    const db = firebase.firestore();
+    
+    const user_id = req.session.uid
+  
+    const query = await db.collection(`users/${user_id}/servers`).get()
+  
+    let userServerIds = []
+    let userServers = req.session.userServers = []
+  
+    query.forEach(doc => userServerIds.push(doc.data().server_id))
+  
+    const snapshotServer = await db.collection(`servers`).get();
+    const getServer = snapshotServer.forEach(server => {
+      if(userServerIds.includes(server.id)){
+        const { icon, name } = server.data()
+  
+        userServers.push({ id : server.id, name, icon })
+      }
+    })
+
+    console.log('server list added to session');
+    console.log(userServers);
+}
+
+module.exports = router

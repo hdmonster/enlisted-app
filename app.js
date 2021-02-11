@@ -45,14 +45,19 @@ app.use(session({
 // Make socket accessible to routes
 app.use((req, res, next) => {
 
-    res.locals.userId = req.session.uid;
-    res.locals.displayName = req.session.displayName;
-    res.locals.fullName = req.session.fullName;
-    res.locals.nickname = req.session.nickname;
-    res.locals.nim = req.session.nim;
-    res.locals.moment = moment;
-    res.io = socketio;
-    next()
+  res.locals.userId = req.session.uid;
+  res.locals.displayName = req.session.displayName;
+  res.locals.fullName = req.session.fullName;
+  res.locals.nickname = req.session.nickname;
+  res.locals.nim = req.session.nim;
+
+  res.locals.userServers = req.session.userServers;
+
+  res.locals.moment = moment;
+
+  res.io = socketio;
+
+  next()
 });
 
 app.use(require('ejs-yield'))
@@ -97,43 +102,12 @@ app.use((err, req, res, next) => {
 
 // check if session has existed
 function isLoggedIn(req, res, next) {
+
   if (!req.session.uid) {
     res.redirect('/auth/signin');
   } else {
     next();
   }
-}
-
-function callServerList(req, res, next){
-  const io = socketio
-
-  const user_id = 'VQl24LbkRlVJn7xAvGDsVycvX4K3'
-
-  console.log('Listening to server changes')
-
-  const observer = db.collection(`users`).doc(user_id).collection('servers')
-  .onSnapshot(async querySnapshot => {
-
-    for (let change of querySnapshot.docChanges()){
-
-      const server_id = change.doc.data().server_id
-
-      const serverRef = db.collection('servers').doc(server_id);
-      const doc = await serverRef.get()
-
-      const { name, icon } = doc.data()
-
-      const data = { server_id, name, icon }
-
-      console.log('data', data);
-
-      io.on('connection', socket => {
-        socket.emit('server_changes', {type: change.type, data})
-      })
-
-      next()
-    }
-  });
 }
 
 const PORT = 3000

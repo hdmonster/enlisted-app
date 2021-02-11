@@ -12,5 +12,14 @@
     </div>
     
     <div class="server-container">
+        <% userServers.forEach(function(server) {  %>
+            <div class="server-item" id="<%= server.id %>" onclick="navigateReplaceAll('/s/<%= server.id %>/home')">
+                <div class="border"></div>
+                <div class="server-info">
+                    <img src="<%= server.icon %>" alt="server logo">
+                    <span class="title"><%= server.name %></span>
+                </div>  
+            </div>
+        <%  }) %>
     </div>    
 </div>
