@@ -4,9 +4,9 @@
             <img src="<%= user.photoURL %>" alt="User Profile Picture">
         </div>
         <div class="edit-profile_wrapper">
-            <input class="txt-field-fill_grey" autocomplete="off" type="text" name="name" value="<%= user.fullName %>" placeholder="Name">
-            <input class="txt-field-fill_grey" autocomplete="off" type="text" name="nickname" value="<%= user.nickname %>" placeholder="Nickname">
-            <input class="txt-field-fill_grey" autocomplete="off" type="text" name="nim" value="<%= user.nim %>" placeholder="NIM">
+            <input class="txt-field-fill_grey" autocomplete="off" type="text" name="name" value="<%= user.fullName %>" placeholder="Name" readonly>
+            <input class="txt-field-fill_grey" autocomplete="off" type="text" name="nickname" value="<%= user.nickname %>" placeholder="Nickname" readonly>
+            <input class="txt-field-fill_grey" autocomplete="off" type="text" name="nim" value="<%= user.nim %>" placeholder="NIM" readonly>
             <input class="txt-field-fill_grey" autocomplete="off" type="text" name="bio" value="<%- messages.bio ? messages.bio : user.bio %>" placeholder="Bio">
         </div>
     </div>

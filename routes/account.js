@@ -31,10 +31,13 @@ router.get('/edit', async (req, res, next) => {
 
 // POST Edit account
 router.post('/edit', async (req, res, next) => {
-    const { bio } = req.body;
+    const { bio,mobile,ig,github } = req.body;
     try {
         const update = await db.doc(`users/${req.session.uid}`).update({
-            bio: bio
+            bio: bio,
+            whatsapp: mobile,
+            instagram: ig,
+            github: github,
         });
         req.flash('success','Your account has been updated');
         res.redirect('back');
