@@ -75,6 +75,7 @@ router.post('/signin', async (req, res, next) => {
     const cred = signIn.user;
     const fullName = cred.displayName.split("AKA")[0];
     const nickname = cred.displayName.split("AKA ")[1];
+
     req.session.uid = cred.uid;
     req.session.displayName = cred.displayName;
     req.session.fullName = fullName;

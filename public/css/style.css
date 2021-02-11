@@ -710,6 +710,21 @@ input:checked + .slider:before {
   color: #3d3d3d;
   padding-left: 16px;
 }
+.sidenav .account_wrapper {
+  display: flex;
+  align-items: center;
+  justify-self: flex-end;
+  margin: 32px 18px 15px;
+}
+.sidenav .account_wrapper .icon-container {
+  padding: 4px 0;
+}
+.sidenav .account_wrapper span {
+  font-size: 15px;
+  font-weight: 600;
+  color: #3d3d3d;
+  padding-left: 16px;
+}
 .sidenav .server-item {
   display: flex;
   visibility: hidden;
@@ -947,13 +962,31 @@ input:checked + .slider:before {
   align-items: center;
 }
 .account-container .profile-pic_wrapper {
+  position: relative;
+  color: #fff;
   margin-top: 4vh;
 }
-.account-container .profile-pic_wrapper img {
+.account-container .profile-pic_wrapper .avatar {
   width: 130px;
   height: 130px;
   border-radius: 65px;
-  object-fit: cover;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.account-container .profile-pic_wrapper .change-avatar_wrapper {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  bottom: 0;
+  width: 130px;
+  height: 65px;
+  border-bottom-left-radius: 130px;
+  border-bottom-right-radius: 130px;
+  background: #3d3d3d;
+  opacity: 0.8;
 }
 .account-container .profile-info_wrapper {
   display: flex;

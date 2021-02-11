@@ -50,6 +50,10 @@ app.use((req, res, next) => {
   res.locals.fullName = req.session.fullName;
   res.locals.nickname = req.session.nickname;
   res.locals.nim = req.session.nim;
+  res.locals.bio = req.session.bio;
+  res.locals.whatsapp = req.session.whatsapp;
+  res.locals.instagram = req.session.instagram;
+  res.locals.github = req.session.github;
 
   res.locals.userServers = req.session.userServers;
 

@@ -120,6 +120,17 @@ function assignActiveServer(){
     })
 }
 
+function setAvatar(){
+    let avatarurl = document.querySelector('.avatar').getAttribute('url')
+    const avatarContainer = document.querySelector('.avatar')
+    console.log(avatarurl);
+    avatarContainer.style.backgroundImage = `url('${avatarurl}')`
+}
+
+function changeAvatar(){
+    document.querySelector('#avatar').click()
+}
+
 function loadFirst(){
     const pathUrl = window.location.pathname
 
@@ -132,6 +143,8 @@ function loadFirst(){
     } else if (pathUrl.includes('poll')){
         setProgressBar()
         showDatepicker()
+    } else if (pathUrl.includes('account')) {
+        setAvatar()
     } else{
         console.warn('No function to load')
     }

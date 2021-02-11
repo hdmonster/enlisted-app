@@ -745,6 +745,24 @@ input:checked + .slider:before {
     }
   }
 
+  .account_wrapper {
+    display: flex;
+    align-items: center;
+    justify-self: flex-end;
+    margin: 32px 18px 15px;
+
+    .icon-container {
+      padding: 4px 0;
+    }
+
+    span {
+      font-size: 15px;
+      font-weight: 600;
+      color: $black;
+      padding-left: 16px;
+    }
+  }
+
   .server-item {
     display: flex;
     visibility: hidden;
@@ -1033,12 +1051,32 @@ input:checked + .slider:before {
   align-items: center;
 
   .profile-pic_wrapper {
+    position: relative;
+    color: $white;
     margin-top: 4vh;
-    img {
+
+    .avatar {
       width: 130px;
       height: 130px;
       border-radius: 65px;
-      object-fit: cover;
+      background-size:cover;
+      background-position:center;
+      background-repeat:no-repeat;
+    }
+
+    .change-avatar_wrapper {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      bottom: 0;
+      width: 130px;
+      height: 65px;
+      border-bottom-left-radius: 130px;
+      border-bottom-right-radius: 130px;
+      background: $black;
+      opacity: .8;
     }
   }
 

@@ -1,20 +1,27 @@
-<form action="/account/edit" method="post" id="post">
-    <div class="account-container">
+<div class="account-container">
+    <form action="/account/upload-avatar" enctype="multipart/form-data" method="post">
         <div class="profile-pic_wrapper">
-            <img src="<%= user.photoURL %>" alt="User Profile Picture">
+            <div class="avatar" url="<%= user.photoURL %>">
+            </div>
+            <div class="change-avatar_wrapper" onclick="changeAvatar()">Change avatar</div>
+            <input type="file" name="avatar" id="avatar" style="display: none" onchange="form.submit()">
         </div>
+    </form>
+    
         <div class="edit-profile_wrapper">
-            <input class="txt-field-fill_grey" autocomplete="off" type="text" name="name" value="<%= user.fullName %>" placeholder="Name" readonly>
-            <input class="txt-field-fill_grey" autocomplete="off" type="text" name="nickname" value="<%= user.nickname %>" placeholder="Nickname" readonly>
-            <input class="txt-field-fill_grey" autocomplete="off" type="text" name="nim" value="<%= user.nim %>" placeholder="NIM" readonly>
-            <input class="txt-field-fill_grey" autocomplete="off" type="number" name="mobile" value="081237791878" placeholder="Mobile">
-            <input class="txt-field-fill_grey" autocomplete="off" type="text" name="ig" value="@twistzzcs" placeholder="IG Username">
-            <input class="txt-field-fill_grey" autocomplete="off" type="text" name="github" value="hdmonster" placeholder="Github Username">
-            <input class="txt-field-fill_grey" autocomplete="off" type="text" name="bio" value="<%- messages.bio ? messages.bio : user.bio %>" placeholder="Bio">
+            <form action="/account/edit" method="post" id="post">
+                <input class="txt-field-fill_grey" autocomplete="off" type="text" name="name" value="<%= user.fullName %>" placeholder="Name" readonly>
+                <input class="txt-field-fill_grey" autocomplete="off" type="text" name="nickname" value="<%= user.nickname %>" placeholder="Nickname" readonly>
+                <input class="txt-field-fill_grey" autocomplete="off" type="text" name="nim" value="<%= user.nim %>" placeholder="NIM" readonly>
+                <input class="txt-field-fill_grey" autocomplete="off" type="number" name="whatsapp" value="<%= user.whatsapp %>" placeholder="Whatsapp">
+                <input class="txt-field-fill_grey" autocomplete="off" type="text" name="instagram" value="<%= user.instagram %>" placeholder="IG Username (without @)">
+                <input class="txt-field-fill_grey" autocomplete="off" type="text" name="github" value="<%= user.github %>" placeholder="Github Username">
+                <input class="txt-field-fill_grey" autocomplete="off" type="text" name="bio" value="<%- messages.bio ? messages.bio : user.bio %>" placeholder="Bio">
+            </form>
         </div>
-    </div>
+    
 </div>
-</form>
+
 
 <!-- Toast -->
 <script type="text/javascript">
