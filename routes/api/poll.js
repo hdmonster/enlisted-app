@@ -14,9 +14,11 @@ router.post('/post', isMember ,async(req, res, next) => {
     let startDate = "";
     let endDate = "";
     let option = [];
+    let vote_option = req.body['vote_option[]'];
+
     showAfterVote = showAfterVote == 'on' ? 'on' : 'off';
     openPoll = openPoll == 'on' ? 'on' : 'off';
-    console.log(datetime_available);
+
     if(question == "" || showAfterVote == "" || openPoll == ""){
         errPostPoll(req,res,"Please fill in the required field",question, showAfterVote, openPoll, datetime_available);
         return false;
@@ -27,18 +29,21 @@ router.post('/post', isMember ,async(req, res, next) => {
         return false;
     }
 
-    for(option_user of req.body['vote_option[]']){
-        if(option_user == ""){
-            errPostPoll(req,res,"Please fill in the required field",question, showAfterVote, openPoll, datetime_available);
-            return false;
+    for (let i=0; i < vote_option.length; i++) { 
+        if(vote_option[i] == ""){ 
+            continue;
+            return false; 
         }
-    }
-
-    for(option_user of req.body['vote_option[]']){
         option.push({
-            item: option_user,
+            item: vote_option[i],
             count: 0
         });
+        
+    }
+
+    if(option.length < 2 ){
+        errPostPoll(req,res,"Please fill in at least 2 options",question, showAfterVote, openPoll, datetime_available);
+        return false;
     }
 
     if(datetime_available != ""){
@@ -123,7 +128,7 @@ router.post('/:poll_id/vote',isMember , async(req, res, next) => {
 
 /* Update poll. */
 router.get('/:poll_id/update', isMember ,async(req, res, next) => {
-    const { server_code, poll_id } = req.body;
+    const { server_code, poll_id } = req.params;
     try {
         const refPoll = await db.doc(`servers/${server_code}/polls/${poll_id}`).get();
         const poll = refPoll.data();
