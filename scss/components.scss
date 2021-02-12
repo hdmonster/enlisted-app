@@ -180,7 +180,6 @@
     width: 0%;
     background: $green;
     border-radius: 8px;
-    transition: all 1s ease-in-out;
 
     span {
       font-size: 15px;
@@ -482,6 +481,12 @@ input:checked + .slider:before {
 
 // Poll
 
+// poll card index only
+.poll-card-container.vote-index {
+  opacity: 0;
+  transition: opacity .5s ease-in-out;
+}
+
 .poll-card-container {
   display: flex;
   flex-direction: column;
@@ -701,11 +706,12 @@ input:checked + .slider:before {
   display: flex;
   flex-direction: column;
   height: 100%; /* 100% Full-height */
-  width: 0; /* 0 width - change this with JavaScript */
+  width: 250px; /* 0 width - change this with JavaScript */
   position: fixed; /* Stay in place */
   z-index: 3; /* Stay on top */
   top: 0; /* Stay at the top */
   left: 0;
+  transform: translateX(-250px);
   background-color: $white; /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 15px; /* Place content 60px from the top */

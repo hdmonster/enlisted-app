@@ -15,6 +15,11 @@ router.get('/signup', isLoggedIn ,(req, res) => {
   res.layout('auth/signup', { layout: 'layout/auth', title: 'Sign Up - Enlisted' });
 });
 
+/* GET reset password page. */
+router.get('/reset', isLoggedIn ,async(req, res) => {
+  res.layout('auth/reset-password', { layout: 'layout/auth', title: 'Reset Password - Enlisted' });
+});
+
 function isLoggedIn(req, res, next) {
   if (req.session.uid) {
     res.redirect('/');
