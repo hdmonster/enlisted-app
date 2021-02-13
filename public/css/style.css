@@ -476,6 +476,10 @@ input:checked + .slider:before {
   opacity: 0.8;
 }
 
+.content-container:last-child {
+  margin-bottom: 72px;
+}
+
 .poll-card-container.vote-index {
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
@@ -489,9 +493,6 @@ input:checked + .slider:before {
   padding: 32px 18px 0;
   background: #fff;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-}
-.poll-card-container:last-child {
-  margin-bottom: 72px;
 }
 .poll-card-container .info_wrapper {
   display: flex;

@@ -481,6 +481,13 @@ input:checked + .slider:before {
 
 // Poll
 
+// Parent layout for poll index
+.content-container {
+  &:last-child {
+    margin-bottom: 72px
+  }
+}
+
 // poll card index only
 .poll-card-container.vote-index {
   opacity: 0;
@@ -495,10 +502,6 @@ input:checked + .slider:before {
   padding: 32px 18px 0;
   background: $white;
   box-shadow: $shadow;
-
-  &:last-child {
-    margin-bottom: 72px
-  }
 
   .info_wrapper {
     display: flex;
