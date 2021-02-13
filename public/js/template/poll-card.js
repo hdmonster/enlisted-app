@@ -1,8 +1,13 @@
 // Poll template
 
-const pollCardVoted = (getData) => {
+const pollCardVoted = (getData, id, serverCode) => {
+    let textEndTime;
+    let isAuthor;
+    let isBetween;
     let polls = '';
-    const parentContainer = document.createElement('DIV')
+    const cardContainer = document.createElement('DIV')
+    cardContainer.classList.add('poll-card-container')
+    cardContainer.classList.add('vote-index')
 
     isBetween = moment(currentDate).isBetween(getData.settings.availability.startDate, getData.settings.availability.endDate, undefined, '[]');
 
@@ -17,7 +22,7 @@ const pollCardVoted = (getData) => {
     }
     
     if (getData.author.userId == currentUserId){
-        isAuthor = `<a href="/api/${ serverCode }/poll/${ getData.id }/update">` +  getData.settings.showAfterVote ? 'Hide results' : 'Show results' + `</a>`;
+        isAuthor = `<a href="/api/${ serverCode }/poll/${ id }/update">` +  getData.settings.showAfterVote ? 'Hide results' : 'Show results' + `</a>`;
     }else{
         isAuthor = `<span>Thanks for the response!</span>`
     }
@@ -41,40 +46,54 @@ const pollCardVoted = (getData) => {
         </div>`
     }    
 
+    let voteButton = ''
+
+    if (getData.author.userId == currentUserId) { 
+        voteButton = `<a href="/api/${serverCode}/poll/${id}/update">${getData.settings.showAfterVote ? 'Hide results' : 'Show results'}</a>`
+    } else {
+        voteButton = '<span>Thanks for the response!</span>'
+    }
+
 
     polls += `
-        <div class="poll-card-container">
-            <div class="info_wrapper">
-                <span class="author">${ getData.author.name }</span>
-                <span class="end-time">
-                    ${ textEndTime }
-                </span>
-            </div>
-            
-            <div class="question_wrapper">
-                <span>
-                    ${ getData.question }
-                </span>
-            </div>
+        <div class="info_wrapper">
+            <span class="author">${ getData.author.name }</span>
+            <span class="end-time">
+                ${ textEndTime }
+            </span>
+        </div>
+        
+        <div class="question_wrapper">
+            <span>
+                ${ getData.question }
+            </span>
+        </div>
 
-            <div class="poll-wrapper">
-                poll
-            </div>
+        <div class="poll-wrapper">
+            ${voteOptions}
+        </div>
+
+        <div class="vote-btn_wrapper">
+            ${voteButton}
         </div>
     `
 
-    parentContainer.innerHTML += polls
+    cardContainer.innerHTML += polls
 
-    content.appendChild(parentContainer)
+    content.appendChild(cardContainer)
 }
 
-const pollCardVote = (getData) => {
+const pollCardVote = (getData, id, serverCode) => {
+    let textEndTime;
+    let isBetween;
     let polls = '';
-    const parentContainer = document.createElement('DIV')
-    
-    isBetween = moment(currentDate).isBetween(getData.settings.availability.startDate, getData.settings.availability.endDate, undefined, '[]')
+    const cardContainer = document.createElement('DIV')
+    cardContainer.classList.add('poll-card-container')
+    cardContainer.classList.add('vote-index')
 
-    if(!getData.settings.isAlwaysAvailable && moment(currentDate).isBefore(getData.settings.availability.startDate)){
+    isBetween = moment(currentDate, format).isBetween(moment(getData.settings.availability.startDate, format), moment(getData.settings.availability.endDate, format), undefined, '[]')
+
+    if(!getData.settings.isAlwaysAvailable && moment(currentDate, format).isBefore(moment(getData.settings.availability.startDate, format))){
         textEndTime = "Opens " + moment(getData.settings.availability.startDate, "DD/MM/YYYY 00:00:00").fromNow();
     }
 
@@ -86,26 +105,47 @@ const pollCardVote = (getData) => {
         textEndTime = "Always Available"
     }
 
+    let voterCount = getData.voter.length;
+
+    let voteOptions = ''
+
+    for(let i = 0; i < getData.option.length; i++){
+        let percentage = Math.round((getData.option[i].count/voterCount) * 100);
+        percentage = getData.settings.showAfterVote ?  percentage : getData.settings.isAlwaysAvailable && !getData.settings.showAfterVote ? '0' : currentDate > getData.settings.availability.endDate && !getData.settings.showAfterVote ?  percentage : '0'; 
+        
+        voteOptions += `
+            <input type="radio" id="vote-btn-${i}-${id}" name="vote_option" value="${getData.option[i].item}">
+            <label for="vote-btn-${i}-${id}" class="btn">${getData.option[i].item}</label>
+        `
+    }   
+
     polls += `
-        <div class="poll-card-container">
-            <div class="info_wrapper">
-                <span class="author">${ getData.author.name }</span>
-                <span class="end-time">
-                    ${ textEndTime }
-                </span>
-            </div>
-            
-            <div class="question_wrapper">
-                <span>
-                    ${ getData.question }
-                </span>
-            </div>
+        <div class="info_wrapper">
+            <span class="author">${ getData.author.name }</span>
+            <span class="end-time">
+                ${ textEndTime }
+            </span>
         </div>
+        
+        <div class="question_wrapper">
+            <span>
+                ${ getData.question }
+            </span>
+        </div>
+
+        <form action="/api/${serverCode}/poll/${id}/vote" method="post">
+            <div class="poll-wrapper">
+                ${voteOptions}
+            </div>
+            <div class="vote-btn_wrapper">
+                <button type="submit" class="btn-lg" ${getData.settings.isAlwaysAvailable ? '' : isBetween ? '' : 'disabled'}>vote</button>
+            </div>
+        </form>
     `
 
-    parentContainer.innerHTML += polls
+    cardContainer.innerHTML += polls
 
-    content.appendChild(parentContainer)
+    content.appendChild(cardContainer)
 }
 
 // End of poll template

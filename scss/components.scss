@@ -86,6 +86,10 @@
   &:active {
     opacity: .8;
   }
+
+  &:disabled {
+    opacity: .5;
+  }
 }
 
 .btn-rounded {
@@ -278,7 +282,26 @@ input:checked + .slider:before {
   }
 }
 
+// Load more button
 
+.load-more {
+  display: none;
+  justify-content: center;
+  margin: 36px 0 18px;
+
+  button {
+    border: none;
+    border-radius: 4px;
+    padding: 12px 24px;
+    background: $blue;
+    color: $white;
+    font-size: 14px;
+
+    &:hover {
+      opacity: .8;
+    }
+  }
+}
 
 // List
 

@@ -5,14 +5,15 @@ let serverCode = currentUrl.substring(serverIndex + 3, lastSlash)
 
 const db = firebase.firestore();
 const content = document.querySelector('.content');
-const loadMore = document.getElementById('load-more');
-
+const btnLoadMore = document.querySelector('#load-more');
+const loadMoreContainer = document.querySelector('.load-more');
 let currentDate = moment().format("DD/MM/YYYY");
+let format = 'DD/MM/YYYY'
 let latestDoc = null;
 let limit = 5
 let last;
 let snapshot;
-let ref;
+let ref;    
 
 const getNextList = async () => {
     if(latestDoc == null){
@@ -28,45 +29,44 @@ const getNextList = async () => {
     snapshot = await ref.get();
     
     latestDoc = snapshot.docs[snapshot.docs.length - 1];
-      
+    
+    // Stop showing spinkit
+    hideLoadingAnimation()
+    
     snapshot.docs.forEach(doc => {
         let voter = [];
         let getData = doc.data();
         for(voter_id of getData.voter){
             voter.push(voter_id.userId);
         }
-        let textEndTime;
-        let isAuthor;
-        let isBetween;
         getData.isVoted = voter.includes(currentUserId) ? true : false;
-        console.log(getData);
        
         if(getData.isVoted === true){
-            pollCardVoted(getData)
-            console.log('voted');
+            pollCardVoted(getData, doc.id, serverCode)
         } else {
-            pollCardVote(getData)
-            console.log('vote');
+            pollCardVote(getData, doc.id, serverCode)
         }
     });
     
     feather.replace();
 
     if(snapshot.docs.length < limit){
-        loadMore.style.display = "none";
+        loadMoreContainer.style.display = "none";
+    } else {
+        loadMoreContainer.style.display = "flex";
     }
     console.log(snapshot.docs.length);
 
     if(snapshot.empty){
-        loadMore.removeEventListener('click',handleClick);
+        btnLoadMore.removeEventListener('click',handleClick);
     }
+
+    setProgressBar()
 }
 
-window.addEventListener('DOMContentLoaded',() => getNextList());
+window.addEventListener('DOMContentLoaded',() => getNextList() )
 
-const handleClick = () => {
-    getNextList();
-}
+const handleClick = () => getNextList()
 
-loadMore.addEventListener('click', handleClick);
+btnLoadMore.addEventListener('click', handleClick);
 

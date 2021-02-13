@@ -5,7 +5,8 @@ let serverCode = currentUrl.substring(serverIndex + 3, lastSlash)
 
 const db = firebase.firestore();
 const content = document.querySelector('.content');
-const loadMore = document.getElementById('load-more');
+const btnLoadMore = document.querySelector('#load-more');
+const loadMoreContainer = document.querySelector('.load-more');
 
 let latestDoc = null;
 let lists = '';
@@ -27,6 +28,9 @@ const getNextList = async () => {
     snapshot = await ref.get();
     
     latestDoc = snapshot.docs[snapshot.docs.length - 1];
+
+    // Stop showing spinkit
+    hideLoadingAnimation()
       
     snapshot.docs.forEach(doc => {
         const getData = doc.data();
@@ -48,20 +52,21 @@ const getNextList = async () => {
     feather.replace();
 
     if(snapshot.docs.length < limit){
-        loadMore.style.display = "none";
+        loadMoreContainer.style.display = "none";
+    } else {
+        loadMoreContainer.style.display = "flex";
     }
+    
     console.log(snapshot.docs.length);
 
     if(snapshot.empty){
-        loadMore.removeEventListener('click',handleClick);
+        btnLoadMore.removeEventListener('click',handleClick);
     }
 }
 
 window.addEventListener('DOMContentLoaded',() => getNextList());
 
-const handleClick = () => {
-    getNextList();
-}
+const handleClick = () => getNextList()
 
-loadMore.addEventListener('click', handleClick);
+btnLoadMore.addEventListener('click', handleClick);
 

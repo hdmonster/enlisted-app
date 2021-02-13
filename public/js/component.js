@@ -86,6 +86,11 @@ function showToast(type, msg) {
     setTimeout(() => toast.className = toast.className.replace("show", "") , 3000);
 }
 
+function hideLoadingAnimation(){
+    const spinkit = document.querySelector('.sk-circle')
+    spinkit.style.display = 'none'
+}
+
 function auto_grow(element) {
     element.style.height = "5px";
     element.style.height = (element.scrollHeight)+"px";
@@ -211,7 +216,6 @@ function loadFirst(){
     if (pathUrl.includes('list')){
         showPreview()
     } else if (pathUrl.includes('poll')){
-        setProgressBar()
         showDatepicker()
     } else if (pathUrl.includes('account') || pathUrl.includes('mahasiswa')) {
         setAvatar()
