@@ -658,6 +658,9 @@ input:checked + .slider:before {
     align-items: center;
     padding: 14px;
 
+    a {
+      text-decoration: none;
+    }
 
     &:active {
       background: $light-grey

@@ -625,6 +625,9 @@ input:checked + .slider:before {
   align-items: center;
   padding: 14px;
 }
+.navbar .primary_wrapper a {
+  text-decoration: none;
+}
 .navbar .primary_wrapper:active {
   background: #EEEEEE;
 }

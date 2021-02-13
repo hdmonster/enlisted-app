@@ -6,8 +6,10 @@
         <span><%- nav_title %></span>
     </div>
     <div class="primary_wrapper">
-        <a href="#">
-            <i data-feather="more-vertical"></i>
-        </a>
+        <% if (title.includes('List')) { %>
+            <a href="javascript:shareList('<%= list.title %>')">
+                <i data-feather="share-2"></i>
+            </a>
+        <% } %>
     </div>
 </div>

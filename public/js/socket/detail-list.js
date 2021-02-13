@@ -1,5 +1,6 @@
 const entryList = document.querySelector('.entry-container')
 const entryCount = document.querySelector('#entries-count')
+let shareContent = ''
 
 const socket = io()
 
@@ -8,15 +9,17 @@ socket.on('protocol', msg => {
 })
 
 socket.on('count', count => {
-    var htmlCount = ''
+    let htmlCount = ''
     htmlCount += `<p>${count} entries </p>`
     entryCount.innerHTML = htmlCount
 })
 
 socket.on('entries', entries => {
 
-    var content = ''
+    let content = ''
+    shareContent = ''
 
+    let i = 1;
     entries.forEach(entry => {
         content += `
             <div class="card-entry">
@@ -26,6 +29,8 @@ socket.on('entries', entries => {
                 </div>
             </div>
         `
+
+        shareContent += `${i++}. ${entry.name} ${entry.note} %0a`
     })
 
     entryList.innerHTML = content

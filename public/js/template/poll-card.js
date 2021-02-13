@@ -9,16 +9,18 @@ const pollCardVoted = (getData, id, serverCode) => {
     cardContainer.classList.add('poll-card-container')
     cardContainer.classList.add('vote-index')
 
-    isBetween = moment(currentDate).isBetween(getData.settings.availability.startDate, getData.settings.availability.endDate, undefined, '[]');
+    isBetween = moment(currentDate, format).isBetween(moment(getData.settings.availability.startDate, format), moment(getData.settings.availability.endDate, format), undefined, '[]')
 
-    if(!getData.settings.isAlwaysAvailable && moment(currentDate).isAfter(getData.settings.availability.endDate)){
-        textEndTime = "Polls ended"
+    if(!getData.settings.isAlwaysAvailable && moment(currentDate, format).isBefore(moment(getData.settings.availability.startDate, format))){
+        textEndTime = "Opens " + moment(getData.settings.availability.startDate, "DD/MM/YYYY 00:00:00").fromNow();
     }
+
     if(!getData.settings.isAlwaysAvailable && isBetween){
         textEndTime = "Ends " + moment(getData.settings.availability.endDate, "DD/MM/YYYY HH:mm:ss").fromNow();
     }
+
     if(getData.settings.isAlwaysAvailable){
-        textEndTime = "Always available"
+        textEndTime = "Always Available"
     }
     
     if (getData.author.userId == currentUserId){
