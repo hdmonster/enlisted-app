@@ -2,20 +2,23 @@
     <div class="recent_wrapper">
         <span>recent</span>
     </div>
-    <% let currentDate = moment().format("DD/MM/YYYY"); %>
-    <% polls.forEach(function(poll){ %>
-        
-        <% if(poll.isVoted === true){ %>
-            <!--If user voted the poll pass data here-->
-            <%- include('../partials/cards/poll-voted',{data: poll,currentDate: currentDate}) %>
-        <% }else{ %>
-            <!--else here-->
-            <%- include('../partials/cards/poll-vote', {data: poll,currentDate: currentDate}) %>
-        <% } %>
-    <% }) %>
+    <div class="content-container">
+        <div class="load-more">
+            <button id="load-more">Load More</button>
+        </div>
+        <div class="content"></div>
+    </div>
 
 </div>
-
+<!-- Firebase -->
+<script>
+    let currentUserId = '<%= userId %>'
+</script>
+<script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-firestore.js"></script>
+<script src="/js/firebase/init.js"></script>
+<script src="/js/load-data/poll.js"></script>
 <!-- Toast -->
 <script type="text/javascript">
     if('<%= messages.success %>'){
