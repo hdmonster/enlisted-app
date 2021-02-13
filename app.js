@@ -9,6 +9,7 @@ const flash = require('express-flash');
 const moment = require('moment');
 const firebase = require('./firebase/config');
 
+
 var app = express();
 const server = http.createServer(app)
 const socketio = require('socket.io')(server)
@@ -44,7 +45,7 @@ app.use(session({
 
 // Make socket accessible to routes
 app.use((req, res, next) => {
-
+  require('dotenv').config()
   res.locals.userId = req.session.uid;
   res.locals.displayName = req.session.displayName;
   res.locals.fullName = req.session.fullName;
@@ -56,7 +57,7 @@ app.use((req, res, next) => {
   res.locals.github = req.session.github;
 
   res.locals.userServers = req.session.userServers;
-
+  
   res.locals.moment = moment;
 
   res.io = socketio;

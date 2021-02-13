@@ -8,25 +8,12 @@ var router = express.Router({ mergeParams: true });
 router.get('/', isMember, async (req, res) => {
   const { server_code } = req.params;
 
-  try {
-      let lists = [];
-      const snapshotLists = await db.collection(`servers/${server_code}/lists`)
-      .orderBy('createdAt', 'desc').get();
-      const getList = snapshotLists.forEach(list => {
-          const getData = list.data();
-          getData.id = list.id;
-          lists.push(getData);
-      });
-      res.layout('list',{
-          'title': 'List - Enlisted',
-          'layout': 'layout/index-layout',
-          'nav_title' : 'List',
-          'lists': lists
-      });
-  } catch (error) {
-      req.flash('err',error.message);
-      res.redirect('back');
-  }
+    res.layout('list',{
+        'title': 'List - Enlisted',
+        'layout': 'layout/index-layout',
+        'nav_title' : 'List',
+        'serverCode': server_code,
+    });
 
 });
 

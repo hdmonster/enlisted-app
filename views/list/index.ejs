@@ -4,20 +4,19 @@
         <span>recent</span>
     </div>
     <div class="card-list-container">
-        <% lists.forEach(function(list) { %>
-            <div class="card-list" onclick="navigateNext('<%= list.id %>/view')">
-                <div class="header">
-                    <span class="title"><%= list.title %></span>
-                    <span class="detail"><%= list.author.name %> -  <%= moment(list.createdAt, "DD/MM/YYYY HH:mm:ss").fromNow() %></span>
-                </div>
-                <div class="icon-container">
-                    <i data-feather="chevron-right"></i>
-                </div>
-            </div>
-        <% }) %>
+       <div class="content"></div>
+       <div class="load-more">
+           <button id="load-more">Load More</button>
+       </div>
     </div>
 </div>
 
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-firestore.js"></script>
+<script src="/js/firebase/init.js"></script>
+<script src="/js/load-data/list.js"></script>
 <!-- Toast -->
 <script type="text/javascript">
     if('<%= messages.success %>'){
