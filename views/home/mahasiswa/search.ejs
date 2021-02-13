@@ -1,8 +1,10 @@
 <div class="container">
     <% allMahasiswa.forEach(mahasiswa => { %>
-        <div class="card-classic" onclick="navigateNext('id/<%= mahasiswa.id %>/view')">
+        <div class="card-classic" onclick="navigateReplace('/id/<%= mahasiswa.id %>/view')">
             <img src="<%= mahasiswa.photoURL %>" alt="Profile Pic">
             <span class="title"><%= mahasiswa.fullName %></span>
         </div>
     <% }); %>
+
+    <span class="filter-msg" style="display: none">No result found</span>
 </div>

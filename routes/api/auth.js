@@ -8,7 +8,7 @@ var db = firebase.firestore();
 const server = require('./admin-server')
 
 /* POST sign up. */
-router.post('/signup', async(req, res, next) => {
+router.post('/signup', async(req, res) => {
   const {fullName,nickname,email,password} = req.body;
   const displayName = fullName + " AKA " + nickname;
   const nim = email.split("@")[0];
@@ -58,7 +58,7 @@ router.post('/signup', async(req, res, next) => {
 });
 
 /* POST sign in. */
-router.post('/signin', async (req, res, next) => {
+router.post('/signin', async (req, res) => {
   const {email,password} = req.body;
   const nim = email.split("@")[0];
   const splitEmail = email.split("@")[1];
@@ -92,8 +92,25 @@ router.post('/signin', async (req, res, next) => {
   }
 });
 
+/* POST reset password. */
+
+router.post('/reset', async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const sendResetLink = await auth.sendPasswordResetEmail(email)
+
+    req.flash('success','The email with further instructions was sent to the submitted email address. If you don’t receive a message in 5 minutes, check the junk folder.');
+    res.redirect('back');
+  } catch (error) {
+    req.flash('err',error.message)
+    res.redirect('back');
+  }
+  
+})
+
 /* GET sign out. */
-router.get('/signout', async (req, res, next) => {
+router.get('/signout', async (req, res) => {
   try {
     const signOut = await auth.signOut();
     req.session.destroy();

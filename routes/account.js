@@ -49,9 +49,7 @@ router.get('/edit', async (req, res, next) => {
 // POST Edit account
 router.post('/edit', async (req, res, next) => {
     const { bio, whatsapp, instagram, github } = req.body;
-
-    console.log(bio);
-
+    
     try {
         const update = await db.doc(`users/${req.session.uid}`).update({
             bio,
@@ -65,8 +63,8 @@ router.post('/edit', async (req, res, next) => {
         req.session.github = github
         req.session.whatsapp = whatsapp
 
-        req.flash('success','Your account has been updated');
-        res.redirect('back');
+        req.flash('success','Profile updated');
+        res.redirect('/account');
     } catch (error) {
         req.flash('err',error.message);
         req.flash('bio',bio);

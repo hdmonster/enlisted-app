@@ -45,6 +45,7 @@ function addOption(){
 
 function setProgressBar(){
     try {
+        const pollCard = document.querySelectorAll('.poll-card-container.vote-index')
         const progressBar = document.querySelectorAll('.progress-bar')
         const fillProgress = document.querySelectorAll('.progress-bar div')
 
@@ -58,6 +59,13 @@ function setProgressBar(){
             else
                 fill.style.color = 'white'
         });
+
+        let delaySec = 0.3
+        pollCard.forEach(card => {
+            card.style.opacity = 1
+            card.style.transitionDelay = delaySec.toString() + 's'
+            delaySec += 0.3
+        })
 
     } catch(e){
         console.warn('No polls found')
@@ -121,19 +129,81 @@ function assignActiveServer(){
 }
 
 function setAvatar(){
-    let avatarurl = document.querySelector('.avatar').getAttribute('url')
-    const avatarContainer = document.querySelector('.avatar')
-    console.log(avatarurl);
-    avatarContainer.style.backgroundImage = `url('${avatarurl}')`
+
+    try {
+        let avatarurl = document.querySelector('.avatar').getAttribute('url')
+        const avatarContainer = document.querySelector('.avatar')
+
+        avatarContainer.style.backgroundImage = `url('${avatarurl}')`
+    } catch (e) {
+        console.warn('No avatar to set');
+    }
+    
 }
 
 function changeAvatar(){
     document.querySelector('#avatar').click()
 }
 
+function filterName() {
+    // Declare variables
+    var input, filter, container, div, span, i, txtValue;
+
+    input = document.querySelector("#search_bar");
+    filter = input.value.toUpperCase();
+    container = document.querySelector(".container");
+    div = container.getElementsByTagName("div");
+  
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < div.length; i++) {
+        span = div[i].getElementsByTagName("span")[0];
+      if (span) {
+        txtValue = span.textContent || span.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            div[i].style.display = "";
+        } else {
+            div[i].style.display = "none";
+        }
+      }
+    }
+
+    setFilterMsg()
+}
+
+function setFilterMsg(){
+    try {
+        let filterMsg = document.querySelector('.container .filter-msg')
+        let divs = document.querySelectorAll('.container div')
+    
+        //convert to an array
+        let divsArray = [].slice.call(divs);
+    
+        //so now we can use filter
+        //find all divs with display none
+        let displayNone = divsArray.filter(function(el) {
+            return getComputedStyle(el).display === "none"
+        });
+    
+        //and all divs that are not display none
+        var displayShow = divsArray.filter(function(el) {
+            return getComputedStyle(el).display !== "none"
+        });
+    
+        if (displayShow.length < 1){
+            filterMsg.style.display = 'block'
+            console.log('no');
+        } else {
+            console.log('yes');
+            filterMsg.style.display = 'none'
+        }
+    } catch (e) {
+        console.warn('No items to filter');
+    }
+    
+}
+
 function loadFirst(){
     const pathUrl = window.location.pathname
-
 
     assignActiveServer()
     assignActiveIcon()
@@ -143,8 +213,9 @@ function loadFirst(){
     } else if (pathUrl.includes('poll')){
         setProgressBar()
         showDatepicker()
-    } else if (pathUrl.includes('account')) {
+    } else if (pathUrl.includes('account') || pathUrl.includes('mahasiswa')) {
         setAvatar()
+        
     } else{
         console.warn('No function to load')
     }

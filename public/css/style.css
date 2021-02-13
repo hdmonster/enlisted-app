@@ -235,7 +235,6 @@ span, p {
   width: 0%;
   background: #44A7AA;
   border-radius: 8px;
-  transition: all 1s ease-in-out;
 }
 .progress-bar div span {
   font-size: 15px;
@@ -477,6 +476,11 @@ input:checked + .slider:before {
   opacity: 0.8;
 }
 
+.poll-card-container.vote-index {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
 .poll-card-container {
   display: flex;
   flex-direction: column;
@@ -663,7 +667,7 @@ input:checked + .slider:before {
   flex-direction: column;
   height: 100%;
   /* 100% Full-height */
-  width: 0;
+  width: 250px;
   /* 0 width - change this with JavaScript */
   position: fixed;
   /* Stay in place */
@@ -672,6 +676,7 @@ input:checked + .slider:before {
   top: 0;
   /* Stay at the top */
   left: 0;
+  transform: translateX(-250px);
   background-color: #fff;
   /* Black*/
   overflow-x: hidden;
@@ -1149,7 +1154,12 @@ input:checked + .slider:before {
   margin: 32px 0;
 }
 .auth-container form .error-msg {
+  font-size: 14px;
   color: crimson;
+}
+.auth-container form .success-msg {
+  font-size: 14px;
+  color: green;
 }
 .auth-container .forgot-password {
   text-decoration: none;
@@ -1169,6 +1179,29 @@ input:checked + .slider:before {
 .auth-container .copyright {
   font-size: 12px;
   align-self: center;
+}
+
+.reset-password-container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 8px;
+}
+.reset-password-container h4 {
+  font-size: 16px;
+  color: #3d3d3d;
+  margin-bottom: 8vh;
+}
+.reset-password-container a {
+  text-decoration: none;
+}
+.reset-password-container .btn-lg.btn-signin {
+  margin: 12px 0 8vh;
+}
+.reset-password-container .back-to-signin {
+  margin-top: 12px;
+}
+.reset-password-container .back-to-signin a {
+  font-weight: 700;
 }
 
 /*# sourceMappingURL=style.css.map */

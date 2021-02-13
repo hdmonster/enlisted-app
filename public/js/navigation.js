@@ -3,15 +3,28 @@ function navigateNext(target) {
 }
 
 function navigateReplace(target) {
-    currentUrl = window.location.href;
+    const currentUrl = window.location.href;
 
     let lastSlash = currentUrl.lastIndexOf('/');
-    let currentDir = currentUrl.substring(lastSlash + 1);
+    let currentDir = currentUrl.substring(lastSlash);
     let newUrl = currentUrl.replace(currentDir, target);
 
     window.location.href = newUrl;
 
     console.log(currentUrl);
+}
+
+function navigateFromIndex(target) {
+    const currentUrl = window.location.href;
+
+    let serverIndex = currentUrl.indexOf('/s/')
+    let lastSlash = currentUrl.indexOf('/', serverIndex + 10)
+    
+    let currentDir = currentUrl.substring(lastSlash)
+    
+    let newUrl = currentUrl.replace(currentDir, target)
+
+    window.location.href = newUrl;
 }
 
 function navigateReplaceAll(target){
@@ -23,5 +36,23 @@ function openNewTab(target){
 }
 
 function back(){
-    window.history.back()
+    const currentUrl = window.location.href;
+
+    if (currentUrl.includes('account/edit'))
+        navigateReplaceAll('/account')
+
+    if (currentUrl.includes('post') || currentUrl.includes('search'))
+        navigateReplace(' ')
+
+    if (currentUrl.includes('mahasiswa') || currentUrl.includes('pengurus'))
+        navigateReplace('/home')
+
+    if (currentUrl.includes('view'))
+        navigateFromIndex(' ')
+        
+    if (currentUrl.includes('add-me'))
+        navigateReplace('/view')
+    else
+        console.warn('this route is not implemented yet');
+
 }
