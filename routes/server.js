@@ -17,11 +17,33 @@ router.get('/home', isMember ,async(req, res, next) => {
 });
 
 /* GET bph page. */
-router.get('/pengurus', (req, res) => {
-  res.layout('home/pengurus', 
-      { 'title': 'Pengurus - Enlisted', 
-        'layout': 'layout/simple-layout',
-        'nav_title' : 'Pengurus'});
+router.get('/pengurus', isMember ,async (req, res) => {
+  const { server_code } = req.params;
+  try{
+    let pengurusUserId = [];
+    let allPengurus = [];
+    const snapshotPengurus = await db.collection(`servers/${server_code}/members`).where('status','!=','Anggota').get();
+    const getpengurus = snapshotPengurus.forEach(dataPengurus => {
+      pengurusUserId.push(dataPengurus.data()['userId'])
+    });
+    const snapshotUser = await db.collection(`users`).get();
+    const getUser = snapshotUser.forEach(dataUser => {
+      if(pengurusUserId.includes(dataUser.id)){
+        const getData = dataUser.data();
+        getData.id = dataUser.id;
+        allPengurus.push(getData);
+      }
+    })
+    res.layout('home/pengurus', { 
+      'title': 'Pengurus - Enlisted', 
+      'layout': 'layout/simple-layout',
+      'nav_title' : 'Pengurus',
+      'allPengurus': allPengurus
+    });
+  }catch(error){
+    req.flash('err',error.message);
+    res.redirect('back');
+  }
 })
 
 /* GET mahasiswa page. */
