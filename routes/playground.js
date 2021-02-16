@@ -21,4 +21,14 @@ router.get('/layout', (req, res, next) => {
   res.render('layout/master', { 'title': 'Layout - Enlisted Playground' });
 });
 
+// Test Home Page
+router.get('/homepage',(req, res, next) => {
+  res.render('homepage');
+});
+
+// Offline Page
+router.get('/offline',(req, res, next) => {
+  res.render('offline');
+});
+
 module.exports = router;
