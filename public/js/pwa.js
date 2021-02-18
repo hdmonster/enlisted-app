@@ -1,61 +1,64 @@
+window.addEventListener('load',()=>{
+  registerSW();
+})
 
-// Check service worker
-if('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/service-worker.js')
-      .then(registration => {
-        console.log('Service Worker is registered', registration);
-      })
-      .catch(err => {
-        console.error('Registration failed:', err);
-      });
+async function registerSW(params) {
+  if('serviceWorker' in navigator) {
+    await navigator.serviceWorker.register('/service-worker.js')
+    .then(registration => {
+      console.log('Service Worker is registered', registration);
+    })
+    .catch(err => {
+      console.error('Registration failed:', err);
     });
+  } 
 }
+// Check service worker
 
-let deferredPrompt;
-let btnAdd = document.getElementById('btnAdd');
-let txtBrowser = document.getElementById('txtBrowser');
-let txtMobile = document.getElementById('txtMobile');
-let divAdd = document.querySelector('.divAdd');
-let divInstalled = document.querySelector('.divInstalled');
-let PWADisplay = getPWADisplayMode();
+// let deferredPrompt;
+// let btnAdd = document.getElementById('btnAdd');
+// let txtBrowser = document.getElementById('txtBrowser');
+// let txtMobile = document.getElementById('txtMobile');
+// let divAdd = document.querySelector('.divAdd');
+// let divInstalled = document.querySelector('.divInstalled');
+// let PWADisplay = getPWADisplayMode();
 
-showInstalledText()
+// showInstalledText()
 // Check if user doesnt install apps
-window.addEventListener('beforeinstallprompt', (e) => {
-  // e.preventDefault();
-  // Stash the event so it can be triggered later.
-  deferredPrompt = e;
-  divInstalled.style.display = 'none';
-  showInstallPromotion();
-  console.log('Apps not installed')
+// window.addEventListener('beforeinstallprompt', (e) => {
+//   // e.preventDefault();
+//   // Stash the event so it can be triggered later.
+//   deferredPrompt = e;
+//   divInstalled.style.display = 'none';
+//   // showInstallPromotion();
+//   console.log('Apps not installed')
 
-  // Button add apps clicked
-  btnAdd.addEventListener('click', async (e) =>{
+//   // Button add apps clicked
+//   btnAdd.addEventListener('click', async (e) =>{
     
-    // Show Prompt
-    deferredPrompt.prompt();
-    // Check user response
-    const { outcome } = await deferredPrompt.userChoice;
-    if(outcome === 'accepted'){
-      divAdd.style.display = 'none';
-    }
-    deferredPrompt = null;
+//     // Show Prompt
+//     deferredPrompt.prompt();
+//     // Check user response
+//     const { outcome } = await deferredPrompt.userChoice;
+//     if(outcome === 'accepted'){
+//       divAdd.style.display = 'none';
+//     }
+//     deferredPrompt = null;
     
-  })
-});
+//   })
+// });
 
-// If user install the apps
-window.addEventListener('appinstalled', () => {
-  // Hide the app-provided install promotion
-  hideInstallPromotion();
-  // Clear the deferredPrompt so it can be garbage collected
-  deferredPrompt = null;
-  // Show Text
-  showInstalledText()
-  // Optionally, send analytics event to indicate successful install
-  console.log('PWA was installed');
-});
+// // If user install the apps
+// window.addEventListener('appinstalled', () => {
+//   // Hide the app-provided install promotion
+//   hideInstallPromotion();
+//   // Clear the deferredPrompt so it can be garbage collected
+//   deferredPrompt = null;
+//   // Show Text
+//   showInstalledText()
+//   // Optionally, send analytics event to indicate successful install
+//   console.log('PWA was installed');
+// });
 
 
 
