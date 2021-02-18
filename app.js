@@ -14,6 +14,7 @@ var app = express();
 const server = http.createServer(app)
 const socketio = require('socket.io')(server)
 
+const getStartedRouter = require('./routes/get-started')
 var indexRouter = require('./routes/index');
 var serverRouter = require('./routes/server');
 var listRouter = require('./routes/list');
@@ -74,6 +75,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.all('/', isLoggedIn, indexRouter);
+app.use('/get-started', getStartedRouter)
 app.use('/playground', playgroundRouter);
 app.use('/auth', authRouter);
 app.use('/api/auth',apiAuthRouter);

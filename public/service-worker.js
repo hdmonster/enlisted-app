@@ -3,7 +3,6 @@
 const staticCacheName = 'enlisted-v1';
 
 const filesToCache = [
-    '/',
     '/playground/homepage',
     '/playground/offline',
 ];
