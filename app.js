@@ -31,6 +31,7 @@ var apiListRouter = require('./routes/api/list.js');
 var apiPollRouter = require('./routes/api/poll.js');
 var apiServerRouter = require('./routes/api/server.js');
 var apiAdminServerRouter = require('./routes/api/admin-server.js');
+var startedRouter = require('./routes/started.js');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -75,7 +76,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.all('/', isLoggedIn, indexRouter);
-app.use('/get-started', getStartedRouter)
+app.use('/get-started',startedRouter);
 app.use('/playground', playgroundRouter);
 app.use('/auth', authRouter);
 app.use('/api/auth',apiAuthRouter);

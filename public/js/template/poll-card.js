@@ -95,8 +95,12 @@ const pollCardVote = (getData, id, serverCode) => {
 
     isBetween = moment(currentDate, format).isBetween(moment(getData.settings.availability.startDate, format), moment(getData.settings.availability.endDate, format), undefined, '[]')
 
-    if(!getData.settings.isAlwaysAvailable && moment(currentDate, format).isBefore(moment(getData.settings.availability.startDate, format))){
+    if(!getData.settings.isAlwaysAvailable && moment(currentDate, format).isBefore(moment(getData.settings.availability.startDate, "DD/MM/YYYY 00:00:00"))){
         textEndTime = "Opens " + moment(getData.settings.availability.startDate, "DD/MM/YYYY 00:00:00").fromNow();
+    }
+
+    if(!getData.settings.isAlwaysAvailable && moment(currentDate, format).isAfter(moment(getData.settings.availability.startDate, "DD/MM/YYYY 23:59:59"))){
+        textEndTime = "Polls ended"
     }
 
     if(!getData.settings.isAlwaysAvailable && isBetween){
