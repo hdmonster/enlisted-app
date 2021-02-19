@@ -8,6 +8,7 @@ const pollCardVoted = (getData, id, serverCode) => {
     const cardContainer = document.createElement('DIV')
     cardContainer.classList.add('poll-card-container')
     cardContainer.classList.add('vote-index')
+    cardContainer.onclick = function() { navigateNext(`${id}/view`) }
 
     isBetween = moment(currentDate, format).isBetween(moment(getData.settings.availability.startDate, format), moment(getData.settings.availability.endDate, format), undefined, '[]')
 
@@ -23,6 +24,8 @@ const pollCardVoted = (getData, id, serverCode) => {
         textEndTime = "Always Available"
     }
     
+    // Check if poll created by current user
+
     if (getData.author.userId == currentUserId){
         isAuthor = `<a href="/api/${ serverCode }/poll/${ id }/update">` +  getData.settings.showAfterVote ? 'Hide results' : 'Show results' + `</a>`;
     }else{
@@ -32,21 +35,31 @@ const pollCardVoted = (getData, id, serverCode) => {
     let isEnded = !getData.settings.isAlwaysAvailable && moment(currentDate).isAfter(getData.settings.availability.endDate) ? 'Polls ended' : '';
     let voterCount = getData.voter.length;
 
+    // Set poll option
+
     let voteOptions = ''
 
     for(let i = 0; i < getData.option.length; i++){
         let percentage = Math.round((getData.option[i].count/voterCount) * 100);
         percentage = getData.settings.showAfterVote ?  percentage : getData.settings.isAlwaysAvailable && !getData.settings.showAfterVote ? '0' : currentDate > getData.settings.availability.endDate && !getData.settings.showAfterVote ?  percentage : '0'; 
         
-        voteOptions += `<div class="progress-bar_wrapper">
-            <div class="progress-bar" value="${ percentage }">
-                <div>
+        voteOptions += 
+            `<div class="progress-bar_wrapper">
+                <div class="poll-relative">
                     <span>${ getData.option[i].item }</span>
                     <span class="percentage">${ percentage }%</span>
+                    <div class="progress-bar" value="${ percentage }">
+                        <div></div>
+                    </div>
                 </div>
-            </div> 
-        </div>`
-    }    
+            </div>`
+    }
+    
+    // Show total votes
+
+    let totalVotes = voterCount < 2 ? `${voterCount} vote` : `${voterCount} votes`
+
+    // Button voted state
 
     let voteButton = ''
 
@@ -73,6 +86,8 @@ const pollCardVoted = (getData, id, serverCode) => {
 
         <div class="poll-wrapper">
             ${voteOptions}
+
+            <span class="total-votes">${totalVotes}</span>
         </div>
 
         <div class="vote-btn_wrapper">
@@ -92,6 +107,7 @@ const pollCardVote = (getData, id, serverCode) => {
     const cardContainer = document.createElement('DIV')
     cardContainer.classList.add('poll-card-container')
     cardContainer.classList.add('vote-index')
+    cardContainer.onclick = function() { navigateNext(`${id}/view`) }
 
     isBetween = moment(currentDate, format).isBetween(moment(getData.settings.availability.startDate, format), moment(getData.settings.availability.endDate, format), undefined, '[]')
 

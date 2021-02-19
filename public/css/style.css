@@ -221,11 +221,23 @@ span, p {
 .progress-bar_wrapper:last-child(1) {
   margin-bottom: 0;
 }
-
-.progress-bar {
+.progress-bar_wrapper .poll-relative {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
+}
+.progress-bar_wrapper .poll-relative span {
+  position: absolute;
+  font-size: 15px;
+  padding-left: 15px;
+}
+.progress-bar_wrapper .poll-relative .percentage {
+  right: 12vw;
+  color: #3d3d3d;
+}
+
+.progress-bar {
   border: none;
   border-radius: 8px;
   width: 100%;
@@ -238,10 +250,6 @@ span, p {
   width: 0%;
   background: #44A7AA;
   border-radius: 8px;
-}
-.progress-bar div span {
-  font-size: 15px;
-  padding-left: 15px;
 }
 
 /* The switch - the box around the slider */
@@ -329,6 +337,10 @@ input:checked + .slider:before {
 .poll-wrapper input[type=radio]:checked + label.btn {
   border: 1.5px solid #44A7AA;
   background: #fff;
+}
+.poll-wrapper .total-votes {
+  margin: 8px;
+  color: #3d3d3d;
 }
 
 .load-more {
@@ -514,6 +526,9 @@ input:checked + .slider:before {
   background: #fff;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
+.poll-card-container:hover {
+  opacity: 0.8;
+}
 .poll-card-container .info_wrapper {
   display: flex;
   justify-content: space-between;
@@ -589,6 +604,10 @@ input:checked + .slider:before {
   font-size: 18px;
   font-weight: 600;
   color: #BEBEBE;
+}
+.poll-card-container .vote-btn_wrapper button:disabled,
+.poll-card-container .vote-btn_wrapper button[disabled] {
+  opacity: 0.6;
 }
 
 /* Navbar */

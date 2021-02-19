@@ -48,6 +48,7 @@ function setProgressBar(){
         const pollCard = document.querySelectorAll('.poll-card-container.vote-index')
         const progressBar = document.querySelectorAll('.progress-bar')
         const fillProgress = document.querySelectorAll('.progress-bar div')
+        const pollRelative = document.querySelectorAll('.poll-relative')
 
         fillProgress.forEach((fill, i) => {
             let value = progressBar[i].getAttribute('value')
@@ -55,9 +56,9 @@ function setProgressBar(){
             fill.style.width = value+'%'
 
             if (value < 34)
-                fill.style.color = '#3d3d3d'
+                pollRelative[i].style.color = '#3d3d3d'
             else
-                fill.style.color = 'white'
+                pollRelative[i].style.color = 'white'
         });
 
         let delaySec = 0.3

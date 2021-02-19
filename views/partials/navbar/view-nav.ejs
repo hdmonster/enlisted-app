@@ -11,5 +11,10 @@
                 <i data-feather="share-2"></i>
             </a>
         <% } %> 
+        <% if (title.includes('Poll')) { %>
+            <a href="javascript:sharePoll('server_code', 'id', 'Poll title')">
+                <i data-feather="share-2"></i>
+            </a>
+        <% } %> 
     </div>
 </div>

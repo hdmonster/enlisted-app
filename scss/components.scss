@@ -166,12 +166,27 @@
   &:last-child(1){
     margin-bottom: 0;
   }
+
+  .poll-relative {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    span {
+      position: absolute;
+      font-size: 15px;
+      padding-left: 15px;
+    }
+
+    .percentage {
+      right: 12vw;
+      color: $black;
+    }
+  }
 }
 
 .progress-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   border: none;
   border-radius: 8px;
   width: 100%;
@@ -184,11 +199,6 @@
     width: 0%;
     background: $green;
     border-radius: 8px;
-
-    span {
-      font-size: 15px;
-      padding-left: 15px;
-    }
   }
 }
 
@@ -279,6 +289,11 @@ input:checked + .slider:before {
   input[type=radio]:checked + label.btn{
     border: 1.5px solid $green;
     background: $white;
+  }
+
+  .total-votes {
+    margin: 8px;
+    color: $black;
   }
 }
 
@@ -526,6 +541,10 @@ input:checked + .slider:before {
   background: $white;
   box-shadow: $shadow;
 
+  &:hover {
+    opacity: .8
+  }
+
   .info_wrapper {
     display: flex;
     justify-content: space-between;
@@ -616,6 +635,11 @@ input:checked + .slider:before {
       font-size: 18px;
       font-weight: 600;
       color: #BEBEBE
+    }
+
+    button:disabled,
+    button[disabled] {
+      opacity: .6
     }
   }
 }
