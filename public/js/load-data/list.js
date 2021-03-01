@@ -48,7 +48,12 @@ const getNextList = async () => {
         `
     });
     
-    content.innerHTML = lists;
+    if (lists.length) {
+        content.innerHTML = lists;
+    } else {
+        content.innerHTML = 'No recent list';
+    }
+    
     feather.replace();
 
     if(snapshot.docs.length < limit){

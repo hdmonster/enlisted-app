@@ -39,6 +39,10 @@ const pollCardVoted = (getData, id, serverCode) => {
 
     let voteOptions = ''
 
+    // Show total votes
+
+    let totalVotes = voterCount < 2 ? `${voterCount} vote` : `${voterCount} votes`
+
     for(let i = 0; i < getData.option.length; i++){
         let percentage = Math.round((getData.option[i].count/voterCount) * 100);
         percentage = getData.settings.showAfterVote ?  percentage : getData.settings.isAlwaysAvailable && !getData.settings.showAfterVote ? '0' : currentDate > getData.settings.availability.endDate && !getData.settings.showAfterVote ?  percentage : '0'; 
@@ -52,12 +56,9 @@ const pollCardVoted = (getData, id, serverCode) => {
                         <div></div>
                     </div>
                 </div>
+                <span class="vote-count-info">0 out of ${totalVotes}</span>
             </div>`
     }
-    
-    // Show total votes
-
-    let totalVotes = voterCount < 2 ? `${voterCount} vote` : `${voterCount} votes`
 
     // Button voted state
 
@@ -86,8 +87,6 @@ const pollCardVoted = (getData, id, serverCode) => {
 
         <div class="poll-wrapper">
             ${voteOptions}
-
-            <span class="total-votes">${totalVotes}</span>
         </div>
 
         <div class="vote-btn_wrapper">

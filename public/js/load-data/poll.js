@@ -14,6 +14,7 @@ let limit = 5
 let last;
 let snapshot;
 let ref;    
+let voter = [];
 
 const getNextList = async () => {
     if(latestDoc == null){
@@ -34,7 +35,6 @@ const getNextList = async () => {
     hideLoadingAnimation()
     
     snapshot.docs.forEach(doc => {
-        let voter = [];
         let getData = doc.data();
         for(voter_id of getData.voter){
             voter.push(voter_id.userId);
@@ -46,6 +46,7 @@ const getNextList = async () => {
         } else {
             pollCardVote(getData, doc.id, serverCode)
         }
+
     });
     
     feather.replace();
@@ -55,7 +56,10 @@ const getNextList = async () => {
     } else {
         loadMoreContainer.style.display = "flex";
     }
-    console.log(snapshot.docs.length);
+
+    if (voter.length < 1) {
+        content.innerHTML = 'No recent poll'    
+    }
 
     if(snapshot.empty){
         btnLoadMore.removeEventListener('click',handleClick);

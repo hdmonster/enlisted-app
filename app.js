@@ -42,7 +42,8 @@ app.use(session({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: true,
-  cookie: { maxAge:null }
+  maxAge: Date.now() + (12 * 30 * 86400 * 1000),
+  cookie: { maxAge: Date.now() + (12 * 30 * 86400 * 1000) }
 }))
 
 // Make socket accessible to routes
