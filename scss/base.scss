@@ -40,9 +40,10 @@ button, input, textarea {
   
 // disable selection
 
-span, p {
+div, span, p {
     user-select: none;
     -moz-user-select: none;
     -khtml-user-select: none;
     -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }

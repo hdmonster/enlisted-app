@@ -4,11 +4,12 @@ button, input, textarea {
   -webkit-tap-highlight-color: transparent;
 }
 
-span, p {
+div, span, p {
   user-select: none;
   -moz-user-select: none;
   -khtml-user-select: none;
   -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html {
@@ -68,11 +69,12 @@ button, input, textarea {
   -webkit-tap-highlight-color: transparent;
 }
 
-span, p {
+div, span, p {
   user-select: none;
   -moz-user-select: none;
   -khtml-user-select: none;
   -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .recent_wrapper {
@@ -743,8 +745,7 @@ input:checked + .slider:before {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-left: 18px;
-  padding-right: 12px;
+  padding: 4px 12px 0 18px;
 }
 .sidenav .logo-container img {
   height: 16px;
@@ -1094,6 +1095,28 @@ input:checked + .slider:before {
 }
 .account-container .social_wrapper .icon-container i {
   color: #fff;
+}
+
+.overlay {
+  position: fixed;
+  /* Sit on top of the page content */
+  display: block;
+  width: 100%;
+  /* Full width (cover the whole page) */
+  height: 0;
+  /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Black background with opacity */
+  z-index: 3;
+  /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer;
+  /* Add a pointer on hover */
+  transition: opacity 0.3s;
 }
 
 #snackbar {
