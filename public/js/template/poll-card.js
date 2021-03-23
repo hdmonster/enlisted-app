@@ -8,7 +8,6 @@ const pollCardVoted = (getData, id, serverCode) => {
     const cardContainer = document.createElement('DIV')
     cardContainer.classList.add('poll-card-container')
     cardContainer.classList.add('vote-index')
-    cardContainer.onclick = function() { navigateNext(`${id}/view`) }
 
     isBetween = moment(currentDate, format).isBetween(moment(getData.settings.availability.startDate, format), moment(getData.settings.availability.endDate, format), undefined, '[]')
 
@@ -56,7 +55,7 @@ const pollCardVoted = (getData, id, serverCode) => {
                         <div></div>
                     </div>
                 </div>
-                <span class="vote-count-info">0 out of ${totalVotes}</span>
+                <span class="vote-count-info">${ getData.option[i].count } out of ${totalVotes}</span>
             </div>`
     }
 
@@ -106,8 +105,7 @@ const pollCardVote = (getData, id, serverCode) => {
     const cardContainer = document.createElement('DIV')
     cardContainer.classList.add('poll-card-container')
     cardContainer.classList.add('vote-index')
-    cardContainer.onclick = function() { navigateNext(`${id}/view`) }
-
+    
     isBetween = moment(currentDate, format).isBetween(moment(getData.settings.availability.startDate, format), moment(getData.settings.availability.endDate, format), undefined, '[]')
 
     if(!getData.settings.isAlwaysAvailable && moment(currentDate, format).isBefore(moment(getData.settings.availability.startDate, "DD/MM/YYYY 00:00:00"))){

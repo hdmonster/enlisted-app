@@ -61,12 +61,23 @@ function setProgressBar(){
                 pollRelative[i].style.color = 'white'
         });
 
-        let delaySec = 0.3
-        pollCard.forEach(card => {
-            card.style.opacity = 1
-            card.style.transitionDelay = delaySec.toString() + 's'
-            delaySec += 0.3
-        })
+        setTimeout(function() {
+            let delaySec = 0.3
+            let index = 0
+            pollCard.forEach(card => {
+                index++
+                
+                card.style.opacity = 1
+                card.style.transitionDelay = delaySec.toString() + 's'
+                
+                if (index%5 == 0){
+                    delaySec = 0.3
+                } else {
+                    delaySec += 0.3
+                }
+                
+            })
+        }, 100)
 
     } catch(e){
         console.warn('No polls found')

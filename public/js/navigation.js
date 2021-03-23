@@ -35,13 +35,17 @@ function openNewTab(target){
     window.open(target)
 }
 
+function historyBack(){
+    window.history.back()
+}
+
 function back(){
     const currentUrl = window.location.href;
 
     if (currentUrl.includes('account/edit'))
         navigateReplaceAll('/account')
 
-    if (currentUrl.includes('post') || currentUrl.includes('search'))
+    if (currentUrl.includes('post') || currentUrl.includes('mahasiswa/search'))
         navigateReplace(' ')
 
     if (currentUrl.includes('mahasiswa') || currentUrl.includes('pengurus'))

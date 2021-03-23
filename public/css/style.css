@@ -745,7 +745,7 @@ input:checked + .slider:before {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 4px 12px 0 18px;
+  padding: 10px 12px 0 18px;
 }
 .sidenav .logo-container img {
   height: 16px;
@@ -1095,6 +1095,11 @@ input:checked + .slider:before {
 }
 .account-container .social_wrapper .icon-container i {
   color: #fff;
+}
+.account-container .social_wrapper .icon-container:hover {
+  cursor: pointer;
+  background: #EEEEEE;
+  transition: all 0.3s;
 }
 
 .overlay {

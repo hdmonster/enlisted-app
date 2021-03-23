@@ -36,7 +36,7 @@
             </div>
         <% }) %>
     </div>
-    <div class="vote-btn_wrapper">
+    <div class="vote-btn_wrapper">  
         <% if (data.author.userId == userId) {  %>
             <a href="/api/<%= serverCode %>/poll/<%= data.id %>/update"><%= data.settings.showAfterVote ? 'Hide results' : 'Show results' %></a>
         <% } else { %>
