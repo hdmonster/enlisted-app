@@ -55,7 +55,7 @@ const pollCardVoted = (getData, id, serverCode) => {
                         <div></div>
                     </div>
                 </div>
-                <span class="vote-count-info">${ getData.option[i].count } out of ${totalVotes}</span>
+                <span class="vote-count-info">${ getData.settings.showAfterVote ? getData.option[i].count : '0' } out of ${totalVotes}</span>
             </div>`
     }
 

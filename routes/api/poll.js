@@ -68,14 +68,14 @@ router.post('/post', isMember ,async(req, res, next) => {
             },
             option: option,
             voter: [],
-            createdAt: currentDateTime
+            createdAt: datetimeToTimestamp(currentDateTime)
         });
         req.flash('success','Poll has been created successfully');
         res.redirect(`/s/${server_code}/poll`);
     } catch (error) {
         req.flash('err',error.message);
         res.redirect('back');
-    }
+    }           
 });
 
 /* Vote poll. */
@@ -211,6 +211,15 @@ function errPostPoll(req,res,msg,question,showAfterVote,openPoll,datetime_availa
     req.flash('datetime_available',datetime_available);
     req.flash('vote_option',userOption);
     res.redirect('back');
+}
+
+function datetimeToTimestamp(date){
+    let getDate = date.split(" ")[0]
+    let time = date.split(" ")[1]
+    let reversedFormat = getDate.split("/").reverse().join("/")
+    let finalDate = reversedFormat + ' ' + time
+
+    return new Date(finalDate)
 }
 
 module.exports = router;
