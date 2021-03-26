@@ -25,7 +25,11 @@ socket.on('announcements', announcements => {
         `
     })
 
-    annContent.innerHTML = content
+    if(content.length){
+        annContent.innerHTML = content
+    }else{
+        annContent.innerHTML = 'No recent announcement'
+    }
     feather.replace()
 
 
