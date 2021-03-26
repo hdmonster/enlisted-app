@@ -34,7 +34,7 @@ const getNextList = async () => {
       
     snapshot.docs.forEach(doc => {
         const getData = doc.data();
-        let createdAt = moment(getData.createdAt, "DD/MM/YYYY HH:mm:ss").fromNow();
+        let createdAt = moment(getData.createdAt.toDate().toString()).fromNow();
         lists += `
             <div class="card-list" onclick="navigateNext('${ doc.id }/view')">
                 <div class="header">
@@ -67,7 +67,7 @@ const getNextList = async () => {
     if(snapshot.empty){
         btnLoadMore.removeEventListener('click',handleClick);
     }
-}
+}   
 
 window.addEventListener('DOMContentLoaded',() => getNextList());
 
