@@ -11,7 +11,7 @@ let currentDate = moment().format("DD/MM/YYYY");
 let format = 'DD/MM/YYYY'
 let latestDoc = null;
 let limit = 5
-let last;
+let last;   
 let snapshot;
 let ref;    
 let poll_count = 0;
@@ -42,9 +42,6 @@ const getNextList = async () => {
             voter.push(voter_id.userId);
         }
         getData.isVoted = voter.includes(currentUserId) ? true : false;
-
-        console.log(voter);
-        console.log(getData.isVoted);
        
         if(getData.isVoted === true){
             pollCardVoted(getData, doc.id, serverCode)
@@ -52,11 +49,11 @@ const getNextList = async () => {
             pollCardVote(getData, doc.id, serverCode)
         }
 
-        poll_count += voter.length
+        poll_count += 1
     });
 
     
-    feather.replace();
+    feather.replace();  
 
     if(snapshot.docs.length < limit){
         loadMoreContainer.style.display = "none";

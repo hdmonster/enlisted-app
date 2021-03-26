@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var moment = require('moment');
+var datetime = require('../lib/datetime');
 var firebase = require('firebase')
 var db = firebase.firestore();
-var moment = require('moment');
 var router = express.Router({ mergeParams: true });
 
 /* Post list. */
@@ -27,11 +28,11 @@ router.post('/post', isMember, async(req, res, next) => {
                 name : req.session.nickname,
                 userId : req.session.uid
             },
-            createdAt : currentDate,
+            createdAt : datetime.toTimestamp(currentDate),
             settings : {
                 note : note,
                 type : type
-            },
+            },  
             title : title,
             content : content,
         });

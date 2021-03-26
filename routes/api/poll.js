@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var firebase = require('firebase');
 var moment = require('moment');
+var datetime = require('../lib/datetime');
+var firebase = require('firebase');
 var db = firebase.firestore();
 var router = express.Router({ mergeParams: true });
 
@@ -68,7 +69,7 @@ router.post('/post', isMember ,async(req, res, next) => {
             },
             option: option,
             voter: [],
-            createdAt: datetimeToTimestamp(currentDateTime)
+            createdAt: datetime.toTimestamp(currentDateTime)
         });
         req.flash('success','Poll has been created successfully');
         res.redirect(`/s/${server_code}/poll`);
@@ -76,7 +77,7 @@ router.post('/post', isMember ,async(req, res, next) => {
         req.flash('err',error.message);
         res.redirect('back');
     }           
-});
+});     
 
 /* Vote poll. */
 router.post('/:poll_id/vote',isMember , async(req, res, next) => {
@@ -211,15 +212,6 @@ function errPostPoll(req,res,msg,question,showAfterVote,openPoll,datetime_availa
     req.flash('datetime_available',datetime_available);
     req.flash('vote_option',userOption);
     res.redirect('back');
-}
-
-function datetimeToTimestamp(date){
-    let getDate = date.split(" ")[0]
-    let time = date.split(" ")[1]
-    let reversedFormat = getDate.split("/").reverse().join("/")
-    let finalDate = reversedFormat + ' ' + time
-
-    return new Date(finalDate)
 }
 
 module.exports = router;
