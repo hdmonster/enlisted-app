@@ -16,6 +16,7 @@ router.post('/post', isMember, async(req, res, next) => {
         return false;
     }
 
+    // Check Status Member
     const user = await db.collection(`servers/${server_code}/members`).where('userId','==',req.session.uid).get();
     user.forEach(doc => {
         if(doc.data()['status'] == 'Anggota' && doc.data()['role'] != 'admin' ){

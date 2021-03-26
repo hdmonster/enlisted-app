@@ -10,6 +10,17 @@ var router = express.Router({ mergeParams: true });
 router.post('/post', isMember ,async(req, res, next) => {
     const { server_code } = req.params;
     const currentDateTime = moment().format("DD/MM/YYYY HH:mm:ss");
+
+    // Check Status Member
+    const user = await db.collection(`servers/${server_code}/members`).where('userId','==',req.session.uid).get();
+    user.forEach(doc => {
+        if(doc.data()['status'] == 'Anggota' && doc.data()['role'] != 'admin' ){
+            req.flash('err',"You don't have permission");
+            res.redirect('back');
+            return false;
+        }
+    });
+    
     let { question,showAfterVote, openPoll, datetime_available } = req.body;
     let isAlwaysAvailable = openPoll == 'on' ? true : false; 
     let startDate = "";

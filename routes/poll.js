@@ -33,8 +33,18 @@ router.get('/', isMember, async(req, res, next) => {
 });
 
 /* GET komting page. */
-router.get('/post', isMember, (req, res) => {
+router.get('/post', isMember, async(req, res) => {
   const { server_code } = req.params
+
+  // Check Status Member
+  const user = await db.collection(`servers/${server_code}/members`).where('userId','==',req.session.uid).get();
+  user.forEach(doc => {
+      if(doc.data()['status'] == 'Anggota' && doc.data()['role'] != 'admin' ){
+          req.flash('err',"You don't have permission");
+          res.redirect('back');
+          return false;
+      }
+  });
 
   res.layout('poll/post', {
         'title': 'Post a poll - Enlisted',
