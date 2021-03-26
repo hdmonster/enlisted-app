@@ -9,7 +9,7 @@
     </div>
     <div class="info_wrapper">
         <span id="entries-count"></span>
-        <span id="entries-detail"><%= moment(list.createdAt, "DD/MM/YYYY").format("MMM Do YY") %> - Posted by <%= list.author.name %></span>
+        <span id="entries-detail"><%= moment(list.createdAt.toDate().toString()).format("MMM Do YY") %> - Posted by <%= list.author.name %></span>
     </div>
 </div>
 
