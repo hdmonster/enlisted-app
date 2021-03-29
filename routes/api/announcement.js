@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var moment = require('moment');
+var datetime = require('../lib/datetime');
 var firebase = require('firebase')
 var db = firebase.firestore();
-var moment = require('moment');
 var router = express.Router({ mergeParams: true });
 
 /* Post announcement. */
@@ -34,7 +35,7 @@ router.post('/post', isMember, async(req, res, next) => {
             },
             title: title,
             content: content,
-            createdAt: currentDate
+            createdAt: datetime.toTimestamp(currentDate)
         });
         req.flash('success','Announcement has been created successfully');
         res.redirect(`/s/${server_code}/announcement`)

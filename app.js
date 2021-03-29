@@ -14,7 +14,6 @@ var app = express();
 const server = http.createServer(app)
 const socketio = require('socket.io')(server)
 
-const getStartedRouter = require('./routes/get-started')
 var indexRouter = require('./routes/index');
 var serverRouter = require('./routes/server');
 var listRouter = require('./routes/list');
